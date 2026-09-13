@@ -601,17 +601,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label data-en="Number of Questions" data-ml="ചോദ്യങ്ങളുടെ എണ്ണം">Number of Questions</label>
-                <div class="chip-group" id="qCountSelector">
-                    <div class="chip" data-count="10">10</div>
-                    <div class="chip" data-count="15">15</div>
-                    <div class="chip selected" data-count="20">20</div>
-                    <div class="chip" data-count="25">25</div>
-                </div>
-            </div>
-
-            <button id="startBtn" class="btn-primary" disabled data-en="Start Exam" data-ml="പരീക്ഷ തുടങ്ങുക">Start Exam</button>
+            <button id="startBtn" class="btn-primary" disabled data-en="Start Exam (25 Questions)" data-ml="പരീക്ഷ തുടങ്ങുക (25 ചോദ്യങ്ങൾ)">Start Exam</button>
         </div>
 
         <!-- Exam Screen -->
@@ -926,7 +916,7 @@
         // State variables
         let currentLang = 'en'; // 'en' or 'ml'
         let selectedClass = null; // '6' or '7'
-        let questionCount = 20;
+        let questionCount = 25;
         let studentName = '';
         
         let examQuestions = [];
@@ -939,7 +929,6 @@
         const langToggle = document.getElementById('langToggle');
         const studentNameInput = document.getElementById('studentName');
         const classCards = document.querySelectorAll('.class-card');
-        const qCountChips = document.querySelectorAll('.chip');
         const startBtn = document.getElementById('startBtn');
         
         const screens = document.querySelectorAll('.screen');
@@ -970,14 +959,6 @@
                     card.classList.add('selected');
                     selectedClass = card.getAttribute('data-class');
                     validateForm();
-                });
-            });
-
-            qCountChips.forEach(chip => {
-                chip.addEventListener('click', () => {
-                    qCountChips.forEach(c => c.classList.remove('selected'));
-                    chip.classList.add('selected');
-                    questionCount = parseInt(chip.getAttribute('data-count'));
                 });
             });
 
