@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class VI Bible Quiz</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;600;700&display=swap');
+
+  :root{
+    --bg:#faf6ec;
+    --surface:#ffffff;
+    --surface-2:#f1e8d6;
+    --ink:#2a1e14;
+    --muted:#7a6c58;
+    --border:#e4d8bf;
+    --accent:#1f5c4d;
+    --accent-ink:#ffffff;
+    --gold:#a97a26;
+    --good:#3f7d53;
+    --good-bg:#e7f2ea;
+    --bad:#b23a32;
+    --bad-bg:#f8e9e7;
+    --shadow: 0 18px 40px -20px rgba(42,30,20,.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0f1712;
+      --surface:#182019;
+      --surface-2:#1f2b22;
+      --ink:#eef1ea;
+      --muted:#a6b3a4;
+      --border:#2c3a30;
+      --accent:#7fc9a9;
+      --accent-ink:#0c2019;
+      --gold:#dcb567;
+      --good:#7fcf9a;
+      --good-bg:#1f3327;
+      --bad:#e2948c;
+      --bad-bg:#3a2320;
+      --shadow: 0 18px 40px -20px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0f1712;
+    --surface:#182019;
+    --surface-2:#1f2b22;
+    --ink:#eef1ea;
+    --muted:#a6b3a4;
+    --border:#2c3a30;
+    --accent:#7fc9a9;
+    --accent-ink:#0c2019;
+    --gold:#dcb567;
+    --good:#7fcf9a;
+    --good-bg:#1f3327;
+    --bad:#e2948c;
+    --bad-bg:#3a2320;
+    --shadow: 0 18px 40px -20px rgba(0,0,0,.6);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Source Sans 3', system-ui, sans-serif;
+    padding-inline:16px;
+    padding-block:32px;
+    display:flex;
+    justify-content:center;
+  }
+  .malayalam, [lang="ml"]{ font-family: 'Noto Sans Malayalam', 'Source Sans 3', sans-serif; }
+
+  .app{ width:100%; max-width:640px; }
+
+  header.top{
+    display:flex; align-items:flex-start; justify-content:space-between;
+    gap:12px; margin-bottom:22px;
+  }
+  .brand{ display:flex; gap:12px; align-items:center; }
+  .brand svg{ width:38px; height:38px; flex:none; }
+  .brand h1{
+    font-family:'Cormorant Garamond', serif; font-weight:700; font-size:1.5rem;
+    line-height:1.15; margin:0; text-wrap:balance;
+  }
+  .brand p{ margin:2px 0 0; font-size:.8rem; color:var(--muted); letter-spacing:.02em; }
+  .home-link{
+    font-size:.72rem; color:var(--muted); text-decoration:none; display:inline-block; margin-bottom:6px;
+  }
+  .home-link:hover{ color:var(--accent); }
+  .org-header{
+    text-align:center; font-size:.72rem; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--gold); margin:0 0 4px;
+  }
+  .dev-credit{ text-align:center; font-size:.68rem; color:var(--muted); margin-top:4px; text-transform:lowercase; }
+  #langToggle{
+    border:1px solid var(--border); background:var(--surface); color:var(--ink);
+    border-radius:999px; padding:6px 14px; font-size:.8rem; font-weight:600;
+    cursor:pointer; white-space:nowrap;
+  }
+  #langToggle:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:18px;
+    box-shadow:var(--shadow); padding:28px; position:relative; overflow:hidden;
+  }
+  .card::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:4px;
+    background:linear-gradient(90deg,var(--accent),var(--gold));
+  }
+
+  .field{ margin-bottom:18px; }
+  .field label{
+    display:block; font-weight:600; font-size:.85rem; margin-bottom:6px;
+    color:var(--muted); text-transform:uppercase; letter-spacing:.04em;
+  }
+  input[type="text"]{
+    width:100%; padding:11px 13px; border-radius:10px; border:1px solid var(--border);
+    background:var(--surface-2); color:var(--ink); font-size:1rem; font-family:inherit;
+  }
+  input[type="text"]:focus-visible{ outline:2px solid var(--accent); outline-offset:1px; }
+
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    border:1px solid var(--border); background:var(--surface-2); color:var(--ink);
+    padding:9px 16px; border-radius:10px; cursor:pointer; font-size:.92rem;
+    font-weight:600; font-variant-numeric: tabular-nums;
+  }
+  .chip[aria-pressed="true"]{ background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+  .chip:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .btn-primary{
+    width:100%; margin-top:6px; padding:13px 18px; border-radius:12px; border:none;
+    background:var(--accent); color:var(--accent-ink); font-size:1.02rem; font-weight:700;
+    cursor:pointer; font-family:inherit;
+  }
+  .btn-primary:disabled{ opacity:.5; cursor:not-allowed; }
+  .btn-primary:not(:disabled):hover{ filter:brightness(1.06); }
+  .btn-primary:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  .btn-secondary{
+    width:100%; margin-top:10px; padding:11px 18px; border-radius:12px; border:1px solid var(--border);
+    background:transparent; color:var(--ink); font-size:.95rem; font-weight:600;
+    cursor:pointer; font-family:inherit;
+  }
+  .btn-secondary:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .hint{ font-size:.82rem; color:var(--muted); margin-top:-8px; margin-bottom:18px; }
+
+  .progress-wrap{
+    display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;
+    font-size:.82rem; color:var(--muted); font-weight:600;
+  }
+  .progress-track{ height:6px; border-radius:999px; background:var(--surface-2); overflow:hidden; margin-bottom:22px; }
+  .progress-fill{
+    height:100%; background:linear-gradient(90deg,var(--accent),var(--gold));
+    border-radius:999px; transition:width .3s ease;
+  }
+  .q-unit{ font-size:.78rem; text-transform:uppercase; letter-spacing:.05em; color:var(--gold); font-weight:700; margin-bottom:6px; }
+  .q-text{ font-family:'Cormorant Garamond', serif; font-size:1.4rem; font-weight:600; line-height:1.35; margin:0 0 20px; text-wrap:balance; }
+  .options{ display:flex; flex-direction:column; gap:10px; margin-bottom:22px; }
+  .option{
+    display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:13px 15px;
+    border-radius:12px; border:1px solid var(--border); background:var(--surface-2); color:var(--ink);
+    font-size:1rem; font-family:inherit; cursor:pointer;
+  }
+  .option .letter{
+    flex:none; width:26px; height:26px; border-radius:999px; border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-size:.8rem; font-weight:700;
+    color:var(--muted); background:var(--surface);
+  }
+  .option:hover{ border-color:var(--gold); }
+  .option:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .option[data-state="selected"]{ border-color:var(--accent); background:color-mix(in srgb, var(--accent) 10%, var(--surface-2)); }
+  .option[data-state="correct"]{ border-color:var(--good); background:var(--good-bg); }
+  .option[data-state="correct"] .letter{ background:var(--good); color:#fff; border-color:var(--good); }
+  .option[data-state="wrong"]{ border-color:var(--bad); background:var(--bad-bg); }
+  .option[data-state="wrong"] .letter{ background:var(--bad); color:#fff; border-color:var(--bad); }
+  .option:disabled{ cursor:default; }
+
+  .nextRow{ display:flex; justify-content:flex-end; }
+  #nextBtn{
+    padding:11px 22px; border-radius:10px; border:none; background:var(--accent); color:var(--accent-ink);
+    font-weight:700; font-size:.95rem; cursor:pointer; font-family:inherit;
+  }
+  #nextBtn:disabled{ opacity:.4; cursor:not-allowed; }
+  #nextBtn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  .score-hero{ text-align:center; padding-block:6px 8px; }
+  .score-num{
+    font-family:'Cormorant Garamond', serif; font-weight:700; font-size:3.4rem; line-height:1;
+    font-variant-numeric: tabular-nums; margin:8px 0 4px;
+  }
+  .score-pct{ font-size:1rem; font-weight:600; color:var(--muted); }
+  .verdict{
+    display:inline-block; margin-top:14px; padding:6px 16px; border-radius:999px;
+    font-weight:700; font-size:.85rem; letter-spacing:.02em;
+  }
+  .verdict.pass{ background:var(--good-bg); color:var(--good); }
+  .verdict.fail{ background:var(--bad-bg); color:var(--bad); }
+
+  .review{ margin-top:26px; border-top:1px solid var(--border); padding-top:18px; }
+  .review h3{ font-family:'Cormorant Garamond', serif; font-size:1.15rem; margin:0 0 12px; }
+  .review-item{ padding:12px 0; border-bottom:1px solid var(--border); font-size:.92rem; }
+  .review-item:last-child{ border-bottom:none; }
+  .review-q{ font-weight:600; margin-bottom:6px; }
+  .review-a{ color:var(--muted); }
+  .review-a b{ color:var(--good); font-weight:700; }
+  .review-a .wrong-pick{ color:var(--bad); font-weight:700; }
+
+  footer.credit{ text-align:center; font-size:.75rem; color:var(--muted); margin-top:18px; }
+
+  [hidden]{ display:none !important; }
+
+  @media (max-width:420px){
+    .card{ padding:20px; }
+    .score-num{ font-size:2.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <p class="org-header">M.G.O.C.S.E &middot; OSSAE, Thrissur Diocese</p>
+  <a class="home-link" href="index.html" data-t="homeLink">&larr; Choose another class</a>
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" stroke="var(--gold)" stroke-width="1.4"/>
+        <path d="M20 8v24M12 15h16" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <h1 data-t="brandTitle">Class VI Bible Quiz</h1>
+        <p data-t="brandSub">O.S.S.A.E. &middot; Galilee Division</p>
+      </div>
+    </div>
+    <button id="langToggle" type="button">മലയാളം</button>
+  </header>
+
+  <section class="card" id="screenSetup">
+    <div class="field">
+      <label data-t="lblName">Student name</label>
+      <input type="text" id="studentName" placeholder="Enter your name" autocomplete="name">
+    </div>
+
+    <div class="field">
+      <label data-t="lblCount">Number of questions</label>
+      <div class="chip-row" id="countChips">
+        <button type="button" class="chip" data-count="10">10</button>
+        <button type="button" class="chip" data-count="15">15</button>
+        <button type="button" class="chip" data-count="20" aria-pressed="true">20</button>
+        <button type="button" class="chip" data-count="25">25</button>
+      </div>
+    </div>
+    <p class="hint" data-t="hintPool">Questions are drawn at random from all 25 chapters &mdash; every attempt is different.</p>
+
+    <button class="btn-primary" id="startBtn" data-t="btnStart">Start Exam</button>
+  </section>
+
+  <section class="card" id="screenQuiz" hidden>
+    <div class="progress-wrap">
+      <span id="progressLabel">Question 1 / 20</span>
+      <span id="scoreLive">Score: 0</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:5%"></div></div>
+
+    <div class="q-unit" id="qUnit">Unit 1 &middot; Chapter 1</div>
+    <p class="q-text" id="qText">Question text</p>
+    <div class="options" id="qOptions"></div>
+
+    <div class="nextRow">
+      <button id="nextBtn" type="button" disabled data-t="btnNext">Next</button>
+    </div>
+  </section>
+
+  <section class="card" id="screenResult" hidden>
+    <div class="score-hero">
+      <div style="font-size:.85rem;color:var(--muted);font-weight:600;" id="resultName">Well done, Student!</div>
+      <div class="score-num" id="scoreNum">0 / 20</div>
+      <div class="score-pct" id="scorePct">0%</div>
+      <span class="verdict" id="verdict">Pass</span>
+    </div>
+    <button class="btn-primary" id="retryBtn" data-t="btnRetry">Take Exam Again</button>
+    <button class="btn-secondary" id="reviewToggle" data-t="btnReview">Show Answer Review</button>
+    <div class="review" id="reviewBlock" hidden></div>
+  </section>
+
+  <footer class="credit" data-t="credit">Practice exam for Sunday School Class VI &middot; Prepared from the Class VI (English) lesson book</footer>
+  <p class="dev-credit">developed by bubinkmin</p>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var UI = {
+  en:{
+    brandTitle:"Class VI Bible Quiz",
+    brandSub:"O.S.S.A.E. · Galilee Division",
+    homeLink:"← Choose another class",
+    lblName:"Student name",
+    lblCount:"Number of questions",
+    hintPool:"Questions are drawn at random from all 25 chapters — every attempt is different.",
+    btnStart:"Start Exam",
+    btnNext:"Next",
+    btnFinish:"Finish",
+    btnRetry:"Take Exam Again",
+    btnReview:"Show Answer Review",
+    btnReviewHide:"Hide Answer Review",
+    credit:"Practice exam for Sunday School Class VI · Prepared from the Class VI (English) lesson book",
+    question:"Question",
+    score:"Score",
+    unitWord:"Unit",
+    chapterWord:"Chapter",
+    pass:"PASS",
+    fail:"TRY AGAIN",
+    wellDone:"Well done, {name}!",
+    yourAnswer:"Your answer",
+    correctAnswer:"Correct answer",
+    enterName:"Please enter your name to begin."
+  },
+  ml:{
+    brandTitle:"ക്ലാസ്സ് 6 ബൈബിൾ പരീക്ഷ",
+    brandSub:"ഒ.എസ്.എസ്.എ.ഇ · ഗലീലാ ഡിവിഷൻ",
+    homeLink:"← മറ്റൊരു ക്ലാസ്സ് തിരഞ്ഞെടുക്കുക",
+    lblName:"വിദ്യാർത്ഥിയുടെ പേര്",
+    lblCount:"ചോദ്യങ്ങളുടെ എണ്ണം",
+    hintPool:"25 പാഠങ്ങളിൽ നിന്നും ക്രമരഹിതമായി ചോദ്യങ്ങൾ തിരഞ്ഞെടുക്കുന്നു — ഓരോ തവണയും വ്യത്യസ്തം.",
+    btnStart:"പരീക്ഷ ആരംഭിക്കുക",
+    btnNext:"അടുത്തത്",
+    btnFinish:"പൂർത്തിയാക്കുക",
+    btnRetry:"വീണ്ടും പരീക്ഷ എഴുതുക",
+    btnReview:"ഉത്തരങ്ങൾ കാണിക്കുക",
+    btnReviewHide:"ഉത്തരങ്ങൾ മറയ്ക്കുക",
+    credit:"സൺഡേസ്കൂൾ ക്ലാസ്സ് 6-നുള്ള പരിശീലന പരീക്ഷ · ക്ലാസ്സ് 6 (ഇംഗ്ലീഷ്) പാഠപുസ്തകത്തിൽ നിന്നും തയ്യാറാക്കിയത്",
+    question:"ചോദ്യം",
+    score:"സ്കോർ",
+    unitWord:"യൂണിറ്റ്",
+    chapterWord:"അധ്യായം",
+    pass:"വിജയിച്ചു",
+    fail:"വീണ്ടും ശ്രമിക്കുക",
+    wellDone:"നന്നായി, {name}!",
+    yourAnswer:"നിങ്ങളുടെ ഉത്തരം",
+    correctAnswer:"ശരിയായ ഉത്തരം",
+    enterName:"ദയവായി നിങ്ങളുടെ പേര് നൽകുക."
+  }
+};
+var lang = "en";
+
+var BANK = [
+{unit:1,ch:1,q:{en:"At which mansion did our Lord institute the Holy Qurbana with His disciples?",ml:"ഏത് മണ്ഡപത്തിൽ വെച്ചാണ് നമ്മുടെ കർത്താവ് ശിഷ്യന്മാരോടൊപ്പം വിശുദ്ധ കുർബാന സ്ഥാപിച്ചത്?"},o:{en:["The Upper Room of St. Mark (Sehion Mansion)","The Temple of Jerusalem","The house of Lazarus","The synagogue of Nazareth"],ml:["മാർക്കോസിന്റെ മാളിക (സെഹിയോൻ മണ്ഡപം)","യെരൂശലേം ദേവാലയം","ലാസറിന്റെ ഭവനം","നസറെത്ത് പള്ളി"]},a:0},
+{unit:1,ch:1,q:{en:"On which Jewish festival did our Lord institute the Holy Qurbana?",ml:"ഏത് യഹൂദ ഉത്സവ ദിവസമാണ് കർത്താവ് വിശുദ്ധ കുർബാന സ്ഥാപിച്ചത്?"},o:{en:["Passover","Pentecost","Tabernacles","Purim"],ml:["പെസഹാ","പെന്തക്കോസ്ത്","കൂടാരപ്പെരുന്നാൾ","പൂരീം"]},a:0},
+{unit:1,ch:1,q:{en:"What noble act did our Lord perform before instituting the Holy Qurbana?",ml:"വിശുദ്ധ കുർബാന സ്ഥാപിക്കുന്നതിനു മുൻപ് കർത്താവ് ചെയ്ത ശ്രേഷ്ഠമായ പ്രവൃത്തി എന്ത്?"},o:{en:["Washing the disciples' feet","Healing a blind man","Feeding five thousand","Calming the storm"],ml:["ശിഷ്യന്മാരുടെ കാൽ കഴുകൽ","ഒരു അന്ധനെ സൗഖ്യമാക്കൽ","അയ്യായിരം പേരെ പോറ്റൽ","കൊടുങ്കാറ്റിനെ ശാന്തമാക്കൽ"]},a:0},
+
+{unit:1,ch:2,q:{en:"What does the word 'Gethsemane' mean?",ml:"'ഗെത്ത്സെമന' എന്ന വാക്കിന്റെ അർത്ഥം എന്താണ്?"},o:{en:["Oil press","Garden of prayer","Mount of peace","Holy ground"],ml:["എണ്ണ ആട്ടുന്ന സ്ഥലം","പ്രാർത്ഥനാ തോട്ടം","സമാധാന മല","വിശുദ്ധ ഭൂമി"]},a:0},
+{unit:1,ch:2,q:{en:"Which three disciples accompanied Jesus at Gethsemane?",ml:"ഗെത്ത്സെമനയിൽ യേശുവിനെ അനുഗമിച്ച മൂന്ന് ശിഷ്യന്മാർ ആരൊക്കെ?"},o:{en:["Peter, James and John","Peter, Andrew and Philip","James, John and Thomas","Peter, John and Judas"],ml:["പത്രോസ്, യാക്കോബ്, യോഹന്നാൻ","പത്രോസ്, അന്ത്രെയോസ്, ഫിലിപ്പോസ്","യാക്കോബ്, യോഹന്നാൻ, തോമസ്","പത്രോസ്, യോഹന്നാൻ, യൂദാ"]},a:0},
+{unit:1,ch:2,q:{en:"Who denied Jesus thrice but later repented?",ml:"യേശുവിനെ മൂന്നു തവണ തള്ളിപ്പറഞ്ഞെങ്കിലും പിന്നീട് അനുതപിച്ചത് ആരാണ്?"},o:{en:["Peter","Judas","Thomas","John"],ml:["പത്രോസ്","യൂദാ","തോമസ്","യോഹന്നാൻ"]},a:0},
+
+{unit:1,ch:3,q:{en:"How many stages did the unjust trial of our Lord go through?",ml:"കർത്താവിന്റെ അന്യായ വിചാരണ എത്ര ഘട്ടങ്ങളിലൂടെയാണ് നടന്നത്?"},o:{en:["Four","Two","Three","Five"],ml:["നാല്","രണ്ട്","മൂന്ന്","അഞ്ച്"]},a:0},
+{unit:1,ch:3,q:{en:"Who was the Roman Governor of Judea who awarded the death penalty to Jesus?",ml:"യേശുവിന് വധശിക്ഷ വിധിച്ച യെഹൂദ്യയിലെ റോമൻ ഗവർണർ ആരായിരുന്നു?"},o:{en:["Pilate","Herod","Caiaphas","Annas"],ml:["പീലാത്തോസ്","ഹെരോദാവ്","കയ്യഫാവ്","ഹന്നാൻ"]},a:0},
+{unit:1,ch:3,q:{en:"Which prisoner did the crowd choose to release instead of Jesus?",ml:"യേശുവിനു പകരം ജനക്കൂട്ടം ആരെയാണ് വിടുവിക്കാൻ തിരഞ്ഞെടുത്തത്?"},o:{en:["Barabbas","Judas","Simon","Dismas"],ml:["ബറാബ്ബാസ്","യൂദാ","ശിമോൻ","ദിസ്മാസ്"]},a:0},
+
+{unit:1,ch:4,q:{en:"Who was forced to carry the cross for Jesus on the way to Calvary?",ml:"കാൽവരിയിലേക്കുള്ള വഴിയിൽ യേശുവിനുവേണ്ടി കുരിശ് ചുമക്കാൻ നിർബന്ധിതനായത് ആരാണ്?"},o:{en:["Simon of Cyrene","Joseph of Arimathea","Nicodemus","Barabbas"],ml:["കുറേനക്കാരൻ ശിമോൻ","അരിമത്യക്കാരൻ യോസേഫ്","നിക്കോദേമോസ്","ബറാബ്ബാസ്"]},a:0},
+{unit:1,ch:4,q:{en:"How many statements (sayings) did Jesus utter from the cross?",ml:"കുരിശിൽ നിന്ന് യേശു എത്ര വാക്യങ്ങൾ ഉച്ചരിച്ചു?"},o:{en:["Seven","Five","Three","Ten"],ml:["ഏഴ്","അഞ്ച്","മൂന്ന്","പത്ത്"]},a:0},
+{unit:1,ch:4,q:{en:"Who obtained Pilate's permission to bury the body of Jesus?",ml:"യേശുവിന്റെ ശരീരം സംസ്കരിക്കാൻ പീലാത്തോസിന്റെ അനുവാദം വാങ്ങിയത് ആരാണ്?"},o:{en:["Joseph of Arimathea","Nicodemus","Simon of Cyrene","John"],ml:["അരിമത്യക്കാരൻ യോസേഫ്","നിക്കോദേമോസ്","കുറേനക്കാരൻ ശിമോൻ","യോഹന്നാൻ"]},a:0},
+
+{unit:1,ch:5,q:{en:"Who were among the first to find the empty tomb of Jesus?",ml:"യേശുവിന്റെ ശൂന്യമായ കല്ലറ ആദ്യം കണ്ടെത്തിയവരിൽ ആരൊക്കെ ഉൾപ്പെടുന്നു?"},o:{en:["Mary Magdalene and other women","Peter and John alone","The Roman guards","The Jewish priests"],ml:["മറിയ മഗ്ദലേനയും മറ്റു സ്ത്രീകളും","പത്രോസും യോഹന്നാനും മാത്രം","റോമൻ കാവൽക്കാർ","യഹൂദ പുരോഹിതന്മാർ"]},a:0},
+{unit:1,ch:5,q:{en:"To whom did the risen Jesus first appear?",ml:"ഉയിർത്തെഴുന്നേറ്റ യേശു ആദ്യം ആർക്കാണ് പ്രത്യക്ഷപ്പെട്ടത്?"},o:{en:["Mary Magdalene","Peter","John","The eleven disciples"],ml:["മറിയ മഗ്ദലേന","പത്രോസ്","യോഹന്നാൻ","പതിനൊന്ന് ശിഷ്യന്മാർ"]},a:0},
+{unit:1,ch:5,q:{en:"For how many days did the risen Christ appear to His disciples before His ascension?",ml:"സ്വർഗ്ഗാരോഹണത്തിനു മുൻപ് ഉയിർത്തെഴുന്നേറ്റ ക്രിസ്തു ശിഷ്യന്മാർക്ക് എത്ര ദിവസം പ്രത്യക്ഷപ്പെട്ടു?"},o:{en:["Forty days","Ten days","Fifty days","Three days"],ml:["നാൽപ്പത് ദിവസം","പത്ത് ദിവസം","അമ്പത് ദിവസം","മൂന്ന് ദിവസം"]},a:0},
+
+{unit:1,ch:6,q:{en:"On which mountain did God give the Ten Commandments to Moses?",ml:"ദൈവം മോശെയ്ക്ക് പത്ത് കൽപ്പനകൾ നൽകിയത് ഏത് മലയിൽ വച്ചാണ്?"},o:{en:["Mount Sinai","Mount Nebo","Mount Tabor","Mount Carmel"],ml:["സീനായ് മല","നെബോ മല","താബോർ മല","കർമ്മേൽ മല"]},a:0},
+{unit:1,ch:6,q:{en:"How many days did Moses fast on the mountain before receiving the commandments?",ml:"കൽപ്പനകൾ ലഭിക്കുന്നതിനുമുൻപ് മോശെ എത്ര ദിവസം മലയിൽ ഉപവസിച്ചു?"},o:{en:["Forty days","Twenty days","Ten days","Seven days"],ml:["നാൽപ്പത് ദിവസം","ഇരുപത് ദിവസം","പത്ത് ദിവസം","ഏഴ് ദിവസം"]},a:0},
+{unit:1,ch:6,q:{en:"What did the Israelites make and worship while Moses was on the mountain?",ml:"മോശെ മലയിൽ ആയിരുന്നപ്പോൾ യിസ്രായേല്യർ എന്താണ് നിർമ്മിച്ച് ആരാധിച്ചത്?"},o:{en:["A golden calf","A silver lamp","A bronze serpent","A stone altar"],ml:["ഒരു സ്വർണ്ണ കാളക്കുട്ടി","ഒരു വെള്ളി വിളക്ക്","ഒരു താമ്ര സർപ്പം","ഒരു കൽ ബലിപീഠം"]},a:0},
+
+{unit:1,ch:7,q:{en:"What guided the Israelites through the desert by day and by night?",ml:"മരുഭൂമിയിലൂടെ പകലും രാത്രിയും യിസ്രായേല്യരെ നയിച്ചത് എന്താണ്?"},o:{en:["Pillar of cloud by day, pillar of fire by night","Pillar of fire by day, pillar of cloud by night","A bright star","An angel with a sword"],ml:["പകൽ മേഘസ്തംഭം, രാത്രി അഗ്നിസ്തംഭം","പകൽ അഗ്നിസ്തംഭം, രാത്രി മേഘസ്തംഭം","ഒരു തിളങ്ങുന്ന നക്ഷത്രം","വാളേന്തിയ ഒരു ദൂതൻ"]},a:0},
+{unit:1,ch:7,q:{en:"What heavenly food did God provide the Israelites in the desert?",ml:"മരുഭൂമിയിൽ ദൈവം യിസ്രായേല്യർക്ക് നൽകിയ സ്വർഗ്ഗീയ ഭക്ഷണം ഏതാണ്?"},o:{en:["Manna","Quail alone","Bread and wine","Honey and milk"],ml:["മന്ന","കാടപ്പക്ഷി മാത്രം","അപ്പവും വീഞ്ഞും","തേനും പാലും"]},a:0},
+{unit:1,ch:7,q:{en:"Where is the chest containing the stone tablets and the book of laws kept?",ml:"കൽപ്പലകകളും ന്യായപ്രമാണ പുസ്തകവും സൂക്ഷിച്ചിരുന്ന പെട്ടകം ഏതാണ്?"},o:{en:["The Ark of Testimony","The Tent of Meeting","The Tabernacle","The Altar"],ml:["സാക്ഷ്യപെട്ടകം","സമാഗമന കൂടാരം","തിരുനിവാസം","ബലിപീഠം"]},a:0},
+
+{unit:1,ch:8,q:{en:"Who was appointed by God as the successor to Moses?",ml:"ദൈവം മോശെയുടെ പിൻഗാമിയായി നിയമിച്ചത് ആരെയാണ്?"},o:{en:["Joshua","Caleb","Aaron","Eliezer"],ml:["യോശുവ","കാലേബ്","അഹരോൻ","എലിയേസർ"]},a:0},
+{unit:1,ch:8,q:{en:"Among those who left Egypt, only two entered the Promised Land. Who were they?",ml:"ഈജിപ്തിൽ നിന്ന് പുറപ്പെട്ടവരിൽ രണ്ടുപേർ മാത്രമേ വാഗ്ദത്ത ദേശത്ത് പ്രവേശിച്ചുള്ളൂ. അവർ ആരൊക്കെ?"},o:{en:["Joshua and Caleb","Joshua and Aaron","Moses and Joshua","Caleb and Eliezer"],ml:["യോശുവയും കാലേബും","യോശുവയും അഹരോനും","മോശെയും യോശുവയും","കാലേബും എലിയേസറും"]},a:0},
+{unit:1,ch:8,q:{en:"Where did Moses die, unable to enter the Promised Land?",ml:"വാഗ്ദത്ത ദേശത്ത് പ്രവേശിക്കാനാവാതെ മോശെ എവിടെവച്ചാണ് മരിച്ചത്?"},o:{en:["Mount Nebo (Moab)","Mount Sinai","Jericho","Mount Tabor"],ml:["നെബോ മല (മോവാബ്)","സീനായ് മല","യെരീഹോ","താബോർ മല"]},a:0},
+
+{unit:1,ch:9,q:{en:"How many times did the Israelites circle the walls of Jericho on the seventh day?",ml:"ഏഴാം ദിവസം യിസ്രായേല്യർ യെരീഹോ മതിൽ എത്ര തവണ ചുറ്റി?"},o:{en:["Seven times","Once","Three times","Twelve times"],ml:["ഏഴ് തവണ","ഒരു തവണ","മൂന്ന് തവണ","പന്ത്രണ്ട് തവണ"]},a:0},
+{unit:1,ch:9,q:{en:"Which family was spared and protected when Jericho was destroyed?",ml:"യെരീഹോ നശിപ്പിക്കപ്പെട്ടപ്പോൾ ഏത് കുടുംബമാണ് സംരക്ഷിക്കപ്പെട്ടത്?"},o:{en:["The family of Rahab","The family of Achan","The family of Caleb","The family of Eliezer"],ml:["രഹാബിന്റെ കുടുംബം","ആഖാന്റെ കുടുംബം","കാലേബിന്റെ കുടുംബം","എലിയേസറിന്റെ കുടുംബം"]},a:0},
+{unit:1,ch:9,q:{en:"Who disobeyed God's command after the fall of Jericho by hiding looted items?",ml:"യെരീഹോ പതനത്തിനുശേഷം കൊള്ളമുതൽ ഒളിപ്പിച്ചുകൊണ്ട് ദൈവകൽപ്പന ലംഘിച്ചത് ആരാണ്?"},o:{en:["Achan","Rahab","Caleb","Eliezer"],ml:["ആഖാൻ","രഹാബ്","കാലേബ്","എലിയേസർ"]},a:0},
+
+{unit:1,ch:10,q:{en:"How many clans of Israel divided the land of Canaan among themselves?",ml:"കാനാൻ ദേശം എത്ര ഗോത്രങ്ങൾ പങ്കുവച്ചെടുത്തു?"},o:{en:["Twelve","Ten","Seven","Twenty"],ml:["പന്ത്രണ്ട്","പത്ത്","ഏഴ്","ഇരുപത്"]},a:0},
+{unit:1,ch:10,q:{en:"How many towns were given to the Levites, including six cities of refuge?",ml:"ആറ് സങ്കേത നഗരങ്ങൾ ഉൾപ്പെടെ ലേവ്യർക്ക് എത്ര പട്ടണങ്ങൾ നൽകപ്പെട്ടു?"},o:{en:["48 towns","24 towns","12 towns","6 towns"],ml:["48 പട്ടണങ്ങൾ","24 പട്ടണങ്ങൾ","12 പട്ടണങ്ങൾ","6 പട്ടണങ്ങൾ"]},a:0},
+{unit:1,ch:10,q:{en:"Where did Joshua make the people renew their covenant pledge with God before his death?",ml:"മരണത്തിനുമുൻപ് യോശുവ ജനത്തെ ദൈവവുമായുള്ള ഉടമ്പടി പുതുക്കിച്ചത് എവിടെവച്ചാണ്?"},o:{en:["Shechem","Gilgal","Jericho","Shiloh"],ml:["ശെഖേം","ഗിൽഗാൽ","യെരീഹോ","ശീലോ"]},a:0},
+
+{unit:2,ch:11,q:{en:"Psalm 51 is known as the Psalm of what?",ml:"സങ്കീർത്തനം 51 ഏത് പേരിലാണ് അറിയപ്പെടുന്നത്?"},o:{en:["Repentance","Praise","Thanksgiving","Ascent"],ml:["അനുതാപം","സ്തുതി","കൃതജ്ഞത","ആരോഹണം"]},a:0},
+{unit:2,ch:11,q:{en:"Which prophet made David realize his sin, leading to Psalm 51?",ml:"സങ്കീർത്തനം 51-ന് കാരണമായി, ദാവീദിനെ പാപം ബോധ്യപ്പെടുത്തിയ പ്രവാചകൻ ആരാണ്?"},o:{en:["Nathan","Samuel","Isaiah","Elijah"],ml:["നാഥാൻ","ശമുവേൽ","യെശയ്യാവ്","ഏലിയാവ്"]},a:0},
+
+{unit:2,ch:12,q:{en:"Psalm 91 is recited in which daily canonical prayer?",ml:"സങ്കീർത്തനം 91 ഏത് ദിന നമസ്കാരത്തിലാണ് ചൊല്ലുന്നത്?"},o:{en:["Soothara (Compline/Nocturne)","Terce","Matins","Vespers"],ml:["സൂത്താറ (നിദ്രാ നമസ്കാരം)","തേർസ്","പ്രഭാത നമസ്കാരം","സന്ധ്യാ നമസ്കാരം"]},a:0},
+{unit:2,ch:12,q:{en:"According to Psalm 91, who takes care of a believer like a bird protecting its young?",ml:"സങ്കീർത്തനം 91 അനുസരിച്ച്, ഒരു പക്ഷി കുഞ്ഞുങ്ങളെ സംരക്ഷിക്കുന്നതുപോലെ വിശ്വാസിയെ ആരാണ് പരിപാലിക്കുന്നത്?"},o:{en:["God","An angel","A priest","A king"],ml:["ദൈവം","ഒരു ദൂതൻ","ഒരു പുരോഹിതൻ","ഒരു രാജാവ്"]},a:0},
+
+{unit:2,ch:13,q:{en:"Psalm 121 is described by the Bible as what kind of hymn?",ml:"ബൈബിൾ സങ്കീർത്തനം 121-നെ ഏത് തരം ഗീതം എന്ന് വിശേഷിപ്പിക്കുന്നു?"},o:{en:["A Song of Ascent (pilgrimage hymn)","A hymn of lament","A royal coronation hymn","A hymn of victory"],ml:["ആരോഹണ ഗീതം (തീർത്ഥാടന ഗാനം)","വിലാപ ഗീതം","രാജ്യാഭിഷേക ഗീതം","വിജയ ഗീതം"]},a:0},
+{unit:2,ch:13,q:{en:"According to Psalm 121, from where does our help come?",ml:"സങ്കീർത്തനം 121 അനുസരിച്ച് നമ്മുടെ സഹായം എവിടെനിന്ന് വരുന്നു?"},o:{en:["From the Lord, who made heaven and earth","From the mountains themselves","From our own strength","From the angels alone"],ml:["ആകാശവും ഭൂമിയും സൃഷ്ടിച്ച കർത്താവിൽ നിന്ന്","മലകളിൽ നിന്നു തന്നെ","നമ്മുടെ സ്വന്തം ശക്തിയിൽ നിന്ന്","മാലാഖമാരിൽ നിന്ന് മാത്രം"]},a:0},
+
+{unit:3,ch:14,q:{en:"The hymn 'Seraphim of Fiery Line' is based on a vision seen by which prophet?",ml:"'സെറാഫിംസ് ഓഫ് ഫയറി ലൈൻ' എന്ന കീർത്തനം ഏത് പ്രവാചകന്റെ ദർശനത്തെ അടിസ്ഥാനമാക്കിയതാണ്?"},o:{en:["Isaiah","Ezekiel","Daniel","Jeremiah"],ml:["യെശയ്യാവ്","യെഹെസ്കേൽ","ദാനിയേൽ","യിരെമ്യാവ്"]},a:0},
+{unit:3,ch:14,q:{en:"How many wings do the Seraphs have, according to Isaiah's vision?",ml:"യെശയ്യാവിന്റെ ദർശനമനുസരിച്ച് സെറാഫുകൾക്ക് എത്ര ചിറകുകൾ ഉണ്ട്?"},o:{en:["Six","Four","Two","Twelve"],ml:["ആറ്","നാല്","രണ്ട്","പന്ത്രണ്ട്"]},a:0},
+{unit:3,ch:14,q:{en:"What did the seraph touch Isaiah's mouth with, to purify him?",ml:"യെശയ്യാവിനെ ശുദ്ധീകരിക്കാൻ സെറാഫ് അവന്റെ വായിൽ എന്താണ് സ്പർശിപ്പിച്ചത്?"},o:{en:["A live coal from the altar","Holy oil","Water from a spring","A written scroll"],ml:["ബലിപീഠത്തിൽ നിന്നുള്ള ജ്വലിക്കുന്ന കൽക്കരി","വിശുദ്ധ തൈലം","ഒരു ഉറവയിലെ വെള്ളം","എഴുതപ്പെട്ട ഒരു ചുരുൾ"]},a:0},
+
+{unit:3,ch:15,q:{en:"The hymn 'In Oblation and in Prayers' is sung just before which part of Holy Qurbana?",ml:"'ഇൻ ഒബ്ലേഷൻ ആൻഡ് ഇൻ പ്രെയേഴ്സ്' എന്ന കീർത്തനം വിശുദ്ധ കുർബാനയിലെ ഏത് ഭാഗത്തിന് തൊട്ടുമുൻപ് പാടുന്നു?"},o:{en:["The Kukkulion (intercessory prayers)","The Fraction of the Bread","The Lord's Prayer","The Creed"],ml:["കുക്കുലിയോൻ (മദ്ധ്യസ്ഥ പ്രാർത്ഥനകൾ)","അപ്പം നുറുക്കൽ ശുശ്രൂഷ","കർത്തൃപ്രാർത്ഥന","വിശ്വാസപ്രമാണം"]},a:0},
+{unit:3,ch:15,q:{en:"What does the word 'Kukkulion' mean?",ml:"'കുക്കുലിയോൻ' എന്ന വാക്കിന്റെ അർത്ഥം എന്താണ്?"},o:{en:["A cycle of prayers","A book of hymns","A garment of the priest","A type of incense"],ml:["ഒരു പ്രാർത്ഥനാ ചക്രം","ഗീത പുസ്തകം","പുരോഹിതന്റെ വസ്ത്രം","ഒരു തരം ധൂപം"]},a:0},
+
+{unit:4,ch:16,q:{en:"Under whose rule was Palestine, when the Church originated in the early centuries?",ml:"ആദിമ നൂറ്റാണ്ടുകളിൽ സഭ ഉടലെടുത്തപ്പോൾ പലസ്തീൻ ഏത് ഭരണത്തിൻ കീഴിലായിരുന്നു?"},o:{en:["The Roman Empire","The Persian Empire","The Egyptian Empire","The Babylonian Empire"],ml:["റോമൻ സാമ്രാജ്യം","പേർഷ്യൻ സാമ്രാജ്യം","ഈജിപ്ഷ്യൻ സാമ്രാജ്യം","ബാബിലോണിയൻ സാമ്രാജ്യം"]},a:0},
+{unit:4,ch:16,q:{en:"Which language, spread across the Roman Empire, helped the early Church and Gospels to expand quickly?",ml:"റോമൻ സാമ്രാജ്യത്തിലുടനീളം വ്യാപിച്ചിരുന്ന ഏത് ഭാഷയാണ് ആദിമ സഭയുടെയും സുവിശേഷങ്ങളുടെയും വേഗത്തിലുള്ള വളർച്ചയ്ക്ക് സഹായകമായത്?"},o:{en:["Greek","Latin","Aramaic","Hebrew"],ml:["ഗ്രീക്ക്","ലാറ്റിൻ","അരാമായിക്","എബ്രായ"]},a:0},
+
+{unit:4,ch:17,q:{en:"How many churches did St. Thomas establish in South India (Malankara)?",ml:"ദക്ഷിണേന്ത്യയിൽ (മലങ്കര) മാർത്തോമ്മാ ശ്ലീഹാ എത്ര പള്ളികൾ സ്ഥാപിച്ചു?"},o:{en:["Eight","Five","Twelve","Three"],ml:["എട്ട്","അഞ്ച്","പന്ത്രണ്ട്","മൂന്ന്"]},a:0},
+{unit:4,ch:17,q:{en:"Which two of the churches founded by St. Thomas are in the possession of the Malankara Orthodox Syrian Church today?",ml:"മാർത്തോമ്മാ ശ്ലീഹാ സ്ഥാപിച്ച പള്ളികളിൽ ഏതു രണ്ടെണ്ണമാണ് ഇന്ന് മലങ്കര ഓർത്തഡോക്സ് സുറിയാനി സഭയുടെ കൈവശം ഉള്ളത്?"},o:{en:["Niranam and Thiruvithamkodu","Kodungalloor and Palayur","Kollam and Chayal","Paravoor and Gokkamangalam"],ml:["നിരണവും തിരുവിതാംകോടും","കൊടുങ്ങല്ലൂരും പാലയൂരും","കൊല്ലവും ചായലും","പാറാവൂരും ഗോക്കമംഗലവും"]},a:0},
+
+{unit:5,ch:18,q:{en:"What is Holy Qurbana referred to as, being described as the continuation of eternal worship?",ml:"നിത്യാരാധനയുടെ തുടർച്ചയായി വിശുദ്ധ കുർബാന എന്താണ് വിശേഷിപ്പിക്കപ്പെടുന്നത്?"},o:{en:["An earthly image of the heavenly worship","A separate worship unrelated to heaven","A memorial only","A yearly festival"],ml:["സ്വർഗ്ഗീയ ആരാധനയുടെ ഭൗമിക പ്രതിബിംബം","സ്വർഗ്ഗവുമായി ബന്ധമില്ലാത്ത പ്രത്യേക ആരാധന","ഒരു സ്മരണ മാത്രം","ഒരു വാർഷിക ഉത്സവം"]},a:0},
+{unit:5,ch:18,q:{en:"In the hymn 'With Mary, Virgin blest', with which Cappadocian fathers do we sing along?",ml:"'വിത്ത് മേരി വിർജിൻ ബ്ലെസ്റ്റ്' എന്ന കീർത്തനത്തിൽ ഏത് കപ്പദോക്യൻ പിതാക്കന്മാരോടൊപ്പമാണ് നാം പാടുന്നത്?"},o:{en:["Basil the Great and Gregorios of Nazianzus","Peter and Paul","Anthonios and Pachomios","Ephrem and Severios"],ml:["ബേസിൽ മഹാനും നസിയാൻസസിലെ ഗ്രിഗോറിയോസും","പത്രോസും പൗലോസും","അന്തോനിയോസും പക്കോമിയോസും","എഫ്രേമും സേവേറിയോസും"]},a:0},
+{unit:5,ch:18,q:{en:"Which two Malankara saints are remembered in the hymn 'With Mary, Virgin blest'?",ml:"'വിത്ത് മേരി വിർജിൻ ബ്ലെസ്റ്റ്' എന്ന കീർത്തനത്തിൽ അനുസ്മരിക്കുന്ന മലങ്കര പുണ്യവാളന്മാർ ആരൊക്കെ?"},o:{en:["Parumala Mar Gregorios and Vattasseril Geevarghese Mar Dionysius","St. Anthonios and St. Pachomios","Mar Osthathios and Mar Barnabas","Mar Ivanios and Mar Timotheos"],ml:["പരുമല മാർ ഗ്രീഗോറിയോസും വട്ടശ്ശേരിൽ ഗീവർഗീസ് മാർ ദിവന്നാസ്യോസും","വി. അന്തോനിയോസും വി. പക്കോമിയോസും","മാർ ഒസ്താത്തിയോസും മാർ ബർന്നബാസും","മാർ ഈവാനിയോസും മാർ തിമോത്തിയോസും"]},a:0},
+
+{unit:5,ch:19,q:{en:"What is the Church's yearly cycle of Bible readings called?",ml:"സഭയുടെ വാർഷിക ബൈബിൾ വായനാ ക്രമത്തെ എന്ത് വിളിക്കുന്നു?"},o:{en:["The Lectionary","The Sedra","The Kukkulion","The Promeyon"],ml:["ലക്ഷനറി","സെദ്റാ","കുക്കുലിയോൻ","പ്രൊമിയോൻ"]},a:0},
+{unit:5,ch:19,q:{en:"With which Sunday does the Church's liturgical year commence?",ml:"സഭയുടെ ആരാധനാ വർഷം ഏത് ഞായറാഴ്ചയോടെയാണ് ആരംഭിക്കുന്നത്?"},o:{en:["Koodosh-Eetho Sunday","Easter Sunday","Palm Sunday","Pentecost Sunday"],ml:["കൂദാശ-ഈത്തോ ഞായർ","ഈസ്റ്റർ ഞായർ","ഓശാന ഞായർ","പെന്തക്കോസ്ത് ഞായർ"]},a:0},
+{unit:5,ch:19,q:{en:"Who prepared the Diatessaron, combining the four Gospels into a single narrative?",ml:"നാല് സുവിശേഷങ്ങളെ ഏകീകൃത വിവരണമായി സംയോജിപ്പിച്ച് ഡയറ്റെസ്സാരോൺ തയ്യാറാക്കിയത് ആരാണ്?"},o:{en:["Tatian","Ephrem","Origen","Eusebius"],ml:["ടേഷ്യൻ","എഫ്രേം","ഒറിജൻ","യൂസീബിയോസ്"]},a:0},
+
+{unit:6,ch:20,q:{en:"How many sacraments are recognized by the Orthodox Churches?",ml:"ഓർത്തഡോക്സ് സഭകൾ അംഗീകരിക്കുന്ന കൂദാശകൾ എത്രയാണ്?"},o:{en:["Seven","Five","Ten","Three"],ml:["ഏഴ്","അഞ്ച്","പത്ത്","മൂന്ന്"]},a:0},
+{unit:6,ch:20,q:{en:"Which sacrament is called the 'queen of all sacraments' as it completes all other sacraments?",ml:"മറ്റെല്ലാ കൂദാശകളെയും പൂർത്തിയാക്കുന്നതിനാൽ 'സകല കൂദാശകളുടെയും രാജ്ഞി' എന്ന് വിളിക്കപ്പെടുന്ന കൂദാശ ഏതാണ്?"},o:{en:["Holy Qurbana","Holy Baptism","Holy Confession","Holy Matrimony"],ml:["വിശുദ്ധ കുർബാന","വിശുദ്ധ മാമ്മോദീസ","വിശുദ്ധ കുമ്പസാരം","വിശുദ്ധ വിവാഹം"]},a:0},
+{unit:6,ch:20,q:{en:"What is the term used in Orthodox theology for the transformation from evil to goodness, sharing the nature of God?",ml:"തിന്മയിൽ നിന്ന് നന്മയിലേക്കുള്ള രൂപാന്തരം, ദൈവസ്വഭാവം പങ്കിടൽ എന്നിവയെ ഓർത്തഡോക്സ് ദൈവശാസ്ത്രത്തിൽ എന്ത് പദംകൊണ്ട് വിളിക്കുന്നു?"},o:{en:["Theosis","Kenosis","Metanoia","Anamnesis"],ml:["തിയോസിസ്","കെനോസിസ്","മെറ്റാനോയ","അനാമ്നീസിസ്"]},a:0},
+
+{unit:6,ch:21,q:{en:"According to Galatians 5:22, how many attributes together form the Fruit of the Holy Spirit?",ml:"ഗലാത്യർ 5:22 അനുസരിച്ച് പരിശുദ്ധാത്മാവിന്റെ ഫലം രൂപപ്പെടുന്നത് എത്ര ഗുണങ്ങൾ ചേർന്നാണ്?"},o:{en:["Nine","Seven","Twelve","Three"],ml:["ഒൻപത്","ഏഴ്","പന്ത്രണ്ട്","മൂന്ന്"]},a:0},
+{unit:6,ch:21,q:{en:"Which three of the Fruit of the Spirit are grouped under 'Relation with God'?",ml:"'ദൈവവുമായുള്ള ബന്ധം' എന്ന വിഭാഗത്തിൽ ഉൾപ്പെടുന്ന മൂന്ന് ആത്മാവിന്റെ ഫലങ്ങൾ ഏവ?"},o:{en:["Love, Joy and Peace","Patience, Kindness and Goodness","Faithfulness, Gentleness and Self-control","Hope, Wisdom and Truth"],ml:["സ്നേഹം, സന്തോഷം, സമാധാനം","ദീർഘക്ഷമ, ദയ, നന്മ","വിശ്വസ്തത, സൗമ്യത, ഇന്ദ്രിയജയം","പ്രത്യാശ, ജ്ഞാനം, സത്യം"]},a:0},
+
+{unit:7,ch:22,q:{en:"St. Anthonios is considered the 'Father of Monks' or Father of which Christian tradition?",ml:"'സന്യാസികളുടെ പിതാവ്' എന്നറിയപ്പെടുന്ന വി. അന്തോനിയോസ് ഏത് ക്രിസ്തീയ പാരമ്പര്യത്തിന്റെ പിതാവായി കണക്കാക്കപ്പെടുന്നു?"},o:{en:["Christian monastic life","The priesthood","Church music","Biblical translation"],ml:["ക്രിസ്തീയ സന്യാസ ജീവിതം","പൗരോഹിത്യം","സഭാ സംഗീതം","ബൈബിൾ പരിഭാഷ"]},a:0},
+{unit:7,ch:22,q:{en:"Which Gospel verse inspired St. Anthonios to distribute all his wealth and follow Christ?",ml:"തന്റെ സ്വത്ത് മുഴുവൻ വിതരണം ചെയ്ത് ക്രിസ്തുവിനെ അനുഗമിക്കാൻ വി. അന്തോനിയോസിനെ പ്രചോദിപ്പിച്ച സുവിശേഷ വാക്യം ഏതാണ്?"},o:{en:["'Go, sell your possessions and give to the poor' (Matthew 19:21)","'Love your neighbor as yourself'","'Ask, and it will be given to you'","'Blessed are the peacemakers'"],ml:["'നിന്റെ വസ്തുവക വിറ്റ് ദരിദ്രർക്ക് കൊടുക്ക' (മത്തായി 19:21)","'അയൽക്കാരനെ നിന്നെപ്പോലെ സ്നേഹിക്ക'","'ചോദിക്കുക, നിങ്ങൾക്ക് ലഭിക്കും'","'സമാധാനം ഉണ്ടാക്കുന്നവർ ഭാഗ്യവാന്മാർ'"]},a:0},
+{unit:7,ch:22,q:{en:"In which country did St. Anthonios live his ascetic life in the desert?",ml:"വി. അന്തോനിയോസ് സന്യാസ ജീവിതം നയിച്ചത് ഏത് രാജ്യത്തിലെ മരുഭൂമിയിലാണ്?"},o:{en:["Egypt","Syria","Palestine","Greece"],ml:["ഈജിപ്ത്","സിറിയ","പലസ്തീൻ","ഗ്രീസ്"]},a:0},
+
+{unit:7,ch:23,q:{en:"St. Pachomios is credited with formulating monastic life as what?",ml:"സന്യാസജീവിതത്തെ എന്തായി ചിട്ടപ്പെടുത്തിയതിന്റെ ബഹുമതി വി. പക്കോമിയോസിനുണ്ട്?"},o:{en:["A systematic institution","A royal court practice","A trading guild","A military order"],ml:["ചിട്ടയായ ഒരു സ്ഥാപനം","രാജകൊട്ടാര അനുഷ്ഠാനം","ഒരു വ്യാപാര സംഘം","ഒരു സൈനിക സംഘടന"]},a:0},
+{unit:7,ch:23,q:{en:"What was St. Pachomios' occupation before he became a Christian monk?",ml:"ക്രിസ്തീയ സന്യാസിയാകുന്നതിന് മുൻപ് വി. പക്കോമിയോസിന്റെ തൊഴിൽ എന്തായിരുന്നു?"},o:{en:["A soldier in the Roman Army","A fisherman","A carpenter","A shepherd"],ml:["റോമൻ സൈന്യത്തിലെ ഒരു പട്ടാളക്കാരൻ","മീൻപിടിത്തക്കാരൻ","ആശാരി","ഇടയൻ"]},a:0},
+{unit:7,ch:23,q:{en:"On the banks of which river did St. Pachomios set up his monastery in AD 320?",ml:"എ.ഡി. 320-ൽ വി. പക്കോമിയോസ് തന്റെ ആശ്രമം സ്ഥാപിച്ചത് ഏത് നദിയുടെ തീരത്താണ്?"},o:{en:["River Nile","River Jordan","River Euphrates","River Tigris"],ml:["നൈൽ നദി","യോർദ്ദാൻ നദി","യൂഫ്രട്ടീസ് നദി","ടൈഗ്രിസ് നദി"]},a:0},
+
+{unit:8,ch:24,q:{en:"According to the lesson, what is the greatest sacrifice in the world?",ml:"പാഠമനുസരിച്ച് ലോകത്തിലെ ഏറ്റവും വലിയ ത്യാഗം ഏതാണ്?"},o:{en:["Our Lord's sacrifice on the cross at Calvary","A soldier's sacrifice in war","A parent's sacrifice for a child","A teacher's sacrifice for students"],ml:["കാൽവരിയിലെ കുരിശിലെ കർത്താവിന്റെ ത്യാഗം","യുദ്ധത്തിലെ ഒരു പട്ടാളക്കാരന്റെ ത്യാഗം","ഒരു കുട്ടിക്കുവേണ്ടിയുള്ള മാതാപിതാക്കളുടെ ത്യാഗം","വിദ്യാർത്ഥികൾക്കുവേണ്ടിയുള്ള അധ്യാപകന്റെ ത്യാഗം"]},a:0},
+{unit:8,ch:24,q:{en:"Which nun, inspired by Christ's sacrifice, came to be known as the 'Mother of Destitute' after serving the poor of Kolkata?",ml:"ക്രിസ്തുവിന്റെ ത്യാഗത്താൽ പ്രചോദിതയായി കൊൽക്കത്തയിലെ ദരിദ്രരെ സേവിച്ച് 'ദരിദ്രരുടെ അമ്മ' എന്നറിയപ്പെട്ട കന്യാസ്ത്രീ ആരാണ്?"},o:{en:["Mother Teresa","St. Mary","Sister Alphonsa","Mother Rita"],ml:["മദർ തെരേസ","വിശുദ്ധ മറിയം","സിസ്റ്റർ അൽഫോൻസ","മദർ റീത്ത"]},a:0},
+{unit:8,ch:24,q:{en:"Which HG founded the 'Sleeba Dasa Samooham' (Servants of the Cross Society) to uplift oppressed people?",ml:"അടിച്ചമർത്തപ്പെട്ടവരെ ഉയർത്താൻ 'സ്ലീബാ ദാസ സമൂഹം' സ്ഥാപിച്ച എച്ച്.ജി ആരാണ്?"},o:{en:["The late H.G. Pathrose Mar Osthathios","The late H.G. Mathews Mar Barnabas","H.G. Yakob Mar Irenaios","H.G. Gabriel Mar Gregorios"],ml:["പരേതനായ എച്ച്.ജി പത്രോസ് മാർ ഒസ്താത്തിയോസ്","പരേതനായ എച്ച്.ജി മാത്യൂസ് മാർ ബർന്നബാസ്","എച്ച്.ജി യാക്കോബ് മാർ ഐറേനിയോസ്","എച്ച്.ജി ഗബ്രിയേൽ മാർ ഗ്രീഗോറിയോസ്"]},a:0},
+
+{unit:8,ch:25,q:{en:"According to the lesson, God gave the Ten Commandments to Israel through whom?",ml:"പാഠമനുസരിച്ച് ദൈവം പത്ത് കൽപ്പനകൾ യിസ്രായേലിന് നൽകിയത് ആരിലൂടെയാണ്?"},o:{en:["Moses","Joshua","Aaron","Samuel"],ml:["മോശെ","യോശുവ","അഹരോൻ","ശമുവേൽ"]},a:0},
+{unit:8,ch:25,q:{en:"Which sermon of Jesus is said to be an explanation of the Ten Commandments?",ml:"പത്ത് കൽപ്പനകളുടെ വിശദീകരണം എന്ന് പറയപ്പെടുന്ന യേശുവിന്റെ പ്രഭാഷണം ഏതാണ്?"},o:{en:["The Beatitudes in the Sermon on the Mount","The Parable of the Sower","The Farewell Discourse","The Olivet Discourse"],ml:["ഗിരിപ്രഭാഷണത്തിലെ ഭാഗ്യവചനങ്ങൾ","വിതക്കാരന്റെ ഉപമ","വിടവാങ്ങൽ പ്രഭാഷണം","ഒലിവുമല പ്രഭാഷണം"]},a:0},
+{unit:8,ch:25,q:{en:"According to the lesson, laws are meant to protect our what, not curtail it?",ml:"പാഠമനുസരിച്ച് നിയമങ്ങൾ എന്തിനെ പരിമിതപ്പെടുത്താതെ സംരക്ഷിക്കാനാണ് ഉദ്ദേശിക്കുന്നത്?"},o:{en:["Freedom","Wealth","Ambition","Leisure"],ml:["സ്വാതന്ത്ര്യം","സമ്പത്ത്","അഭിലാഷം","വിശ്രമം"]},a:0}
+];
+
+function shuffle(arr){
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--){
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+function t(key){ return (UI[lang] && UI[lang][key]) || UI.en[key] || key; }
+
+function applyStaticText(){
+  document.documentElement.lang = lang;
+  var nodes = document.querySelectorAll('[data-t]');
+  nodes.forEach(function(el){ el.textContent = t(el.getAttribute('data-t')); });
+  document.getElementById('langToggle').textContent = lang === 'en' ? 'മലയാളം' : 'English';
+}
+
+document.getElementById('langToggle').addEventListener('click', function(){
+  lang = (lang === 'en') ? 'ml' : 'en';
+  applyStaticText();
+  if (!document.getElementById('screenQuiz').hidden) renderQuestion();
+  if (!document.getElementById('screenResult').hidden) renderResult();
+});
+
+var state = { count: 20, pool: [], idx: 0, score: 0, answers: [] };
+
+var countChips = document.querySelectorAll('#countChips .chip');
+countChips.forEach(function(chip){
+  chip.addEventListener('click', function(){
+    countChips.forEach(function(c){ c.setAttribute('aria-pressed','false'); });
+    chip.setAttribute('aria-pressed','true');
+    state.count = parseInt(chip.getAttribute('data-count'), 10);
+  });
+});
+
+document.getElementById('startBtn').addEventListener('click', function(){
+  var name = document.getElementById('studentName').value.trim();
+  if (!name){
+    alert(t('enterName'));
+    document.getElementById('studentName').focus();
+    return;
+  }
+  state.name = name;
+  state.pool = shuffle(BANK).slice(0, Math.min(state.count, BANK.length));
+  state.idx = 0;
+  state.score = 0;
+  state.answers = [];
+  document.getElementById('screenSetup').hidden = true;
+  document.getElementById('screenResult').hidden = true;
+  document.getElementById('screenQuiz').hidden = false;
+  renderQuestion();
+});
+
+var qOptionsEl = document.getElementById('qOptions');
+var nextBtn = document.getElementById('nextBtn');
+
+function renderQuestion(){
+  var total = state.pool.length;
+  var item = state.pool[state.idx];
+
+  document.getElementById('progressLabel').textContent = t('question') + ' ' + (state.idx + 1) + ' / ' + total;
+  document.getElementById('scoreLive').textContent = t('score') + ': ' + state.score;
+  document.getElementById('progressFill').style.width = (((state.idx) / total) * 100) + '%';
+  document.getElementById('qUnit').textContent = t('unitWord') + ' ' + item.unit + ' · ' + t('chapterWord') + ' ' + item.ch;
+  document.getElementById('qText').textContent = item.q[lang];
+
+  if (!item._shuffled){
+    var opts = item.o[lang].map(function(text, i){ return {i:i}; });
+    item._shuffledOrder = shuffle(opts.map(function(o){return o.i;}));
+    item._shuffled = true;
+  }
+
+  qOptionsEl.innerHTML = '';
+  var letters = ['A','B','C','D','E','F'];
+  item._shuffledOrder.forEach(function(origIdx, pos){
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'option';
+    btn.innerHTML = '<span class="letter">' + letters[pos] + '</span><span class="opt-text"></span>';
+    btn.querySelector('.opt-text').textContent = item.o[lang][origIdx];
+    btn.dataset.origIdx = origIdx;
+    btn.addEventListener('click', function(){ selectOption(item, origIdx, btn); });
+    qOptionsEl.appendChild(btn);
+  });
+
+  nextBtn.disabled = true;
+  nextBtn.textContent = (state.idx === total - 1) ? t('btnFinish') : t('btnNext');
+}
+
+function selectOption(item, pickedIdx, btnEl){
+  if (item._answered) return;
+  item._answered = true;
+  item._picked = pickedIdx;
+
+  var buttons = qOptionsEl.querySelectorAll('.option');
+  buttons.forEach(function(b){
+    b.disabled = true;
+    var oi = parseInt(b.dataset.origIdx, 10);
+    if (oi === item.a) b.dataset.state = 'correct';
+    else if (oi === pickedIdx) b.dataset.state = 'wrong';
+  });
+
+  var correct = (pickedIdx === item.a);
+  if (correct) state.score++;
+  document.getElementById('scoreLive').textContent = t('score') + ': ' + state.score;
+
+  state.answers.push({
+    q: item.q, options: item.o, correctIdx: item.a, pickedIdx: pickedIdx,
+    unit: item.unit, ch: item.ch
+  });
+
+  nextBtn.disabled = false;
+}
+
+nextBtn.addEventListener('click', function(){
+  if (state.idx < state.pool.length - 1){
+    state.idx++;
+    renderQuestion();
+  } else {
+    finishQuiz();
+  }
+});
+
+function finishQuiz(){
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('screenQuiz').hidden = true;
+  document.getElementById('screenResult').hidden = false;
+  renderResult();
+}
+
+function renderResult(){
+  var total = state.pool.length;
+  var pct = Math.round((state.score / total) * 100);
+  document.getElementById('resultName').textContent = t('wellDone').replace('{name}', state.name || '');
+  document.getElementById('scoreNum').textContent = state.score + ' / ' + total;
+  document.getElementById('scorePct').textContent = pct + '%';
+  var verdictEl = document.getElementById('verdict');
+  if (pct >= 50){
+    verdictEl.textContent = t('pass');
+    verdictEl.className = 'verdict pass';
+  } else {
+    verdictEl.textContent = t('fail');
+    verdictEl.className = 'verdict fail';
+  }
+  buildReview();
+}
+
+function buildReview(){
+  var block = document.getElementById('reviewBlock');
+  block.innerHTML = '<h3>' + (lang==='en' ? 'Answer Review' : 'ഉത്തര പരിശോധന') + '</h3>';
+  state.answers.forEach(function(a, i){
+    var div = document.createElement('div');
+    div.className = 'review-item';
+    var qDiv = document.createElement('div');
+    qDiv.className = 'review-q';
+    qDiv.textContent = (i+1) + '. ' + a.q[lang];
+    div.appendChild(qDiv);
+
+    var aDiv = document.createElement('div');
+    aDiv.className = 'review-a';
+    var correctText = a.options[lang][a.correctIdx];
+    var pickedText = a.options[lang][a.pickedIdx];
+    if (a.pickedIdx === a.correctIdx){
+      aDiv.innerHTML = t('yourAnswer') + ': <b>' + pickedText + '</b>';
+    } else {
+      aDiv.innerHTML = t('yourAnswer') + ': <span class="wrong-pick">' + pickedText + '</span> &nbsp;&middot;&nbsp; ' + t('correctAnswer') + ': <b>' + correctText + '</b>';
+    }
+    div.appendChild(aDiv);
+    block.appendChild(div);
+  });
+}
+
+document.getElementById('reviewToggle').addEventListener('click', function(){
+  var block = document.getElementById('reviewBlock');
+  var btn = document.getElementById('reviewToggle');
+  block.hidden = !block.hidden;
+  btn.textContent = block.hidden ? t('btnReview') : t('btnReviewHide');
+});
+
+document.getElementById('retryBtn').addEventListener('click', function(){
+  BANK.forEach(function(item){
+    delete item._answered;
+    delete item._picked;
+    delete item._shuffled;
+    delete item._shuffledOrder;
+  });
+  document.getElementById('reviewBlock').hidden = true;
+  document.getElementById('reviewToggle').textContent = t('btnReview');
+  document.getElementById('screenResult').hidden = true;
+  document.getElementById('screenSetup').hidden = false;
+});
+
+applyStaticText();
+})();
+</script>
+</body>
+</html>

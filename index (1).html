@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunday School Bible Quiz</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg:#faf6ec;
+    --surface:#ffffff;
+    --surface-2:#f1e8d6;
+    --ink:#2a1e14;
+    --muted:#7a6c58;
+    --border:#e4d8bf;
+    --accent7:#7b1e2b;
+    --accent6:#1f5c4d;
+    --gold:#a97a26;
+    --shadow: 0 18px 40px -20px rgba(42,30,20,.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#141210;
+      --surface:#1d1a16;
+      --surface-2:#252019;
+      --ink:#f1e6d3;
+      --muted:#b8a68b;
+      --border:#3c342a;
+      --accent7:#e0929c;
+      --accent6:#7fc9a9;
+      --gold:#dcb567;
+      --shadow: 0 18px 40px -20px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#141210;
+    --surface:#1d1a16;
+    --surface-2:#252019;
+    --ink:#f1e6d3;
+    --muted:#b8a68b;
+    --border:#3c342a;
+    --accent7:#e0929c;
+    --accent6:#7fc9a9;
+    --gold:#dcb567;
+    --shadow: 0 18px 40px -20px rgba(0,0,0,.6);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Source Sans 3', system-ui, sans-serif;
+    padding-inline:16px;
+    padding-block:48px;
+    display:flex;
+    justify-content:center;
+  }
+  .wrap{ width:100%; max-width:640px; text-align:center; }
+
+  .org-header{
+    font-size:.74rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--gold); margin:0 0 18px;
+  }
+  .logo{ width:56px; height:56px; margin:0 auto 12px; }
+  h1{
+    font-family:'Cormorant Garamond', serif; font-weight:700; font-size:2rem;
+    margin:0 0 6px; text-wrap:balance;
+  }
+  .sub{ color:var(--muted); font-size:.95rem; margin:0 0 34px; }
+
+  .grid{ display:flex; flex-direction:column; gap:16px; }
+  @media (min-width:520px){ .grid{ flex-direction:row; } }
+
+  .card{
+    flex:1;
+    background:var(--surface); border:1px solid var(--border); border-radius:18px;
+    box-shadow:var(--shadow); padding:28px 22px; text-decoration:none; color:var(--ink);
+    position:relative; overflow:hidden; display:block;
+  }
+  .card::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:4px;
+  }
+  .card.c6::before{ background:linear-gradient(90deg,var(--accent6),var(--gold)); }
+  .card.c7::before{ background:linear-gradient(90deg,var(--accent7),var(--gold)); }
+  .card h2{
+    font-family:'Cormorant Garamond', serif; font-size:1.6rem; margin:0 0 8px;
+  }
+  .card p{ font-size:.85rem; color:var(--muted); margin:0; }
+  .card:hover{ filter:brightness(1.03); border-color:var(--gold); }
+  .card:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+
+  .dev-credit{ text-align:center; font-size:.68rem; color:var(--muted); margin-top:36px; text-transform:lowercase; }
+
+  @media (max-width:420px){ .card{ padding:22px 18px; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <p class="org-header">M.G.O.C.S.E &middot; OSSAE, Thrissur Diocese</p>
+  <svg class="logo" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="20" cy="20" r="19" stroke="var(--gold)" stroke-width="1.4"/>
+    <path d="M20 8v24M12 15h16" stroke="var(--accent6)" stroke-width="2.2" stroke-linecap="round"/>
+  </svg>
+  <h1>Sunday School Bible Quiz</h1>
+  <p class="sub">O.S.S.A.E. &middot; Galilee Division &mdash; choose your class to begin the practice exam</p>
+
+  <div class="grid">
+    <a class="card c6" href="class6.html">
+      <h2>Class VI</h2>
+      <p>25 chapters &middot; English &amp; Malayalam &middot; instant scoring</p>
+    </a>
+    <a class="card c7" href="class7.html">
+      <h2>Class VII</h2>
+      <p>25 chapters &middot; English &amp; Malayalam &middot; instant scoring</p>
+    </a>
+  </div>
+
+  <p class="dev-credit">developed by bubinkmin</p>
+</div>
+
+</body>
+</html>
