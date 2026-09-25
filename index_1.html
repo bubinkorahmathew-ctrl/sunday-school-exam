@@ -16,6 +16,7 @@
     --border:#e4d8bf;
     --accent7:#7b1e2b;
     --accent6:#1f5c4d;
+    --accent5:#235482;
     --gold:#a97a26;
     --shadow: 0 18px 40px -20px rgba(42,30,20,.35);
   }
@@ -23,14 +24,14 @@
     :root:not([data-theme="light"]){
       --bg:#141210; --surface:#1d1a16; --surface-2:#252019;
       --ink:#f1e6d3; --muted:#b8a68b; --border:#3c342a;
-      --accent7:#e0929c; --accent6:#7fc9a9; --gold:#dcb567;
+      --accent7:#e0929c; --accent6:#7fc9a9; --accent5:#6ea8dc; --gold:#dcb567;
       --shadow: 0 18px 40px -20px rgba(0,0,0,.6);
     }
   }
   :root[data-theme="dark"]{
     --bg:#141210; --surface:#1d1a16; --surface-2:#252019;
     --ink:#f1e6d3; --muted:#b8a68b; --border:#3c342a;
-    --accent7:#e0929c; --accent6:#7fc9a9; --gold:#dcb567;
+    --accent7:#e0929c; --accent6:#7fc9a9; --accent5:#6ea8dc; --gold:#dcb567;
     --shadow: 0 18px 40px -20px rgba(0,0,0,.6);
   }
 
@@ -71,6 +72,7 @@
     font-family:inherit; text-align:center; border-top:none;
   }
   .card::before{ content:""; position:absolute; top:0; left:0; right:0; height:5px; }
+  .card.c5::before{ background:linear-gradient(90deg,var(--accent5),var(--gold)); }
   .card.c6::before{ background:linear-gradient(90deg,var(--accent6),var(--gold)); }
   .card.c7::before{ background:linear-gradient(90deg,var(--accent7),var(--gold)); }
   .card.wip::before{ background:linear-gradient(90deg,#999,#ccc); }
@@ -113,6 +115,10 @@
 
   <p class="section-label">Available Now</p>
   <div class="grid-active">
+    <a class="card c5 active-card" href="class5.html">
+      <h2>Class V</h2>
+      <p>25 chapters &middot; English &amp; Malayalam</p>
+    </a>
     <a class="card c6 active-card" href="class6.html">
       <h2>Class VI</h2>
       <p>25 chapters &middot; English &amp; Malayalam</p>
@@ -125,11 +131,6 @@
 
   <p class="section-label">Coming Soon</p>
   <div class="grid-wip">
-    <button class="card wip" onclick="showWIP('Class V')">
-      <h2>Class V</h2>
-      <p>Questions coming soon</p>
-      <span class="wip-badge">🚧 Coming Soon</span>
-    </button>
     <button class="card wip" onclick="showWIP('Class VIII')">
       <h2>Class VIII</h2>
       <p>Questions coming soon</p>

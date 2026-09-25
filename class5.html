@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class V Annual Exam</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;600;700&display=swap');
+
+  :root{
+    --bg:#faf6ec;
+    --surface:#ffffff;
+    --surface-2:#f1e8d6;
+    --ink:#2a1e14;
+    --muted:#7a6c58;
+    --border:#e4d8bf;
+    --accent:#235482;
+    --accent-ink:#ffffff;
+    --gold:#a97a26;
+    --good:#3f7d53;
+    --good-bg:#e7f2ea;
+    --bad:#b23a32;
+    --bad-bg:#f8e9e7;
+    --shadow: 0 18px 40px -20px rgba(42,30,20,.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0e1620;
+      --surface:#15202b;
+      --surface-2:#1c2a38;
+      --ink:#eef1ea;
+      --muted:#a6b3a4;
+      --border:#273748;
+      --accent:#6ea8dc;
+      --accent-ink:#0a1724;
+      --gold:#dcb567;
+      --good:#7fcf9a;
+      --good-bg:#1f3327;
+      --bad:#e2948c;
+      --bad-bg:#3a2320;
+      --shadow: 0 18px 40px -20px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0e1620;
+    --surface:#15202b;
+    --surface-2:#1c2a38;
+    --ink:#eef1ea;
+    --muted:#a6b3a4;
+    --border:#273748;
+    --accent:#6ea8dc;
+    --accent-ink:#0a1724;
+    --gold:#dcb567;
+    --good:#7fcf9a;
+    --good-bg:#1f3327;
+    --bad:#e2948c;
+    --bad-bg:#3a2320;
+    --shadow: 0 18px 40px -20px rgba(0,0,0,.6);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(720px 420px at 12% -8%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 60%),
+      radial-gradient(640px 460px at 108% 8%, color-mix(in srgb, var(--gold) 16%, transparent), transparent 55%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:'Source Sans 3', system-ui, sans-serif;
+    padding-inline:16px;
+    padding-block:32px;
+    display:flex;
+    justify-content:center;
+  }
+  .malayalam, [lang="ml"]{ font-family: 'Noto Sans Malayalam', 'Source Sans 3', sans-serif; }
+
+  .app{ width:100%; max-width:640px; animation:fadeUp .5s ease both; }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:none; } }
+
+  header.top{
+    display:flex; align-items:flex-start; justify-content:space-between;
+    gap:12px; margin-bottom:22px;
+  }
+  .brand{ display:flex; gap:12px; align-items:center; }
+  .brand svg{ width:38px; height:38px; flex:none; }
+  .brand h1{
+    font-family:'Cormorant Garamond', serif; font-weight:700; font-size:1.5rem;
+    line-height:1.15; margin:0; text-wrap:balance;
+  }
+  .brand p{ margin:2px 0 0; font-size:.8rem; color:var(--muted); letter-spacing:.02em; }
+  .home-link{
+    font-size:.72rem; color:var(--muted); text-decoration:none; display:inline-block; margin-bottom:6px;
+  }
+  .home-link:hover{ color:var(--accent); }
+  .org-header{
+    text-align:center; font-size:.72rem; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--gold); margin:0 0 4px;
+  }
+  .dev-credit{ text-align:center; font-size:.68rem; color:var(--muted); margin-top:4px; text-transform:lowercase; }
+  #langToggle{
+    border:1px solid var(--border); background:var(--surface); color:var(--ink);
+    border-radius:999px; padding:6px 14px; font-size:.8rem; font-weight:600;
+    cursor:pointer; white-space:nowrap;
+  }
+  #langToggle:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:22px;
+    box-shadow:var(--shadow); padding:30px; position:relative; overflow:hidden;
+  }
+  .card::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:5px;
+    background:linear-gradient(90deg,var(--accent),var(--gold),var(--accent));
+    background-size:200% 100%;
+    animation:sheen 6s linear infinite;
+  }
+  @keyframes sheen{ to{ background-position:200% 0; } }
+
+  .field{ margin-bottom:18px; }
+  .field label{
+    display:block; font-weight:600; font-size:.85rem; margin-bottom:6px;
+    color:var(--muted); text-transform:uppercase; letter-spacing:.04em;
+  }
+  input[type="text"]{
+    width:100%; padding:11px 13px; border-radius:10px; border:1px solid var(--border);
+    background:var(--surface-2); color:var(--ink); font-size:1rem; font-family:inherit;
+  }
+  input[type="text"]:focus-visible{ outline:2px solid var(--accent); outline-offset:1px; }
+
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    border:1px solid var(--border); background:var(--surface-2); color:var(--ink);
+    padding:9px 16px; border-radius:10px; cursor:pointer; font-size:.92rem;
+    font-weight:600; font-variant-numeric: tabular-nums;
+    transition:transform .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .chip:hover{ border-color:var(--gold); transform:translateY(-1px); }
+  .chip[aria-pressed="true"]{ background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+  .chip:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .btn-primary{
+    width:100%; margin-top:6px; padding:14px 18px; border-radius:12px; border:none;
+    background:linear-gradient(135deg,var(--accent),color-mix(in srgb, var(--accent) 70%, var(--gold)));
+    color:var(--accent-ink); font-size:1.02rem; font-weight:700;
+    cursor:pointer; font-family:inherit; box-shadow:0 10px 24px -12px color-mix(in srgb, var(--accent) 60%, transparent);
+    transition:transform .15s ease, filter .15s ease;
+  }
+  .btn-primary:disabled{ opacity:.5; cursor:not-allowed; box-shadow:none; }
+  .btn-primary:not(:disabled):hover{ filter:brightness(1.06); transform:translateY(-1px); }
+  .btn-primary:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  .btn-secondary{
+    width:100%; margin-top:10px; padding:11px 18px; border-radius:12px; border:1px solid var(--border);
+    background:transparent; color:var(--ink); font-size:.95rem; font-weight:600;
+    cursor:pointer; font-family:inherit;
+  }
+  .btn-secondary:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .hint{ font-size:.82rem; color:var(--muted); margin-top:-8px; margin-bottom:18px; }
+
+  .progress-wrap{
+    display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;
+    font-size:.82rem; color:var(--muted); font-weight:600;
+  }
+  .progress-track{ height:8px; border-radius:999px; background:var(--surface-2); overflow:hidden; margin-bottom:22px; }
+  .progress-fill{
+    height:100%; background:linear-gradient(90deg,var(--accent),var(--gold));
+    border-radius:999px; transition:width .35s cubic-bezier(.4,0,.2,1);
+  }
+  .q-unit{ font-size:.78rem; text-transform:uppercase; letter-spacing:.05em; color:var(--gold); font-weight:700; margin-bottom:6px; }
+  .q-text{ font-family:'Cormorant Garamond', serif; font-size:1.4rem; font-weight:600; line-height:1.35; margin:0 0 20px; text-wrap:balance; }
+  .options{ display:flex; flex-direction:column; gap:10px; margin-bottom:22px; }
+  .option{
+    display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:13px 15px;
+    border-radius:12px; border:1px solid var(--border); background:var(--surface-2); color:var(--ink);
+    font-size:1rem; font-family:inherit; cursor:pointer;
+    transition:transform .12s ease, border-color .12s ease, background .12s ease, box-shadow .12s ease;
+  }
+  .option .letter{
+    flex:none; width:26px; height:26px; border-radius:999px; border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-size:.8rem; font-weight:700;
+    color:var(--muted); background:var(--surface); transition:inherit;
+  }
+  .option:hover{ border-color:var(--gold); transform:translateX(2px); box-shadow:0 4px 14px -10px rgba(0,0,0,.4); }
+  .option:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .option[data-state="selected"]{ border-color:var(--accent); background:color-mix(in srgb, var(--accent) 10%, var(--surface-2)); }
+  .option[data-state="correct"]{ border-color:var(--good); background:var(--good-bg); }
+  .option[data-state="correct"] .letter{ background:var(--good); color:#fff; border-color:var(--good); }
+  .option[data-state="wrong"]{ border-color:var(--bad); background:var(--bad-bg); }
+  .option[data-state="wrong"] .letter{ background:var(--bad); color:#fff; border-color:var(--bad); }
+  .option:disabled{ cursor:default; }
+
+  .nextRow{ display:flex; justify-content:flex-end; }
+  #nextBtn{
+    padding:11px 22px; border-radius:10px; border:none; background:var(--accent); color:var(--accent-ink);
+    font-weight:700; font-size:.95rem; cursor:pointer; font-family:inherit;
+  }
+  #nextBtn:disabled{ opacity:.4; cursor:not-allowed; }
+  #nextBtn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  .score-hero{ text-align:center; padding-block:6px 8px; }
+  .score-num{
+    font-family:'Cormorant Garamond', serif; font-weight:700; font-size:3.4rem; line-height:1;
+    font-variant-numeric: tabular-nums; margin:8px 0 4px;
+  }
+  .score-pct{ font-size:1rem; font-weight:600; color:var(--muted); }
+  .verdict{
+    display:inline-block; margin-top:14px; padding:6px 16px; border-radius:999px;
+    font-weight:700; font-size:.85rem; letter-spacing:.02em;
+  }
+  .verdict.pass{ background:var(--good-bg); color:var(--good); }
+  .verdict.fail{ background:var(--bad-bg); color:var(--bad); }
+
+  .review{ margin-top:26px; border-top:1px solid var(--border); padding-top:18px; }
+  .review h3{ font-family:'Cormorant Garamond', serif; font-size:1.15rem; margin:0 0 12px; }
+  .review-item{ padding:12px 0; border-bottom:1px solid var(--border); font-size:.92rem; }
+  .review-item:last-child{ border-bottom:none; }
+  .review-q{ font-weight:600; margin-bottom:6px; }
+  .review-a{ color:var(--muted); }
+  .review-a b{ color:var(--good); font-weight:700; }
+  .review-a .wrong-pick{ color:var(--bad); font-weight:700; }
+
+  footer.credit{ text-align:center; font-size:.75rem; color:var(--muted); margin-top:18px; }
+
+  [hidden]{ display:none !important; }
+
+  @media (max-width:420px){
+    .card{ padding:20px; }
+    .score-num{ font-size:2.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <p class="org-header">M.G.O.S.C &middot; OSSAE, Thrissur Diocese</p>
+  <a class="home-link" href="index.html" data-t="homeLink">&larr; Choose another class</a>
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" stroke="var(--gold)" stroke-width="1.4"/>
+        <path d="M20 8v24M12 15h16" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <h1 data-t="brandTitle">Class V Annual Exam</h1>
+        <p data-t="brandSub">O.S.S.A.E. &middot; All Divisions</p>
+      </div>
+    </div>
+    <button id="langToggle" type="button">മലയാളം</button>
+  </header>
+
+  <section class="card" id="screenSetup">
+    <div class="field">
+      <label data-t="lblName">Student name</label>
+      <input type="text" id="studentName" placeholder="Enter your name" autocomplete="name">
+    </div>
+
+    <p class="hint" data-t="hintPool">Every attempt draws 25 random questions from the full chapter bank &mdash; a fresh set each time.</p>
+
+    <button class="btn-primary" id="startBtn" data-t="btnStart">Start Exam</button>
+  </section>
+
+  <section class="card" id="screenQuiz" hidden>
+    <div class="progress-wrap">
+      <span id="progressLabel">Question 1 / 20</span>
+      <span id="scoreLive">Score: 0</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:5%"></div></div>
+
+    <p class="q-text" id="qText">Question text</p>
+    <div class="options" id="qOptions"></div>
+
+    <div class="nextRow">
+      <button id="nextBtn" type="button" disabled data-t="btnNext">Next</button>
+    </div>
+  </section>
+
+  <section class="card" id="screenResult" hidden>
+    <div class="score-hero">
+      <div style="font-size:.85rem;color:var(--muted);font-weight:600;" id="resultName">Well done, Student!</div>
+      <div class="score-num" id="scoreNum">0 / 20</div>
+      <div class="score-pct" id="scorePct">0%</div>
+      <span class="verdict" id="verdict">Pass</span>
+    </div>
+    <button class="btn-primary" id="retryBtn" data-t="btnRetry">Take Exam Again</button>
+    <button class="btn-secondary" id="reviewToggle" data-t="btnReview">Show Answer Review</button>
+    <div class="review" id="reviewBlock" hidden></div>
+  </section>
+
+  <footer class="credit" data-t="credit">Practice exam for Sunday School Class V &middot; Prepared from the Class V (English) lesson book</footer>
+  <p class="dev-credit">developed by bubinkmin</p>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var UI = {
+  en:{
+    brandTitle:"Class V Annual Exam",
+    brandSub:"O.S.S.A.E. · All Divisions",
+    homeLink:"← Choose another class",
+    lblName:"Student name",
+    lblCount:"Number of questions",
+    hintPool:"Questions are drawn at random from all 25 chapters — every attempt is different.",
+    btnStart:"Start Exam",
+    btnNext:"Next",
+    btnFinish:"Finish",
+    btnRetry:"Take Exam Again",
+    btnReview:"Show Answer Review",
+    btnReviewHide:"Hide Answer Review",
+    credit:"Practice exam for Sunday School Class V · Prepared from the Class V (English) lesson book",
+    question:"Question",
+    score:"Score",
+    unitWord:"Unit",
+    chapterWord:"Chapter",
+    pass:"PASS",
+    fail:"TRY AGAIN",
+    wellDone:"Well done, {name}!",
+    yourAnswer:"Your answer",
+    correctAnswer:"Correct answer",
+    enterName:"Please enter your name to begin."
+  },
+  ml:{
+    brandTitle:"ക്ലാസ്സ് 5 വാർഷിക പരീക്ഷ",
+    brandSub:"ഒ.എസ്.എസ്.എ.ഇ · എല്ലാ ഡിവിഷനുകളും",
+    homeLink:"← മറ്റൊരു ക്ലാസ്സ് തിരഞ്ഞെടുക്കുക",
+    lblName:"വിദ്യാർത്ഥിയുടെ പേര്",
+    lblCount:"ചോദ്യങ്ങളുടെ എണ്ണം",
+    hintPool:"25 പാഠങ്ങളിൽ നിന്നും ക്രമരഹിതമായി ചോദ്യങ്ങൾ തിരഞ്ഞെടുക്കുന്നു — ഓരോ തവണയും വ്യത്യസ്തം.",
+    btnStart:"പരീക്ഷ ആരംഭിക്കുക",
+    btnNext:"അടുത്തത്",
+    btnFinish:"പൂർത്തിയാക്കുക",
+    btnRetry:"വീണ്ടും പരീക്ഷ എഴുതുക",
+    btnReview:"ഉത്തരങ്ങൾ കാണിക്കുക",
+    btnReviewHide:"ഉത്തരങ്ങൾ മറയ്ക്കുക",
+    credit:"സൺഡേസ്കൂൾ ക്ലാസ്സ് 5-നുള്ള പരിശീലന പരീക്ഷ · ക്ലാസ്സ് 5 (ഇംഗ്ലീഷ്) പാഠപുസ്തകത്തിൽ നിന്നും തയ്യാറാക്കിയത്",
+    question:"ചോദ്യം",
+    score:"സ്കോർ",
+    unitWord:"യൂണിറ്റ്",
+    chapterWord:"അധ്യായം",
+    pass:"വിജയിച്ചു",
+    fail:"വീണ്ടും ശ്രമിക്കുക",
+    wellDone:"നന്നായി, {name}!",
+    yourAnswer:"നിങ്ങളുടെ ഉത്തരം",
+    correctAnswer:"ശരിയായ ഉത്തരം",
+    enterName:"ദയവായി നിങ്ങളുടെ പേര് നൽകുക."
+  }
+};
+var lang = "en";
+
+var BANK = [
+{"unit": 1, "ch": 1, "q": {"en": "Moses was born into which tribe of Israel?", "ml": "മോശ ഏതു ഗോത്രത്തിൽ ജനിച്ചു?"}, "o": {"en": ["Levi", "Judah", "Benjamin", "Reuben"], "ml": ["ലേവി", "യെഹൂദാ", "ബെന്യാമീൻ", "രൂബേൻ"]}, "a": 0},
+{"unit": 1, "ch": 1, "q": {"en": "Who were the parents of Moses?", "ml": "മോശയുടെ മാതാപിതാക്കൾ ആരായിരുന്നു?"}, "o": {"en": ["Amram and Jochebed", "Aaron and Miriam", "Jethro and Zipporah", "Amram and Zipporah"], "ml": ["അമ്രാമും യോക്കേബേദും", "അഹറോനും മിര്യാമും", "യിത്രോയും സിപ്പോറയും", "അമ്രാമും സിപ്പോറയും"]}, "a": 0},
+{"unit": 1, "ch": 1, "q": {"en": "Name the siblings of Moses.", "ml": "മോശയുടെ സഹോദരങ്ങൾ ആരെല്ലാം?"}, "o": {"en": ["Aaron and Miriam", "Aaron and Zipporah", "Joshua and Miriam", "Caleb and Aaron"], "ml": ["അഹറോനും മിര്യാമും", "അഹറോനും സിപ്പോറയും", "യോശുവയും മിര്യാമും", "കാലേബും അഹറോനും"]}, "a": 0},
+{"unit": 1, "ch": 1, "q": {"en": "What does the name \"Moses\" mean?", "ml": "\"മോശ\" എന്ന പേരിന്റെ അർത്ഥം എന്ത്?"}, "o": {"en": ["Drawn out of water", "Gift of God", "Deliverer", "Prince of Egypt"], "ml": ["വെള്ളത്തിൽനിന്ന് വലിച്ചെടുക്കപ്പെട്ടവൻ", "ദൈവത്തിന്റെ ദാനം", "വിടുവിക്കുന്നവൻ", "ഈജിപ്തിലെ രാജകുമാരൻ"]}, "a": 0},
+{"unit": 1, "ch": 1, "q": {"en": "For how many months did Moses's parents hide him before placing him in the basket?", "ml": "കുഞ്ഞു മോശയെ പെട്ടിയിലാക്കുന്നതിനു മുൻപ് മാതാപിതാക്കൾ എത്ര മാസം ഒളിപ്പിച്ചു?"}, "o": {"en": ["Three months", "Six months", "Twelve months", "One month"], "ml": ["മൂന്നു മാസം", "ആറു മാസം", "പന്ത്രണ്ടു മാസം", "ഒരു മാസം"]}, "a": 0},
+{"unit": 1, "ch": 1, "q": {"en": "Who found baby Moses floating in the basket on the river Nile?", "ml": "നദിയിൽ പെട്ടിയിൽ ഒഴുകിയ കുഞ്ഞു മോശയെ ആരു കണ്ടെത്തി?"}, "o": {"en": ["Pharaoh's daughter (the princess)", "Pharaoh's wife", "Jochebed", "Miriam"], "ml": ["ഫറവോന്റെ പുത്രി (രാജകുമാരി)", "ഫറവോന്റെ ഭാര്യ", "യോക്കേബേദ്", "മിര്യാം"]}, "a": 0},
+{"unit": 1, "ch": 1, "q": {"en": "Who offered to find a Hebrew nurse for the baby when the princess found him?", "ml": "രാജകുമാരി കുഞ്ഞിനെ കണ്ടപ്പോൾ എബ്രായ സ്ത്രീയെ വിളിച്ചുകൊണ്ടുവരാൻ നിർദ്ദേശിച്ചത് ആര്?"}, "o": {"en": ["Miriam, the baby's sister", "Aaron, the baby's brother", "Jochebed herself", "One of the princess's maids"], "ml": ["മിര്യാം, കുഞ്ഞിന്റെ സഹോദരി", "അഹറോൻ, കുഞ്ഞിന്റെ സഹോദരൻ", "യോക്കേബേദ് തന്നെ", "രാജകുമാരിയുടെ ഒരു ദാസി"]}, "a": 0},
+{"unit": 1, "ch": 1, "q": {"en": "For how many years did Moses live in Pharaoh's palace?", "ml": "മോശ എത്ര വർഷം ഫറവോന്റെ കൊട്ടാരത്തിൽ ജീവിച്ചു?"}, "o": {"en": ["Forty years", "Twenty years", "Seven years", "Ten years"], "ml": ["നാല്പതു വർഷം", "ഇരുപതു വർഷം", "ഏഴു വർഷം", "പത്തു വർഷം"]}, "a": 0},
+{"unit": 1, "ch": 1, "q": {"en": "According to Hebrews 11:24-25, what did Moses choose when he grew up?", "ml": "എബ്രായർ 11:24-25 പ്രകാരം വളർന്നപ്പോൾ മോശ എന്താണ് തിരഞ്ഞെടുത്തത്?"}, "o": {"en": ["To share ill-treatment with God's people rather than enjoy the pleasures of sin", "To remain a prince in Pharaoh's palace", "To become the commander of Pharaoh's army", "To rule Egypt as Pharaoh's heir"], "ml": ["പാപത്തിന്റെ ക്ഷണിക സുഖഭോഗത്തേക്കാൾ ദൈവജനത്തോടൊപ്പം കഷ്ടത സഹിക്കാൻ", "ഫറവോന്റെ കൊട്ടാരത്തിൽ രാജകുമാരനായി തുടരാൻ", "ഫറവോന്റെ സൈന്യാധിപനാകാൻ", "ഫറവോന്റെ അവകാശിയായി ഈജിപ്ത് ഭരിക്കാൻ"]}, "a": 0},
+{"unit": 1, "ch": 1, "q": {"en": "Which New Testament martyr spoke about the growth and upbringing of Moses (Acts 7:22)?", "ml": "മോശയുടെ വളർച്ചയെക്കുറിച്ച് പുതിയനിയമത്തിൽ (അപ്പ.പ്രവൃ. 7:22) പ്രസംഗിച്ച രക്തസാക്ഷി ആര്?"}, "o": {"en": ["St. Stephen", "St. Paul", "St. Peter", "St. James"], "ml": ["വി. സ്തെഫാനോസ്", "വി. പൗലോസ്", "വി. പത്രോസ്", "വി. യാക്കോബ്"]}, "a": 0},
+{"unit": 1, "ch": 2, "q": {"en": "After fleeing Egypt, whose flock did Moses tend in Midian?", "ml": "ഈജിപ്തിൽനിന്ന് ഓടിപ്പോയ ശേഷം മിദ്യാനിൽ മോശ ആരുടെ ആടുകളെ മേയ്ച്ചു?"}, "o": {"en": ["Jethro, the priest of Midian", "Aaron's flock", "Pharaoh's flock", "Amram's flock"], "ml": ["മിദ്യാനിലെ പുരോഹിതനായ യിത്രോയുടെ", "അഹറോന്റെ", "ഫറവോന്റെ", "അമ്രാമിന്റെ"]}, "a": 0},
+{"unit": 1, "ch": 2, "q": {"en": "Who did Moses marry in Midian?", "ml": "മിദ്യാനിൽവച്ച് മോശ ആരെ വിവാഹം കഴിച്ചു?"}, "o": {"en": ["Zipporah, daughter of Jethro", "Miriam", "Jochebed", "Keturah"], "ml": ["യിത്രോയുടെ പുത്രി സിപ്പോറ", "മിര്യാം", "യോക്കേബേദ്", "കെതൂറാ"]}, "a": 0},
+{"unit": 1, "ch": 2, "q": {"en": "On which mountain did Moses see the burning bush?", "ml": "ഏതു പർവ്വതത്തിൽ വച്ചാണ് മോശ കത്തുന്ന മുൾപ്പടർപ്പ് കണ്ടത്?"}, "o": {"en": ["Horeb", "Tabor", "Carmel", "Nebo"], "ml": ["ഹോരേബ്", "താബോർ", "കർമ്മേൽ", "നെബോ"]}, "a": 0},
+{"unit": 1, "ch": 2, "q": {"en": "What was unusual about the bush of thorns Moses saw?", "ml": "മോശ കണ്ട മുൾപ്പടർപ്പിന്റെ പ്രത്യേകത എന്തായിരുന്നു?"}, "o": {"en": ["It was on fire, but the flames did not burn it", "It was glowing blue", "It spoke without any fire", "It grew fruit instantly"], "ml": ["അത് തീ പിടിച്ചെങ്കിലും കത്തി നശിച്ചില്ല", "അത് നീല നിറത്തിൽ പ്രകാശിച്ചു", "തീയില്ലാതെ സംസാരിച്ചു", "പെട്ടെന്ന് ഫലം കായ്ച്ചു"]}, "a": 0},
+{"unit": 1, "ch": 2, "q": {"en": "What did the voice from the bush command Moses to do before approaching?", "ml": "അടുക്കുന്നതിനു മുൻപ് മുൾപ്പടർപ്പിൽനിന്നുള്ള ശബ്ദം മോശയോട് എന്തു ചെയ്യാൻ കല്പിച്ചു?"}, "o": {"en": ["Remove the sandals from his feet, for it was holy ground", "Cover his face completely", "Bring water to wash the ground", "Kneel and remain silent for an hour"], "ml": ["കാലിൽനിന്ന് ചെരിപ്പ് അഴിക്കാൻ, കാരണം അതു വിശുദ്ധ ഭൂമിയാണ്", "മുഖം പൂർണ്ണമായി മറയ്ക്കാൻ", "നിലം കഴുകാൻ വെള്ളം കൊണ്ടുവരാൻ", "ഒരു മണിക്കൂർ മൗനമായി മുട്ടുകുത്താൻ"]}, "a": 0},
+{"unit": 1, "ch": 2, "q": {"en": "How did God identify Himself to Moses at the burning bush?", "ml": "കത്തുന്ന മുൾപ്പടർപ്പിൽ വച്ച് ദൈവം തന്നെത്തന്നെ മോശയ്ക്ക് എങ്ങനെ വെളിപ്പെടുത്തി?"}, "o": {"en": ["\"I AM WHO I AM\" / the God of Abraham, Isaac and Jacob", "The God of the Egyptians", "A new god unknown to Israel", "The God of Pharaoh's ancestors"], "ml": ["\"ഞാൻ ആകുന്നവൻ ആകുന്നു\" / അബ്രാഹാമിന്റെയും യിസ്ഹാക്കിന്റെയും യാക്കോബിന്റെയും ദൈവം", "ഈജിപ്തുകാരുടെ ദൈവം", "യിസ്രായേലിന് അജ്ഞാതനായ ഒരു പുതിയ ദൈവം", "ഫറവോന്റെ പൂർവ്വികരുടെ ദൈവം"]}, "a": 0},
+{"unit": 1, "ch": 2, "q": {"en": "How many miracle-signs did God give Moses to perform before Pharaoh, according to the textbook?", "ml": "ഫറവോന്റെ മുൻപാകെ കാണിക്കാൻ ദൈവം മോശയ്ക്ക് നൽകിയ അടയാളങ്ങൾ എത്ര? (പാഠപുസ്തകം പ്രകാരം)"}, "o": {"en": ["Three", "Ten", "Seven", "Two"], "ml": ["മൂന്ന്", "പത്ത്", "ഏഴ്", "രണ്ട്"]}, "a": 0},
+{"unit": 1, "ch": 2, "q": {"en": "What happened when Moses threw his shepherd's rod on the ground at God's command?", "ml": "ദൈവകല്പനപ്രകാരം മോശ തന്റെ വടി നിലത്തിടുകയപ്പോൾ എന്തു സംഭവിച്ചു?"}, "o": {"en": ["It became a serpent", "It became a snake charmer's flute", "It turned to ash", "It became a fish"], "ml": ["അത് സർപ്പമായി മാറി", "അത് ഓടക്കുഴലായി മാറി", "ചാരമായി", "മത്സ്യമായി മാറി"]}, "a": 0},
+{"unit": 1, "ch": 2, "q": {"en": "What happened to Moses's hand when he placed it inside his robe near the chest, as the second sign?", "ml": "രണ്ടാമത്തെ അടയാളമായി മോശ കൈ മാറിടത്തിനടുത്ത് വച്ചപ്പോൾ എന്തു സംഭവിച്ചു?"}, "o": {"en": ["It became leprous (white), then normal again", "It became invisible", "It turned into a bird", "It glowed golden"], "ml": ["കൈ കുഷ്ഠരോഗം ബാധിച്ചു വെളുത്തു, പിന്നീട് സാധാരണമായി", "കൈ അദൃശ്യമായി", "കൈ പക്ഷിയായി മാറി", "കൈ സ്വർണ്ണനിറത്തിൽ തിളങ്ങി"]}, "a": 0},
+{"unit": 1, "ch": 2, "q": {"en": "Why did God appoint Aaron to accompany Moses before Pharaoh?", "ml": "ഫറവോന്റെ മുൻപിൽ മോശയോടൊപ്പം അഹറോനെ ദൈവം നിയോഗിച്ചത് എന്തുകൊണ്ട്?"}, "o": {"en": ["Because Moses pleaded that he was slow of speech and tongue", "Because Aaron was older and senior", "Because Moses refused the mission entirely", "Because Pharaoh demanded two envoys"], "ml": ["താൻ വാക്സാമർത്ഥ്യമില്ലാത്തവനും തടസ്സമുള്ള നാവുള്ളവനുമാണെന്ന് മോശ അപേക്ഷിച്ചതിനാൽ", "അഹറോൻ പ്രായംകൂടിയ മുതിർന്നവനായതിനാൽ", "മോശ ദൗത്യം പൂർണ്ണമായും നിരസിച്ചതിനാൽ", "ഫറവോൻ രണ്ടു ദൂതന്മാരെ ആവശ്യപ്പെട്ടതിനാൽ"]}, "a": 0},
+{"unit": 1, "ch": 2, "q": {"en": "God entrusted Moses with the task of leading the Hebrews to which land?", "ml": "ഏതു ദേശത്തേക്ക് എബ്രായരെ നയിക്കാനുള്ള ദൗത്യം ദൈവം മോശയെ ഏല്പിച്ചു?"}, "o": {"en": ["Canaan, flowing with milk and honey", "Midian", "Assyria", "Moab"], "ml": ["പാലും തേനും ഒഴുകുന്ന കാനാൻ ദേശം", "മിദ്യാൻ", "അശ്ശൂർ", "മോവാബ്"]}, "a": 0},
+{"unit": 1, "ch": 3, "q": {"en": "What was the first of the ten plagues sent upon Egypt?", "ml": "മിസ്രയീമിൽ ഉണ്ടായ ആദ്യത്തെ ബാധ ഏത്?"}, "o": {"en": ["The water of the Nile turned to blood", "Hordes of frogs", "Lice infesting the land", "Swarms of flies"], "ml": ["നീലനദിയിലെ വെള്ളം രക്തമായിത്തീർന്നു", "തവളകളുടെ ബാഹുല്യം", "പേൻ ബാധ", "കൂറീച്ചകളുടെ ബാധ"]}, "a": 0},
+{"unit": 1, "ch": 3, "q": {"en": "Which of the following was NOT one of the ten plagues on Egypt?", "ml": "താഴെപ്പറയുന്നവയിൽ പത്തു ബാധകളിൽ ഉൾപ്പെടാത്തത് ഏത്?"}, "o": {"en": ["A wild animal attack on the cities", "Hail and thunder", "Locusts covering the land", "Darkness over the land"], "ml": ["നഗരങ്ങളിൽ വന്യമൃഗങ്ങളുടെ ആക്രമണം", "കന്മഴയും ഇടിമിന്നലും", "വെട്ടുക്കിളികളുടെ ബാധ", "ദേശത്തിന്മേലുള്ള അന്ധകാരം"]}, "a": 0},
+{"unit": 1, "ch": 3, "q": {"en": "In the plague of boils, what did Moses take from the kiln and toss into the sky before Pharaoh?", "ml": "പരു ബാധയിൽ മോശ ചൂളയിൽനിന്ന് എടുത്ത് ഫറവോന്റെ മുൻപിൽ ആകാശത്തേക്ക് വാരിവിതറിയത് എന്താണ്?"}, "o": {"en": ["Ashes", "Dust from the road", "Grain", "Sand from the river"], "ml": ["ചാരം", "വഴിയിലെ പൊടി", "ധാന്യം", "നദിയിലെ മണൽ"]}, "a": 0},
+{"unit": 1, "ch": 3, "q": {"en": "Which group of people and their animals were spared from the plagues, even while Egypt suffered?", "ml": "മിസ്രയീം ബാധകളാൽ കഷ്ടപ്പെട്ടപ്പോഴും ഏതു ജനതയും അവരുടെ മൃഗങ്ങളും ഒഴിവാക്കപ്പെട്ടു?"}, "o": {"en": ["The Hebrews (Israelites)", "The Egyptian priests", "Pharaoh's own household only", "No one was spared"], "ml": ["എബ്രായർ (യിസ്രായേല്യർ)", "മിസ്രയീമ്യ പുരോഹിതന്മാർ", "ഫറവോന്റെ ഭവനക്കാർ മാത്രം", "ആരും ഒഴിവാക്കപ്പെട്ടില്ല"]}, "a": 0},
+{"unit": 1, "ch": 3, "q": {"en": "Which of the ten plagues finally broke Pharaoh's hardened heart and made him release the Hebrews?", "ml": "ഏതു ബാധയാണ് ഒടുവിൽ ഫറവോന്റെ കഠിനഹൃദയത്തെ തകർത്ത് യിസ്രായേല്യരെ വിട്ടയക്കാൻ ഇടയാക്കിയത്?"}, "o": {"en": ["The death of the firstborn in every Egyptian family", "The plague of frogs", "The plague of lice", "The plague of hail"], "ml": ["ഓരോ മിസ്രയീമ്യ കുടുംബത്തിലെയും ആദ്യജാതന്റെ മരണം", "തവളബാധ", "പേൻബാധ", "കന്മഴബാധ"]}, "a": 0},
+{"unit": 1, "ch": 3, "q": {"en": "What did Moses and Aaron perform before Pharaoh's court even before the ten plagues began?", "ml": "പത്തു ബാധകൾ തുടങ്ങുന്നതിനു മുൻപ് മോശയും അഹറോനും ഫറവോന്റെ കൊട്ടാരത്തിൽ എന്ത് അത്ഭുതം കാണിച്ചു?"}, "o": {"en": ["Moses's rod, thrown down, became a serpent that swallowed the sorcerers' serpents", "They struck the Nile with a staff first", "They summoned locusts directly", "They asked Pharaoh's magicians to bless the people"], "ml": ["മോശയുടെ വടി നിലത്തിട്ടപ്പോൾ സർപ്പമായി, മന്ത്രവാദികളുടെ സർപ്പങ്ങളെ വിഴുങ്ങി", "ആദ്യം നീലനദിയെ വടികൊണ്ട് അടിച്ചു", "നേരിട്ട് വെട്ടുക്കിളികളെ വരുത്തി", "ജനത്തെ അനുഗ്രഹിക്കാൻ മന്ത്രവാദികളോട് ആവശ്യപ്പെട്ടു"]}, "a": 0},
+{"unit": 1, "ch": 3, "q": {"en": "Whose heart is repeatedly described as \"hardened\" throughout the account of the ten plagues?", "ml": "പത്തു ബാധകളുടെ വിവരണത്തിലുടനീളം ആരുടെ ഹൃദയമാണ് \"കഠിനമായി\" എന്നു ആവർത്തിച്ച് പറയുന്നത്?"}, "o": {"en": ["Pharaoh's heart", "Moses's heart", "Aaron's heart", "The Israelites' hearts"], "ml": ["ഫറവോന്റെ ഹൃദയം", "മോശയുടെ ഹൃദയം", "അഹറോന്റെ ഹൃദയം", "യിസ്രായേല്യരുടെ ഹൃദയങ്ങൾ"]}, "a": 0},
+{"unit": 1, "ch": 3, "q": {"en": "In which book of the Bible are the ten plagues on Egypt recorded?", "ml": "പത്തു ബാധകൾ വിശുദ്ധ വേദപുസ്തകത്തിലെ ഏതു പുസ്തകത്തിലാണ് രേഖപ്പെടുത്തിയിരിക്കുന്നത്?"}, "o": {"en": ["Exodus", "Genesis", "Leviticus", "Numbers"], "ml": ["പുറപ്പാട്", "ഉല്പത്തി", "ലേവ്യപുസ്തകം", "സംഖ്യാപുസ്തകം"]}, "a": 0},
+{"unit": 1, "ch": 4, "q": {"en": "What does the word \"Pesaha\" (Passover) mean?", "ml": "\"പെസഹാ\" എന്ന വാക്കിന്റെ അർത്ഥം എന്ത്?"}, "o": {"en": ["Passing over", "New beginning", "Great deliverance", "Feast of joy"], "ml": ["കടന്നുപോകൽ (Passing over)", "പുതിയ തുടക്കം", "മഹാവിടുതൽ", "സന്തോഷത്തിന്റെ പെരുന്നാൾ"]}, "a": 0},
+{"unit": 1, "ch": 4, "q": {"en": "On which day of Abib/Nissan was the Passover lamb slain?", "ml": "ആബീബ്/നീസാൻ മാസത്തിലെ ഏതു ദിവസമാണ് പെസഹാക്കുഞ്ഞാടിനെ അറുത്തത്?"}, "o": {"en": ["The fourteenth day", "The first day", "The tenth day", "The last day of the month"], "ml": ["പതിനാലാം ദിവസം", "ഒന്നാം ദിവസം", "പത്താം ദിവസം", "മാസത്തിലെ അവസാന ദിവസം"]}, "a": 0},
+{"unit": 1, "ch": 4, "q": {"en": "What kind of lamb was required for the Passover sacrifice?", "ml": "പെസഹാ യാഗത്തിന് ഏതുതരം കുഞ്ഞാടിനെയാണ് വേണ്ടിയിരുന്നത്?"}, "o": {"en": ["A one-year-old male lamb without defects", "Any lamb, regardless of age", "A female lamb only", "A lamb older than two years"], "ml": ["ഒരു വയസ്സുള്ള ന്യൂനതയില്ലാത്ത ആൺകുഞ്ഞാട്", "പ്രായഭേദമില്ലാതെ ഏതു കുഞ്ഞാടും", "പെൺകുഞ്ഞാടു മാത്രം", "രണ്ടു വയസ്സിൽ കൂടുതലുള്ള കുഞ്ഞാട്"]}, "a": 0},
+{"unit": 1, "ch": 4, "q": {"en": "Where was the blood of the Passover lamb smeared for the angel of death to \"pass over\" the house?", "ml": "മരണത്തിന്റെ ദൂതൻ ഭവനത്തെ \"കടന്നുപോകാൻ\" പെസഹാക്കുഞ്ഞാടിന്റെ രക്തം എവിടെ പുരട്ടി?"}, "o": {"en": ["On the two doorposts and the lintel above the door", "On the roof of the house", "On the family's clothes", "On the kitchen floor"], "ml": ["വാതിലിന്റെ രണ്ടു കട്ടിളക്കാലുകളിലും മേൽപ്പടിയിലും", "വീടിന്റെ മേൽക്കൂരയിൽ", "കുടുംബാംഗങ്ങളുടെ വസ്ത്രത്തിൽ", "അടുക്കളയുടെ തറയിൽ"]}, "a": 0},
+{"unit": 1, "ch": 4, "q": {"en": "For how many days were the Jews to eat unleavened bread during the Passover observance?", "ml": "പെസഹാ ആചരണവേളയിൽ പുളിപ്പില്ലാത്ത അപ്പം എത്ര ദിവസം കഴിക്കണമായിരുന്നു?"}, "o": {"en": ["Seven days", "Three days", "Ten days", "One day"], "ml": ["ഏഴു ദിവസം", "മൂന്നു ദിവസം", "പത്തു ദിവസം", "ഒരു ദിവസം"]}, "a": 0},
+{"unit": 1, "ch": 4, "q": {"en": "According to the rule, a family celebrating the Passover at home needed at least how many members?", "ml": "ഭവനത്തിൽ പെസഹാ ആചരിക്കാൻ ഒരു കുടുംബത്തിൽ ചുരുങ്ങിയത് എത്ര അംഗങ്ങൾ വേണമായിരുന്നു?"}, "o": {"en": ["Not less than ten", "Not less than five", "Exactly two", "Not less than twenty"], "ml": ["പത്തിൽ കുറയാതെ", "അഞ്ചിൽ കുറയാതെ", "കൃത്യം രണ്ട്", "ഇരുപതിൽ കുറയാതെ"]}, "a": 0},
+{"unit": 1, "ch": 4, "q": {"en": "How many years, according to Exodus 12:40-41, were the Hebrews enslaved in Egypt?", "ml": "പുറപ്പാട് 12:40-41 പ്രകാരം യിസ്രായേല്യർ എത്ര വർഷം മിസ്രയീമിൽ അടിമകളായിരുന്നു?"}, "o": {"en": ["430 years", "400 years", "40 years", "70 years"], "ml": ["430 വർഷം", "400 വർഷം", "40 വർഷം", "70 വർഷം"]}, "a": 0},
+{"unit": 1, "ch": 4, "q": {"en": "About how many men, not counting women and children, left Egypt in the Exodus?", "ml": "സ്ത്രീകളെയും കുട്ടികളെയും ഒഴികെ ഏകദേശം എത്ര പുരുഷന്മാർ മിസ്രയീമിൽനിന്ന് പുറപ്പെട്ടു?"}, "o": {"en": ["About six lakh (600,000)", "About one lakh (100,000)", "About ten thousand", "About one million"], "ml": ["ഏകദേശം ആറു ലക്ഷം", "ഏകദേശം ഒരു ലക്ഷം", "ഏകദേശം പതിനായിരം", "ഏകദേശം പത്തു ലക്ഷം"]}, "a": 0},
+{"unit": 1, "ch": 4, "q": {"en": "In the New Testament, the Passover of the Old Testament came to indicate what?", "ml": "പുതിയനിയമത്തിൽ പഴയനിയമത്തിലെ പെസഹാ എന്തിനെയാണ് സൂചിപ്പിക്കുന്നത്?"}, "o": {"en": ["The redemption of sinners through Jesus Christ", "The founding of the Sunday School", "The building of the Jerusalem temple", "The appointment of the seventy elders"], "ml": ["യേശുക്രിസ്തുവഴിയുള്ള പാപികളുടെ വീണ്ടെടുപ്പ്", "സൺഡേസ്കൂളിന്റെ സ്ഥാപനം", "യെരുശലേം ദേവാലയത്തിന്റെ നിർമ്മാണം", "എഴുപത് മൂപ്പന്മാരുടെ നിയമനം"]}, "a": 0},
+{"unit": 1, "ch": 4, "q": {"en": "On what day did Jesus Christ, the true Passover Lamb, found the Holy Eucharist (Holy Qurbana)?", "ml": "സത്യ പെസഹാക്കുഞ്ഞാടായ യേശുക്രിസ്തു ഏതു ദിവസമാണ് വിശുദ്ധ കുർബാന സ്ഥാപിച്ചത്?"}, "o": {"en": ["On the day of the Passover, the day before His crucifixion", "On the day of His baptism", "Forty days after His resurrection", "On the day of His birth"], "ml": ["പെസഹാ ദിവസം, തന്റെ ക്രൂശീകരണത്തിന്റെ തലേദിവസം", "തന്റെ ജ്ഞാനസ്നാനദിവസം", "ഉയിർപ്പിനുശേഷം നാല്പതാം ദിവസം", "തന്റെ ജനനദിവസം"]}, "a": 0},
+{"unit": 1, "ch": 4, "q": {"en": "Who led the women of Israel in a song of victory with a tambourine after crossing the Red Sea?", "ml": "ചെങ്കടൽ കടന്നശേഷം സ്ത്രീകളെ തപ്പുകൊട്ടി വിജയഗാനം പാടി നയിച്ചത് ആര്?"}, "o": {"en": ["Miriam", "Zipporah", "Jochebed", "Deborah"], "ml": ["മിര്യാം", "സിപ്പോറ", "യോക്കേബേദ്", "ദെബോറാ"]}, "a": 0},
+{"unit": 1, "ch": 5, "q": {"en": "What did the Lord show Moses to make the bitter water of Marah sweet?", "ml": "മാറായിലെ കയ്പുവെള്ളം മധുരമാക്കാൻ കർത്താവ് മോശയ്ക്ക് കാണിച്ചുകൊടുത്തത് എന്ത്?"}, "o": {"en": ["A tree, to be cut and cast into the water", "A special herb to chew", "A rock to be struck", "A cloud to shade the water"], "ml": ["വെട്ടി വെള്ളത്തിലിടാൻ ഒരു വൃക്ഷം", "ചവയ്ക്കാൻ ഒരു പ്രത്യേക ഔഷധച്ചെടി", "അടിക്കാൻ ഒരു പാറ", "വെള്ളത്തിനു തണലേകാൻ ഒരു മേഘം"]}, "a": 0},
+{"unit": 1, "ch": 5, "q": {"en": "At Marah, what did the Lord declare about Himself (Exodus 15:26)?", "ml": "മാറായിൽ വച്ച് കർത്താവ് തന്നെക്കുറിച്ച് എന്ത് അരുളിച്ചെയ്തു (പുറപ്പാട് 15:26)?"}, "o": {"en": ["\"I am the Lord who heals you\"", "\"I am the Lord who feeds you\"", "\"I am the Lord who tests you\"", "\"I am the Lord who punishes you\""], "ml": ["\"ഞാൻ നിന്നെ സൗഖ്യമാക്കുന്ന യഹോവ ആകുന്നു\"", "\"ഞാൻ നിന്നെ പോഷിപ്പിക്കുന്ന യഹോവ ആകുന്നു\"", "\"ഞാൻ നിന്നെ പരീക്ഷിക്കുന്ന യഹോവ ആകുന്നു\"", "\"ഞാൻ നിന്നെ ശിക്ഷിക്കുന്ന യഹോവ ആകുന്നു\""]}, "a": 0},
+{"unit": 1, "ch": 5, "q": {"en": "What did manna taste like, according to the textbook?", "ml": "മന്നായ്ക്ക് എന്തിന്റെ രുചിയായിരുന്നു? (പാഠപുസ്തകം പ്രകാരം)"}, "o": {"en": ["Like wafers made with honey", "Like bitter herbs", "Like salted bread", "Like sour fruit"], "ml": ["തേൻ കൊണ്ടുള്ള അപ്പക്കഷണത്തിന്റെ രുചി", "കയ്പുള്ള ഔഷധച്ചെടിയുടെ രുചി", "ഉപ്പിട്ട അപ്പത്തിന്റെ രുചി", "പുളിച്ച പഴത്തിന്റെ രുചി"]}, "a": 0},
+{"unit": 1, "ch": 5, "q": {"en": "How much manna could each person gather per day, and how much was kept in the Ark as a memorial?", "ml": "ഓരോ വ്യക്തിക്കും ഒരു ദിവസം എത്ര മന്നാ ശേഖരിക്കാമായിരുന്നു, ഓർമ്മയ്ക്കായി പെട്ടകത്തിൽ എത്ര സൂക്ഷിച്ചു?"}, "o": {"en": ["About three quarts (one omer)", "About ten quarts", "About half a quart", "About one basketful"], "ml": ["ഏകദേശം മൂന്നു ക്വാർട്ട് (ഒരു ഓമെർ)", "ഏകദേശം പത്തു ക്വാർട്ട്", "അര ക്വാർട്ട് മാത്രം", "ഒരു കുട്ട നിറയെ"]}, "a": 0},
+{"unit": 1, "ch": 5, "q": {"en": "On the sixth day, how much manna could the people gather compared to other days, so they need not gather on Sabbath?", "ml": "ശബ്ബത്തിൽ ശേഖരിക്കേണ്ടതില്ലാത്തതിനാൽ ആറാം ദിവസം ജനത്തിന് മറ്റു ദിവസങ്ങളെ അപേക്ഷിച്ച് എത്ര മന്നാ ശേഖരിക്കാമായിരുന്നു?"}, "o": {"en": ["Twice as much", "Three times as much", "The same amount", "Half as much"], "ml": ["ഇരട്ടി", "മൂന്നിരട്ടി", "അതേ അളവ്", "പകുതി"]}, "a": 0},
+{"unit": 1, "ch": 5, "q": {"en": "At Horeb, when the people had no water, what did Moses do at God's command?", "ml": "ഹോരേബിൽ വെള്ളമില്ലാതെ വന്നപ്പോൾ ദൈവകല്പനപ്രകാരം മോശ എന്തു ചെയ്തു?"}, "o": {"en": ["He struck the rock, and water gushed out", "He prayed silently for three days", "He dug a well by hand", "He sent scouts to find a river"], "ml": ["പാറയെ അടിച്ചു, വെള്ളം പുറപ്പെട്ടു", "മൂന്നു ദിവസം മൗനമായി പ്രാർത്ഥിച്ചു", "സ്വന്തം കൈകൊണ്ട് ഒരു കിണർ കുഴിച്ചു", "നദി കണ്ടെത്താൻ ചാരന്മാരെ അയച്ചു"]}, "a": 0},
+{"unit": 1, "ch": 5, "q": {"en": "What do the names Massah and Meribah, given to that place, mean?", "ml": "ആ സ്ഥലത്തിന് നൽകിയ മസ്സാ, മെരീബാ എന്നീ പേരുകളുടെ അർത്ഥം എന്ത്?"}, "o": {"en": ["Test/temptation, and strife/quarrel", "Joy, and peace", "Bread, and water", "Victory, and rest"], "ml": ["പരീക്ഷ, കലഹം/വഴക്ക്", "സന്തോഷം, സമാധാനം", "അപ്പം, വെള്ളം", "വിജയം, വിശ്രമം"]}, "a": 0},
+{"unit": 1, "ch": 5, "q": {"en": "At Kadesh, why were Moses and Aaron punished and barred from entering the Promised Land?", "ml": "കാദേശിൽ വച്ച് മോശയും അഹറോനും ശിക്ഷിക്കപ്പെടുകയും വാഗ്ദത്തദേശത്ത് പ്രവേശിക്കുന്നതിൽനിന്ന് വിലക്കപ്പെടുകയും ചെയ്തത് എന്തുകൊണ്ട്?"}, "o": {"en": ["Moses struck the rock in anger instead of speaking to it, as God had commanded", "They refused to lead the people any further", "They worshipped a golden calf", "They disobeyed Pharaoh's command"], "ml": ["ദൈവം കല്പിച്ചതുപോലെ പാറയോട് സംസാരിക്കാതെ കോപത്തോടെ അടിച്ചതിനാൽ", "ജനത്തെ ഇനി നയിക്കാൻ വിസമ്മതിച്ചതിനാൽ", "സ്വർണ്ണക്കാളക്കുട്ടിയെ ആരാധിച്ചതിനാൽ", "ഫറവോന്റെ കല്പന അനുസരിക്കാതിരുന്നതിനാൽ"]}, "a": 0},
+{"unit": 1, "ch": 5, "q": {"en": "Who advised Moses to appoint judges over groups of thousands, hundreds, fifties and tens, to decentralize authority?", "ml": "ആയിരം, നൂറ്, അമ്പത്, പത്ത് എന്നിങ്ങനെയുള്ള സംഘങ്ങൾക്ക് ന്യായാധിപന്മാരെ നിയമിച്ച് അധികാരം വികേന്ദ്രീകരിക്കാൻ മോശയെ ഉപദേശിച്ചത് ആര്?"}, "o": {"en": ["Jethro, his father-in-law", "Aaron, his brother", "Joshua, his assistant", "The seventy elders"], "ml": ["മോശയുടെ അമ്മായിയപ്പൻ യിത്രോ", "സഹോദരൻ അഹറോൻ", "സഹായിയായ യോശുവ", "എഴുപത് മൂപ്പന്മാർ"]}, "a": 0},
+{"unit": 1, "ch": 5, "q": {"en": "How many elders, filled with God's spirit, did Moses later select as judges of the people of Israel?", "ml": "ദൈവാത്മാവിനാൽ നിറഞ്ഞ എത്ര മൂപ്പന്മാരെയാണ് മോശ പിന്നീട് യിസ്രായേൽ ജനത്തിന്റെ ന്യായാധിപന്മാരായി തിരഞ്ഞെടുത്തത്?"}, "o": {"en": ["Seventy", "Twelve", "Forty", "One hundred"], "ml": ["എഴുപത്", "പന്ത്രണ്ട്", "നാല്പത്", "നൂറ്"]}, "a": 0},
+{"unit": 1, "ch": 6, "q": {"en": "In the Parable of the Sower, on how many different types of ground did the seeds fall?", "ml": "വിതക്കാരന്റെ ഉപമയിൽ വിത്ത് എത്ര തരം നിലങ്ങളിൽ വീണു?"}, "o": {"en": ["Four: wayside, rocky ground, among thorns, and good soil", "Two: good soil and bad soil", "Three: sand, clay and rock", "Five, including a riverbank"], "ml": ["നാല്: വഴിയരികിൽ, പാറസ്ഥലത്ത്, മുള്ളിടയിൽ, നല്ലനിലത്ത്", "രണ്ട്: നല്ല മണ്ണിലും ചീത്ത മണ്ണിലും", "മൂന്ന്: മണൽ, കളിമണ്ണ്, പാറ", "അഞ്ച്, നദീതീരം ഉൾപ്പെടെ"]}, "a": 0},
+{"unit": 1, "ch": 6, "q": {"en": "What does the \"seed\" sown by the sower represent in the parable?", "ml": "ഉപമയിൽ വിതക്കാരൻ വിതച്ച \"വിത്ത്\" എന്തിനെ സൂചിപ്പിക്കുന്നു?"}, "o": {"en": ["The Word of God", "The Church", "Money", "The Apostles"], "ml": ["ദൈവവചനം", "സഭ", "പണം", "അപ്പോസ്തലന്മാർ"]}, "a": 0},
+{"unit": 1, "ch": 6, "q": {"en": "What happens to the seed that falls on the wayside?", "ml": "വഴിയരികിൽ വീഴുന്ന വിത്തിന് എന്ത് സംഭവിക്കുന്നു?"}, "o": {"en": ["The devil snatches away the word before it takes root in the heart", "It grows the fastest of all", "It produces a hundredfold", "It is eaten by fish"], "ml": ["ഹൃദയത്തിൽ വേരൂന്നും മുൻപേ പിശാച് വചനത്തെ തട്ടിക്കൊണ്ടുപോകുന്നു", "എല്ലാത്തിലും വേഗത്തിൽ വളരുന്നു", "നൂറുമേനി ഫലം നൽകുന്നു", "മത്സ്യങ്ങൾ അതു തിന്നുന്നു"]}, "a": 0},
+{"unit": 1, "ch": 6, "q": {"en": "What happens to the seed sown on rocky ground?", "ml": "പാറസ്ഥലത്ത് വീഴുന്ന വിത്തിന് എന്ത് സംഭവിക്കുന്നു?"}, "o": {"en": ["It is received with joy but withers under tribulation or persecution, having no root", "It never sprouts at all", "It grows into the tallest plant", "It is choked by thorns"], "ml": ["സന്തോഷത്തോടെ സ്വീകരിക്കപ്പെടുന്നെങ്കിലും വേരില്ലാത്തതിനാൽ പീഡനത്തിൽ വാടിപ്പോകുന്നു", "ഒരിക്കലും മുളയ്ക്കുന്നില്ല", "ഏറ്റവും ഉയരമുള്ള ചെടിയായി വളരുന്നു", "മുള്ളുകളാൽ ഞെരുക്കപ്പെടുന്നു"]}, "a": 0},
+{"unit": 1, "ch": 6, "q": {"en": "What happens to the seed sown among thorns?", "ml": "മുള്ളിടയിൽ വീഴുന്ന വിത്തിന് എന്ത് സംഭവിക്കുന്നു?"}, "o": {"en": ["The cares of the world and the deceitfulness of riches choke the word, making it unfruitful", "It grows faster than any other seed", "It is trampled by animals", "It falls into the sea"], "ml": ["ലോകത്തിന്റെ ചിന്തകളും സമ്പത്തിന്റെ വഞ്ചനയും വചനത്തെ ഞെരുക്കി നിഷ്ഫലമാക്കുന്നു", "മറ്റെല്ലാറ്റിനെക്കാളും വേഗത്തിൽ വളരുന്നു", "മൃഗങ്ങൾ ചവിട്ടിമെതിക്കുന്നു", "കടലിൽ വീഴുന്നു"]}, "a": 0},
+{"unit": 1, "ch": 6, "q": {"en": "What does the seed sown on good soil represent?", "ml": "നല്ല നിലത്തു വീഴുന്ന വിത്ത് എന്തിനെ സൂചിപ്പിക്കുന്നു?"}, "o": {"en": ["Those who hear and understand the word and produce fruit", "Those who only hear the word once", "Those who reject the word", "Those who plant seeds professionally"], "ml": ["വചനം കേട്ട് ഗ്രഹിച്ച് ഫലം പുറപ്പെടുവിക്കുന്നവർ", "ഒരിക്കൽ മാത്രം വചനം കേൾക്കുന്നവർ", "വചനം നിരസിക്കുന്നവർ", "തൊഴിലായി വിത്ത് നടുന്നവർ"]}, "a": 0},
+{"unit": 1, "ch": 6, "q": {"en": "According to Jesus (St. Matthew 13:11), why did He use parables to teach?", "ml": "ഉപമകൾ ഉപയോഗിച്ച് പഠിപ്പിച്ചതിനെക്കുറിച്ച് യേശു (വി. മത്തായി 13:11) എന്തു പറഞ്ഞു?"}, "o": {"en": ["To reveal the secrets of the Kingdom of Heaven to those who sought them", "Because the people could not understand plain speech at all", "To entertain the crowds only", "Because He was instructed to by the Pharisees"], "ml": ["സ്വർഗ്ഗരാജ്യത്തിന്റെ രഹസ്യങ്ങൾ അന്വേഷിക്കുന്നവർക്ക് വെളിപ്പെടുത്താൻ", "ജനത്തിന് സാധാരണ സംസാരം മനസ്സിലാക്കാൻ കഴിയാഞ്ഞതിനാൽ", "ജനക്കൂട്ടത്തെ വിനോദിപ്പിക്കാൻ മാത്രം", "പരീശന്മാരുടെ നിർദ്ദേശപ്രകാരം"]}, "a": 0},
+{"unit": 1, "ch": 7, "q": {"en": "On which mountain was Jesus Christ transfigured?", "ml": "ഏതു പർവ്വതത്തിലാണ് യേശുക്രിസ്തു രൂപാന്തരപ്പെട്ടത്?"}, "o": {"en": ["Mount Tabore (Tabor)", "Mount Sinai", "Mount Horeb", "Mount of Olives"], "ml": ["താബോർ പർവ്വതം", "സീനായി പർവ്വതം", "ഹോരേബ് പർവ്വതം", "ഒലിവുമല"]}, "a": 0},
+{"unit": 1, "ch": 7, "q": {"en": "Which three disciples accompanied Jesus up the mountain of Transfiguration?", "ml": "രൂപാന്തരീകരണ പർവ്വതത്തിൽ യേശുവിനോടൊപ്പം ഉണ്ടായിരുന്ന മൂന്ന് ശിഷ്യന്മാർ ആരെല്ലാം?"}, "o": {"en": ["Peter, James and John", "Peter, Andrew and Philip", "James, John and Thomas", "Peter, John and Judas"], "ml": ["പത്രോസ്, യാക്കോബ്, യോഹന്നാൻ", "പത്രോസ്, അന്ത്രയോസ്, ഫിലിപ്പോസ്", "യാക്കോബ്, യോഹന്നാൻ, തോമസ്", "പത്രോസ്, യോഹന്നാൻ, യൂദാസ്"]}, "a": 0},
+{"unit": 1, "ch": 7, "q": {"en": "Which two Old Testament figures appeared with Jesus at the Transfiguration?", "ml": "രൂപാന്തരീകരണവേളയിൽ യേശുവിനോടൊപ്പം പ്രത്യക്ഷപ്പെട്ട രണ്ടു പഴയനിയമ വ്യക്തികൾ ആരെല്ലാം?"}, "o": {"en": ["Moses and Elijah", "Abraham and Isaac", "Moses and Aaron", "Elijah and Elisha"], "ml": ["മോശയും ഏലിയാവും", "അബ്രാഹാമും യിസ്ഹാക്കും", "മോശയും അഹറോനും", "ഏലിയാവും എലീശയും"]}, "a": 0},
+{"unit": 1, "ch": 7, "q": {"en": "What were Moses and Elijah speaking with Jesus about?", "ml": "മോശയും ഏലിയാവും യേശുവുമായി എന്തിനെക്കുറിച്ചാണ് സംസാരിച്ചത്?"}, "o": {"en": ["The departure (crucifixion) He was about to accomplish at Jerusalem", "The building of the Temple", "The Ten Commandments", "The choosing of the twelve Apostles"], "ml": ["യെരൂശലേമിൽ വച്ച് സംഭവിക്കാനിരുന്ന തന്റെ വിയോഗം (ക്രൂശീകരണം)", "ദേവാലയത്തിന്റെ നിർമ്മാണം", "പത്തു കല്പനകൾ", "പന്ത്രണ്ട് അപ്പോസ്തലന്മാരുടെ തിരഞ്ഞെടുപ്പ്"]}, "a": 0},
+{"unit": 1, "ch": 7, "q": {"en": "What did Peter suggest making on the mountain during the Transfiguration?", "ml": "രൂപാന്തരീകരണവേളയിൽ പത്രോസ് പർവ്വതത്തിൽ എന്തു നിർമ്മിക്കാൻ നിർദ്ദേശിച്ചു?"}, "o": {"en": ["Three dwellings/tabernacles - one each for Jesus, Moses and Elijah", "A stone altar", "A new temple", "A memorial pillar"], "ml": ["യേശുവിനും മോശയ്ക്കും ഏലിയാവിനും ഓരോന്ന് വീതം മൂന്ന് കൂടാരങ്ങൾ", "കല്ലുകൊണ്ടുള്ള ഒരു ബലിപീഠം", "ഒരു പുതിയ ദേവാലയം", "ഒരു സ്മാരകസ്തംഭം"]}, "a": 0},
+{"unit": 1, "ch": 7, "q": {"en": "What did the voice from the cloud say at the Transfiguration?", "ml": "രൂപാന്തരീകരണവേളയിൽ മേഘത്തിൽനിന്നുള്ള ശബ്ദം എന്തു പറഞ്ഞു?"}, "o": {"en": ["\"This is my Son, the Beloved; listen to Him!\"", "\"This is my servant, obey him\"", "\"This is the law, follow it\"", "\"This is the prophet, believe him\""], "ml": ["\"ഇവൻ എന്റെ പ്രിയപുത്രൻ; ഇവന്റെ വാക്കു കേൾക്കുവിൻ!\"", "\"ഇവൻ എന്റെ ദാസൻ, ഇവനെ അനുസരിക്കുവിൻ\"", "\"ഇത് ന്യായപ്രമാണമാണ്, ഇത് പിന്തുടരുവിൻ\"", "\"ഇവൻ പ്രവാചകൻ, ഇവനെ വിശ്വസിക്കുവിൻ\""]}, "a": 0},
+{"unit": 1, "ch": 7, "q": {"en": "Who was waiting for Jesus and the disciples when they came down the mountain?", "ml": "പർവ്വതത്തിൽനിന്ന് ഇറങ്ങിവന്നപ്പോൾ യേശുവിനെയും ശിഷ്യന്മാരെയും കാത്തിരുന്നത് ആരായിരുന്നു?"}, "o": {"en": ["A crowd needing healing from their diseases and sufferings", "The Roman soldiers", "The Pharisees, ready to arrest Him", "No one; the mountain was deserted"], "ml": ["രോഗങ്ങളിൽനിന്നും കഷ്ടതകളിൽനിന്നും സൗഖ്യം തേടുന്ന ഒരു ജനക്കൂട്ടം", "റോമൻ പടയാളികൾ", "അറസ്റ്റ് ചെയ്യാൻ തയ്യാറായ പരീശന്മാർ", "ആരുമില്ല; പർവ്വതം വിജനമായിരുന്നു"]}, "a": 0},
+{"unit": 1, "ch": 7, "q": {"en": "By which other name is the Feast of the Transfiguration also known?", "ml": "രൂപാന്തരീകരണ പെരുന്നാൾ മറ്റേതു പേരിലും അറിയപ്പെടുന്നു?"}, "o": {"en": ["The Feast of Tabernacle(s)", "The Feast of Trumpets", "The Feast of Lights", "The Feast of the Cross"], "ml": ["കൂടാരപ്പെരുന്നാൾ", "കാഹളപ്പെരുന്നാൾ", "ദീപപ്പെരുന്നാൾ", "ശ്ലീബാപ്പെരുന്നാൾ"]}, "a": 0},
+{"unit": 1, "ch": 8, "q": {"en": "In which two Gospel passages is the Lord's Prayer recorded?", "ml": "കർത്താവിന്റെ പ്രാർത്ഥന ഏതു രണ്ടു സുവിശേഷഭാഗങ്ങളിൽ രേഖപ്പെടുത്തിയിരിക്കുന്നു?"}, "o": {"en": ["St. Matthew 6:9-13 and St. Luke 11:2-4", "St. Mark 1:35 and St. John 17", "St. Matthew 5:3-10 and St. Luke 6:20", "St. John 10:1-15 and St. Mark 9:2-9"], "ml": ["വി. മത്തായി 6:9-13, വി. ലൂക്കോസ് 11:2-4", "വി. മർക്കോസ് 1:35, വി. യോഹന്നാൻ 17", "വി. മത്തായി 5:3-10, വി. ലൂക്കോസ് 6:20", "വി. യോഹന്നാൻ 10:1-15, വി. മർക്കോസ് 9:2-9"]}, "a": 0},
+{"unit": 1, "ch": 8, "q": {"en": "How many petitions (requests) are there in the Lord's Prayer, according to the lesson?", "ml": "പാഠപ്രകാരം കർത്താവിന്റെ പ്രാർത്ഥനയിൽ എത്ര അപേക്ഷകൾ ഉണ്ട്?"}, "o": {"en": ["Six", "Three", "Ten", "Four"], "ml": ["ആറ്", "മൂന്ന്", "പത്ത്", "നാല്"]}, "a": 0},
+{"unit": 1, "ch": 8, "q": {"en": "What do the first three petitions of the Lord's Prayer express our hope for?", "ml": "കർത്താവിന്റെ പ്രാർത്ഥനയിലെ ആദ്യത്തെ മൂന്ന് അപേക്ഷകൾ എന്തിനെക്കുറിച്ചുള്ള പ്രത്യാശ പ്രകടിപ്പിക്കുന്നു?"}, "o": {"en": ["The Kingdom of God, to be fully established at the second coming of Jesus Christ", "Our daily food and clothing", "Forgiveness of our enemies only", "Protection from natural disasters"], "ml": ["യേശുക്രിസ്തുവിന്റെ രണ്ടാം വരവിൽ പൂർണ്ണമായി സ്ഥാപിതമാകുന്ന ദൈവരാജ്യം", "നമ്മുടെ ദിനംപ്രതിയുള്ള ഭക്ഷണവും വസ്ത്രവും", "ശത്രുക്കളുടെ മാപ്പ് മാത്രം", "പ്രകൃതിദുരന്തങ്ങളിൽനിന്നുള്ള സംരക്ഷണം"]}, "a": 0},
+{"unit": 1, "ch": 8, "q": {"en": "The last three petitions of the Lord's Prayer deal with what?", "ml": "കർത്താവിന്റെ പ്രാർത്ഥനയിലെ അവസാനത്തെ മൂന്ന് അപേക്ഷകൾ എന്തിനെക്കുറിച്ചാണ്?"}, "o": {"en": ["The basic needs of human beings on this earth", "Only the needs of the Apostles", "The needs of angels", "The needs of the departed alone"], "ml": ["ഭൂമിയിലെ മനുഷ്യരുടെ അടിസ്ഥാന ആവശ്യങ്ങൾ", "അപ്പോസ്തലന്മാരുടെ ആവശ്യങ്ങൾ മാത്രം", "മാലാഖമാരുടെ ആവശ്യങ്ങൾ", "മരിച്ചവരുടെ ആവശ്യങ്ങൾ മാത്രം"]}, "a": 0},
+{"unit": 1, "ch": 8, "q": {"en": "What does \"Give us this day our daily bread\" teach us to submit to God's Kingdom?", "ml": "\"ഞങ്ങൾക്ക് ആവശ്യമുള്ള ആഹാരം ഇന്നു തരേണമേ\" എന്ന അപേക്ഷ എന്തിനെ ദൈവരാജ്യത്തിന് കീഴ്പ്പെടുത്താൻ പഠിപ്പിക്കുന്നു?"}, "o": {"en": ["Our temporal (material) concerns, focusing on essentials rather than luxury", "Our sins and past mistakes", "Our relationships with enemies", "Our future plans for wealth"], "ml": ["ആർഭാടത്തിനുപകരം അനിവാര്യതകളിൽ ശ്രദ്ധിച്ചുകൊണ്ടുള്ള നമ്മുടെ ലൗകിക കാര്യങ്ങൾ", "നമ്മുടെ പാപങ്ങളും കഴിഞ്ഞകാല തെറ്റുകളും", "ശത്രുക്കളുമായുള്ള ബന്ധങ്ങൾ", "സമ്പത്തിനെക്കുറിച്ചുള്ള ഭാവി പദ്ധതികൾ"]}, "a": 0},
+{"unit": 1, "ch": 8, "q": {"en": "What does the prayer \"forgive us our debts, as we have forgiven our debtors\" teach about God's forgiveness?", "ml": "\"ഞങ്ങളുടെ കടക്കാരോടു ഞങ്ങൾ ക്ഷമിച്ചിരിക്കുന്നതുപോലെ ഞങ്ങളുടെ കടങ്ങളും പാപങ്ങളും ഞങ്ങളോടു ക്ഷമിക്കേണമേ\" എന്ന അപേക്ഷ ദൈവക്ഷമയെക്കുറിച്ച് എന്തു പഠിപ്പിക്കുന്നു?"}, "o": {"en": ["It is always a gift given freely to the undeserving", "It must be earned through good deeds", "It is granted only once in a lifetime", "It applies only to minor sins"], "ml": ["അത് അർഹതയില്ലാത്തവർക്കുപോലും സൗജന്യമായി നൽകുന്ന ദാനമാണ്", "അത് നല്ല പ്രവൃത്തികളിലൂടെ നേടിയെടുക്കണം", "ജീവിതത്തിൽ ഒരിക്കൽ മാത്രമേ ലഭിക്കൂ", "ചെറിയ പാപങ്ങൾക്കു മാത്രമേ ബാധകമാകൂ"]}, "a": 0},
+{"unit": 1, "ch": 8, "q": {"en": "What does the closing doxology, \"For Thine is the Kingdom, Power and Glory for ever and ever,\" express?", "ml": "\"രാജ്യവും ബലവും മഹത്വവും എന്നേക്കും നിനക്കുള്ളതല്ലോ\" എന്ന ഉപസംഹാരം എന്ത് പ്രകടിപ്പിക്കുന്നു?"}, "o": {"en": ["A sense of total surrender and dedication to God", "A request for earthly kingship", "A farewell greeting to the congregation", "A plea for material wealth"], "ml": ["ദൈവത്തോടുള്ള പൂർണ്ണ സമർപ്പണവും ആത്മസമർപ്പണവും", "ഭൂമിയിലെ രാജത്വത്തിനായുള്ള അപേക്ഷ", "സഭാജനത്തോടുള്ള വിടചൊല്ലൽ", "ഭൗതികസമ്പത്തിനായുള്ള അപേക്ഷ"]}, "a": 0},
+{"unit": 1, "ch": 8, "q": {"en": "In which part of the Holy Qurbana is the Lord's Prayer said?", "ml": "വിശുദ്ധ കുർബാനയിലെ ഏതു ഭാഗത്താണ് കർത്താവിന്റെ പ്രാർത്ഥന ചൊല്ലുന്നത്?"}, "o": {"en": ["The fourth section of the Holy Qurbana", "Only at the very beginning of the service", "Only during the sermon", "It is not part of the Holy Qurbana"], "ml": ["വിശുദ്ധ കുർബാനയിലെ നാലാം ഭാഗം", "ശുശ്രൂഷയുടെ തുടക്കത്തിൽ മാത്രം", "പ്രസംഗവേളയിൽ മാത്രം", "വിശുദ്ധ കുർബാനയുടെ ഭാഗമല്ല"]}, "a": 0},
+{"unit": 1, "ch": 9, "q": {"en": "Which Psalm is a beautiful song in which King David, once a shepherd himself, extols God as \"The Shepherd\"?", "ml": "ഇടയനായിരുന്ന ദാവീദ് രാജാവ് ദൈവത്തെ \"ഇടയൻ\" എന്നു വാഴ്ത്തുന്ന മനോഹര ഗാനം ഏതു സങ്കീർത്തനത്തിലാണ്?"}, "o": {"en": ["Psalm 23", "Psalm 51", "Psalm 118", "Psalm 100"], "ml": ["സങ്കീർത്തനം 23", "സങ്കീർത്തനം 51", "സങ്കീർത്തനം 118", "സങ്കീർത്തനം 100"]}, "a": 0},
+{"unit": 1, "ch": 9, "q": {"en": "According to Psalm 23, which of these is NOT listed as a quality of the Good Shepherd?", "ml": "സങ്കീർത്തനം 23 പ്രകാരം, നല്ല ഇടയന്റെ ഗുണങ്ങളിൽ ഉൾപ്പെടാത്തത് ഏത്?"}, "o": {"en": ["He leads the sheep to a desolate land to test them", "He makes the sheep lie down in green pastures", "He leads them to still waters", "He restores the soul of the sheep"], "ml": ["ആടുകളെ പരീക്ഷിക്കാൻ ശൂന്യദേശത്തേക്ക് നയിക്കുന്നു", "ആടുകളെ പച്ചയായ പുൽപ്പുറങ്ങളിൽ കിടത്തുന്നു", "സ്വസ്ഥജലാശയത്തിനരികിലേക്ക് നയിക്കുന്നു", "ആടിന്റെ പ്രാണനെ യഥാസ്ഥാനപ്പെടുത്തുന്നു"]}, "a": 0},
+{"unit": 1, "ch": 9, "q": {"en": "In Psalm 23, what are the rod and staff used by the shepherd for?", "ml": "സങ്കീർത്തനം 23-ൽ, ഇടയൻ വടിയും കോലും എന്തിനുവേണ്ടിയാണ് ഉപയോഗിക്കുന്നത്?"}, "o": {"en": ["To help the sheep find food and to protect and guide them", "To punish the sheep constantly", "To mark ownership of the sheep", "To measure the sheep's weight"], "ml": ["ആടുകൾക്ക് ആഹാരം കണ്ടെത്താൻ സഹായിക്കാനും സംരക്ഷിക്കാനും വഴിനടത്താനും", "ആടുകളെ എപ്പോഴും ശിക്ഷിക്കാൻ", "ആടുകളുടെ ഉടമസ്ഥാവകാശം അടയാളപ്പെടുത്താൻ", "ആടുകളുടെ ഭാരം അളക്കാൻ"]}, "a": 0},
+{"unit": 1, "ch": 9, "q": {"en": "There are seven \"I am...\" statements of Jesus Christ recorded in the Gospel of St. John. Which one is \"I am the door\"?", "ml": "വി. യോഹന്നാന്റെ സുവിശേഷത്തിൽ യേശുക്രിസ്തുവിന്റെ ഏഴ് \"ഞാൻ ആകുന്നു\" പ്രസ്താവനകൾ ഉണ്ട്. \"ഞാൻ വാതിൽ ആകുന്നു\" എന്നത് ഏതു വാക്യത്തിൽ?"}, "o": {"en": ["St. John 10:9", "St. John 6:35", "St. John 8:12", "St. John 14:6"], "ml": ["വി. യോഹന്നാൻ 10:9", "വി. യോഹന്നാൻ 6:35", "വി. യോഹന്നാൻ 8:12", "വി. യോഹന്നാൻ 14:6"]}, "a": 0},
+{"unit": 1, "ch": 9, "q": {"en": "Which of the seven \"I am\" sayings is found in St. John 15:5?", "ml": "ഏഴ് \"ഞാൻ ആകുന്നു\" വാക്യങ്ങളിൽ ഏതാണ് വി. യോഹന്നാൻ 15:5-ൽ കാണുന്നത്?"}, "o": {"en": ["\"I am the vine, you are the branches\"", "\"I am the bread of life\"", "\"I am the light of the world\"", "\"I am the resurrection and the life\""], "ml": ["\"ഞാൻ മുന്തിരിവള്ളി ആകുന്നു, നിങ്ങൾ കൊമ്പുകളും\"", "\"ഞാൻ ജീവന്റെ അപ്പം ആകുന്നു\"", "\"ഞാൻ ലോകത്തിന്റെ വെളിച്ചം ആകുന്നു\"", "\"ഞാൻ പുനരുത്ഥാനവും ജീവനും ആകുന്നു\""]}, "a": 0},
+{"unit": 1, "ch": 9, "q": {"en": "According to St. John 10:1-15, how does a sheep recognize which shepherd to follow?", "ml": "വി. യോഹന്നാൻ 10:1-15 പ്രകാരം, ആടുകൾ ഏതു ഇടയനെ പിന്തുടരണമെന്ന് എങ്ങനെ തിരിച്ചറിയുന്നു?"}, "o": {"en": ["The sheep recognize the voice of their own shepherd", "By the color of the shepherd's clothes", "By the shepherd's height", "By the shepherd's staff design"], "ml": ["സ്വന്തം ഇടയന്റെ ശബ്ദം തിരിച്ചറിയുന്നു", "ഇടയന്റെ വസ്ത്രത്തിന്റെ നിറംകൊണ്ട്", "ഇടയന്റെ ഉയരംകൊണ്ട്", "ഇടയന്റെ വടിയുടെ രൂപംകൊണ്ട്"]}, "a": 0},
+{"unit": 1, "ch": 9, "q": {"en": "What is the unique nature of the Good Shepherd, as opposed to a hired hand?", "ml": "കൂലിക്കാരനിൽനിന്നു വ്യത്യസ്തമായി നല്ല ഇടയന്റെ പ്രത്യേകത എന്താണ്?"}, "o": {"en": ["He lays down His life for the sake of His sheep, while the hired hand runs away from the wolf", "He charges a fee for his services", "He only works during the day", "He owns more sheep than any other shepherd"], "ml": ["ചെന്നായ വരുമ്പോൾ കൂലിക്കാരൻ ഓടിപ്പോകുമ്പോൾ അവൻ ആടുകൾക്കുവേണ്ടി ജീവൻ കൊടുക്കുന്നു", "സേവനത്തിന് പ്രതിഫലം ഈടാക്കുന്നു", "പകൽ മാത്രം ജോലി ചെയ്യുന്നു", "മറ്റേതു ഇടയനെക്കാളും കൂടുതൽ ആടുകളെ സ്വന്തമാക്കുന്നു"]}, "a": 0},
+{"unit": 1, "ch": 10, "q": {"en": "In which chapters of St. Matthew's Gospel is the Sermon on the Mount recorded?", "ml": "വി. മത്തായിയുടെ സുവിശേഷത്തിലെ ഏതു അധ്യായങ്ങളിലാണ് ഗിരിപ്രഭാഷണം രേഖപ്പെടുത്തിയിരിക്കുന്നത്?"}, "o": {"en": ["Chapters 5, 6 and 7", "Chapters 1, 2 and 3", "Chapters 13 and 14", "Chapters 26 and 27"], "ml": ["അധ്യായം 5, 6, 7", "അധ്യായം 1, 2, 3", "അധ്യായം 13, 14", "അധ്യായം 26, 27"]}, "a": 0},
+{"unit": 1, "ch": 10, "q": {"en": "The Beatitudes, at the beginning of the Sermon on the Mount, are found in which verses?", "ml": "ഗിരിപ്രഭാഷണത്തിന്റെ ആരംഭത്തിലെ അഷ്ടഭാഗ്യങ്ങൾ (Beatitudes) ഏതു വാക്യങ്ങളിലാണ്?"}, "o": {"en": ["St. Matthew 5:3-10", "St. Matthew 6:9-13", "St. Matthew 7:1-6", "St. Matthew 13:3-9"], "ml": ["വി. മത്തായി 5:3-10", "വി. മത്തായി 6:9-13", "വി. മത്തായി 7:1-6", "വി. മത്തായി 13:3-9"]}, "a": 0},
+{"unit": 1, "ch": 10, "q": {"en": "What does it mean to be \"poor in spirit\", the first beatitude?", "ml": "അഷ്ടഭാഗ്യങ്ങളിലെ ആദ്യത്തേതായ \"ആത്മാവിൽ ദരിദ്രർ\" എന്നതിന്റെ അർത്ഥം എന്ത്?"}, "o": {"en": ["To be always humble before God, never proud, recognizing all good gifts come from Him", "To be financially poor", "To lack knowledge of the scriptures", "To be weak in physical health"], "ml": ["എല്ലാ നല്ല ദാനങ്ങളും ദൈവത്തിൽനിന്നാണെന്ന് തിരിച്ചറിഞ്ഞ് എപ്പോഴും ദൈവസന്നിധിയിൽ താഴ്മയുള്ളവരാകുക", "സാമ്പത്തികമായി ദരിദ്രരാകുക", "വേദപുസ്തക പരിജ്ഞാനമില്ലാതിരിക്കുക", "ശാരീരികമായി ബലഹീനരാകുക"]}, "a": 0},
+{"unit": 1, "ch": 10, "q": {"en": "What does Jesus mean by calling His followers \"the light and salt of the earth\"?", "ml": "തന്റെ അനുയായികളെ \"ഭൂമിയുടെ ഉപ്പും വെളിച്ചവും\" എന്നു വിളിച്ചതിന്റെ അർത്ഥം എന്ത്?"}, "o": {"en": ["We should be useful to others, like light that guides and salt that gives taste and preserves", "We should shine brighter than the sun", "We should avoid contact with the world", "We should always eat salty food"], "ml": ["വഴികാട്ടുന്ന വെളിച്ചവും രുചി നൽകി സൂക്ഷിക്കുന്ന ഉപ്പും പോലെ നാം മറ്റുള്ളവർക്ക് ഉപകാരപ്രദമാകണം", "സൂര്യനെക്കാൾ പ്രകാശിക്കണം", "ലോകവുമായുള്ള ബന്ധം ഒഴിവാക്കണം", "എപ്പോഴും ഉപ്പിട്ട ഭക്ഷണം കഴിക്കണം"]}, "a": 0},
+{"unit": 1, "ch": 10, "q": {"en": "How did Jesus reinterpret the commandment \"You shall not murder\"?", "ml": "\"കൊല ചെയ്യരുത്\" എന്ന കല്പനയെ യേശു എങ്ങനെ പുനർവ്യാഖ്യാനിച്ചു?"}, "o": {"en": ["Even anger against, or abusive words toward, another person invites judgment", "He abolished the commandment entirely", "He said only physical murder matters, nothing else", "He said it applied only to soldiers"], "ml": ["മറ്റൊരാളോടുള്ള കോപവും അപമാനവാക്കുകളും പോലും ന്യായവിധിക്ക് ഇടയാക്കും", "കല്പന പൂർണ്ണമായും റദ്ദാക്കി", "ശാരീരികമായ കൊലപാതകം മാത്രമേ പ്രശ്നമുള്ളൂ എന്നു പറഞ്ഞു", "ഇത് പടയാളികൾക്കു മാത്രം ബാധകമാണെന്നു പറഞ്ഞു"]}, "a": 0},
+{"unit": 1, "ch": 10, "q": {"en": "In place of \"an eye for an eye and a tooth for a tooth\", what did Jesus teach?", "ml": "\"കണ്ണിനു പകരം കണ്ണ്, പല്ലിനു പകരം പല്ല്\" എന്നതിനു പകരം യേശു എന്താണ് പഠിപ്പിച്ചത്?"}, "o": {"en": ["Do not resist an evildoer; turn the other cheek and love your enemies", "Take exactly double revenge", "Report every wrong to the authorities", "Avoid all conflict by staying silent forever"], "ml": ["ദുഷ്ടനോട് എതിർക്കരുത്; മറ്റേ കവിളും കാണിക്കുകയും ശത്രുക്കളെ സ്നേഹിക്കുകയും ചെയ്യുക", "കൃത്യമായി ഇരട്ടി പ്രതികാരം ചെയ്യുക", "എല്ലാ തെറ്റും അധികാരികളെ അറിയിക്കുക", "എന്നും മൗനമായിരുന്ന് സംഘർഷം ഒഴിവാക്കുക"]}, "a": 0},
+{"unit": 1, "ch": 10, "q": {"en": "What did Jesus teach about true prayer and fasting (St. Matthew 6:5-7:11)?", "ml": "സത്യപ്രാർത്ഥനയെയും ഉപവാസത്തെയും കുറിച്ച് യേശു എന്തു പഠിപ്പിച്ചു (വി. മത്തായി 6:5-7:11)?"}, "o": {"en": ["They should come from a sincere heart, not be done to show off before others", "They should always be done publicly in the marketplace", "Only priests are permitted to pray or fast", "Fasting is optional and prayer is compulsory"], "ml": ["മറ്റുള്ളവരെ കാണിക്കാനല്ല, ആത്മാർത്ഥമായ ഹൃദയത്തിൽനിന്നായിരിക്കണം", "എപ്പോഴും ചന്തസ്ഥലത്ത് പരസ്യമായി ചെയ്യണം", "പുരോഹിതന്മാർക്കു മാത്രമേ പ്രാർത്ഥിക്കാനോ ഉപവസിക്കാനോ അനുവാദമുള്ളൂ", "ഉപവാസം ഐച്ഛികവും പ്രാർത്ഥന നിർബന്ധവുമാണ്"]}, "a": 0},
+{"unit": 1, "ch": 10, "q": {"en": "According to Jesus's teaching on judging others (St. Matthew 7:1-5), who alone is the Judge?", "ml": "മറ്റുള്ളവരെ ന്യായം വിധിക്കുന്നതിനെക്കുറിച്ചുള്ള യേശുവിന്റെ പഠിപ്പിക്കൽ പ്രകാരം (വി. മത്തായി 7:1-5) ന്യായാധിപൻ ആര് മാത്രമാണ്?"}, "o": {"en": ["God alone", "The high priest", "Every believer, of one another", "The Roman governor"], "ml": ["ദൈവം മാത്രം", "മഹാപുരോഹിതൻ", "ഓരോ വിശ്വാസിയും പരസ്പരം", "റോമൻ ഗവർണ്ണർ"]}, "a": 0},
+{"unit": 2, "ch": 11, "q": {"en": "What is the \"tabernacle of the righteous\" proclaimed just before the Old Testament reading?", "ml": "പഴയനിയമ വായനയ്ക്കു തൊട്ടുമുൻപ് പ്രഖ്യാപിക്കപ്പെടുന്ന \"നീതിമാന്മാരുടെ കൂടാരം\" എന്താണ്?"}, "o": {"en": ["The Holy Church", "The Ark of the Covenant", "The Temple of Jerusalem", "Heaven itself"], "ml": ["വിശുദ്ധ സഭ", "ഉടമ്പടിയുടെ പെട്ടകം", "യെരൂശലേം ദേവാലയം", "സ്വർഗ്ഗം തന്നെ"]}, "a": 0},
+{"unit": 2, "ch": 11, "q": {"en": "The proclamation before the Old Testament reading says, \"The song of glory and salvation... the Holy Spirit through David did sing.\" What does this \"song of glory and salvation\" refer to?", "ml": "പഴയനിയമ വായനയ്ക്കു മുൻപുള്ള പ്രഖ്യാപനം \"സ്തുതിയുടെയും രക്ഷയുടെയും ഗീതം... പരിശുദ്ധാത്മാവ് ദാവീദ് മുഖാന്തരം ആലപിച്ചു\" എന്നു പറയുന്നു. ഈ \"സ്തുതിയുടെയും രക്ഷയുടെയും ഗീതം\" എന്തിനെ സൂചിപ്പിക്കുന്നു?"}, "o": {"en": ["The Word of God", "A hymn composed by David alone with no divine inspiration", "The national anthem of Israel", "A song sung only at funerals"], "ml": ["ദൈവവചനം", "ദൈവികപ്രചോദനം കൂടാതെ ദാവീദ് മാത്രം രചിച്ച ഒരു ഗാനം", "യിസ്രായേലിന്റെ ദേശീയഗാനം", "മരണാനന്തര ശുശ്രൂഷയിൽ മാത്രം പാടുന്ന ഗാനം"]}, "a": 0},
+{"unit": 2, "ch": 11, "q": {"en": "Which Psalm verse is the \"verse to be memorised\" for this lesson on Old Testament readings?", "ml": "പഴയനിയമ വായനയെക്കുറിച്ചുള്ള ഈ പാഠത്തിലെ \"മനഃപാഠവാക്യം\" ഏത് സങ്കീർത്തന വാക്യമാണ്?"}, "o": {"en": ["Psalm 118:15-16", "Psalm 23:1", "Psalm 51:1", "Psalm 100:1"], "ml": ["സങ്കീർത്തനം 118:15-16", "സങ്കീർത്തനം 23:1", "സങ്കീർത്തനം 51:1", "സങ്കീർത്തനം 100:1"]}, "a": 0},
+{"unit": 2, "ch": 11, "q": {"en": "Which of the following books is NOT usually a source for the Old Testament readings in the Holy Qurbana, according to the lesson's list?", "ml": "പാഠത്തിലെ പട്ടിക പ്രകാരം വിശുദ്ധ കുർബാനയിലെ പഴയനിയമ വായനയ്ക്ക് സാധാരണ ഉപയോഗിക്കാത്ത പുസ്തകം ഏത്?"}, "o": {"en": ["The Book of Revelation", "Exodus", "Psalms", "Isaiah"], "ml": ["വെളിപാട് പുസ്തകം", "പുറപ്പാട്", "സങ്കീർത്തനങ്ങൾ", "യെശയ്യാവ്"]}, "a": 0},
+{"unit": 2, "ch": 12, "q": {"en": "At the northern end of the Holy of Holies, readings are taken from which books?", "ml": "വിശുദ്ധസ്ഥലത്തിന്റെ വടക്കേ അറ്റത്തുനിന്നുള്ള വായന ഏതു പുസ്തകങ്ങളിൽനിന്നാണ്?"}, "o": {"en": ["The Acts of the Apostles and the General Epistles (Peter/John/Jude/James)", "Only the Epistles of St. Paul", "Only the Book of Revelation", "The Torah of Moses"], "ml": ["അപ്പോസ്തലപ്രവൃത്തികളും പൊതു ലേഖനങ്ങളും (പത്രോസ്/യോഹന്നാൻ/യൂദാ/യാക്കോബ്)", "വി. പൗലോസിന്റെ ലേഖനങ്ങൾ മാത്രം", "വെളിപാട് പുസ്തകം മാത്രം", "മോശയുടെ ന്യായപ്രമാണം"]}, "a": 0},
+{"unit": 2, "ch": 12, "q": {"en": "At the southern end of the Holy of Holies, the reading is always from which epistles?", "ml": "വിശുദ്ധസ്ഥലത്തിന്റെ തെക്കേ അറ്റത്തുനിന്നുള്ള വായന എപ്പോഴും ഏതു ലേഖനങ്ങളിൽനിന്നാണ്?"}, "o": {"en": ["The fourteen Epistles of St. Paul", "The Epistle of St. James only", "The Book of Genesis", "The Psalms of David"], "ml": ["വി. പൗലോസിന്റെ പതിനാലു ലേഖനങ്ങൾ", "വി. യാക്കോബിന്റെ ലേഖനം മാത്രം", "ഉല്പത്തി പുസ്തകം", "ദാവീദിന്റെ സങ്കീർത്തനങ്ങൾ"]}, "a": 0},
+{"unit": 2, "ch": 12, "q": {"en": "What do the words \"Habibai\" and \"Ahai\", used by the deacon to address the congregation, mean?", "ml": "സഭാജനത്തെ അഭിസംബോധന ചെയ്യാൻ ശെമ്മാശൻ ഉപയോഗിക്കുന്ന \"ഹബീബായ്\", \"അഹായ്\" എന്നീ വാക്കുകളുടെ അർത്ഥം എന്ത്?"}, "o": {"en": ["\"My beloved\" and \"my brethren\"", "\"My enemies\" and \"my rivals\"", "\"My teachers\" and \"my elders\"", "\"My children\" and \"my servants\""], "ml": ["\"എന്റെ പ്രിയരേ\", \"എന്റെ സഹോദരരേ\"", "\"എന്റെ ശത്രുക്കളേ\", \"എന്റെ എതിരാളികളേ\"", "\"എന്റെ ഗുരുക്കന്മാരേ\", \"എന്റെ മുതിർന്നവരേ\"", "\"എന്റെ കുഞ്ഞുങ്ങളേ\", \"എന്റെ ദാസരേ\""]}, "a": 0},
+{"unit": 2, "ch": 12, "q": {"en": "What is the correct response when the reader proclaims, \"The lesson from the Acts of the Holy Apostles, Habibai\"?", "ml": "വായനക്കാരൻ \"വിശുദ്ധ അപ്പോസ്തലന്മാരുടെ പ്രവൃത്തികളിൽനിന്നുള്ള പാഠം, ഹബീബായ്\" എന്നു പ്രഖ്യാപിക്കുമ്പോൾ ശരിയായ പ്രത്യുത്തരം ഏത്?"}, "o": {"en": ["\"Glory be to the Lord of the Apostles and His mercy be upon us forever\"", "\"Amen, so be it forever\"", "\"Blessed is He who cometh\"", "\"Holy, holy, holy\""], "ml": ["\"അപ്പോസ്തലന്മാരുടെ കർത്താവിന് സ്തുതി, അവിടുത്തെ കരുണ എന്നേക്കും ഞങ്ങളുടെമേൽ ഉണ്ടാകട്ടെ\"", "\"ആമ്മേൻ, എന്നേക്കും അങ്ങനെയാകട്ടെ\"", "\"വരുന്നവൻ അനുഗ്രഹിക്കപ്പെട്ടവൻ\"", "\"പരിശുദ്ധൻ, പരിശുദ്ധൻ, പരിശുദ്ധൻ\""]}, "a": 0},
+{"unit": 2, "ch": 13, "q": {"en": "The prayer \"How good it is to give thanks to Thee, O Lord...\" is a hymn of praise usually included in which canonical hour?", "ml": "\"കർത്താവേ, നിനക്കു സ്തോത്രം ചെയ്യുന്നത് നല്ലതാകുന്നു...\" എന്ന സ്തുതിഗീതം സാധാരണ ഏതു കാനോനിക നമസ്കാരത്തിന്റെ ഭാഗമാണ്?"}, "o": {"en": ["Matins (morning prayer)", "Vespers (evening prayer)", "Compline (night prayer)", "None (ninth hour)"], "ml": ["പ്രഭാത നമസ്കാരം (Matins)", "സന്ധ്യാ നമസ്കാരം (Vespers)", "രാത്രി നമസ്കാരം (Compline)", "ഒൻപതാംമണി നമസ്കാരം (None)"]}, "a": 0},
+{"unit": 2, "ch": 13, "q": {"en": "Which Psalm has close similarity with this prayer of praise?", "ml": "ഈ സ്തുതിപ്രാർത്ഥനയ്ക്ക് ഏതു സങ്കീർത്തനവുമായി അടുത്ത സാമ്യമുണ്ട്?"}, "o": {"en": ["Psalm 92:1-3", "Psalm 23:1-3", "Psalm 51:1-3", "Psalm 150:1-3"], "ml": ["സങ്കീർത്തനം 92:1-3", "സങ്കീർത്തനം 23:1-3", "സങ്കീർത്തനം 51:1-3", "സങ്കീർത്തനം 150:1-3"]}, "a": 0},
+{"unit": 2, "ch": 13, "q": {"en": "In this prayer, we say \"O Lord, absolve and pardon all our sins...and heal all our infirmities.\" What connection does this draw?", "ml": "\"കർത്താവേ, ഞങ്ങളുടെ പാപങ്ങളെല്ലാം ക്ഷമിച്ച്... ഞങ്ങളുടെ വ്യാധികളെല്ലാം സൗഖ്യമാക്കേണമേ\" എന്ന ഈ പ്രാർത്ഥന എന്തു ബന്ധം കാണിക്കുന്നു?"}, "o": {"en": ["That sin is like a disease, and we ask for pardon and healing together", "That sickness is always a punishment for a specific sin", "That doctors are unnecessary if one prays enough", "That healing is unrelated to prayer"], "ml": ["പാപം ഒരു രോഗം പോലെയാണ്, ക്ഷമയും സൗഖ്യവും ഒരുമിച്ച് അപേക്ഷിക്കുന്നു", "രോഗം എപ്പോഴും ഒരു പ്രത്യേക പാപത്തിനുള്ള ശിക്ഷയാണ്", "വേണ്ടത്ര പ്രാർത്ഥിച്ചാൽ ഡോക്ടർമാർ ആവശ്യമില്ല", "സൗഖ്യത്തിന് പ്രാർത്ഥനയുമായി ബന്ധമില്ല"]}, "a": 0},
+{"unit": 3, "ch": 14, "q": {"en": "The hymn sung before the reading at the north end of the Holy of Holies begins with which words?", "ml": "വിശുദ്ധസ്ഥലത്തിന്റെ വടക്കേ അറ്റത്തുള്ള വായനയ്ക്കു മുൻപ് പാടുന്ന ഗീതം ഏതു വാക്കുകളിലാണ് തുടങ്ങുന്നത്?"}, "o": {"en": ["\"Those Apostles, chosen sent by God...\"", "\"Paul the Blessed saint...\"", "\"Remember we, those prophets and Apostles...\"", "\"The bread of life I am...\""], "ml": ["\"ദൈവത്താൽ തിരഞ്ഞെടുക്കപ്പെട്ടയക്കപ്പെട്ട ആ അപ്പോസ്തലന്മാർ...\"", "\"അനുഗ്രഹീത പൗലോസ് ശ്ലീഹാ...\"", "\"ഓർക്കുന്നു ഞങ്ങൾ, ആ പ്രവാചകന്മാരെയും അപ്പോസ്തലന്മാരെയും...\"", "\"ജീവന്റെ അപ്പം ഞാൻ ആകുന്നു...\""]}, "a": 0},
+{"unit": 3, "ch": 14, "q": {"en": "The hymn sung before the reading at the south end (\"Paul the Blessed saint...\") is a versified rendering of which biblical passage?", "ml": "തെക്കേ അറ്റത്തുള്ള വായനയ്ക്കു മുൻപ് പാടുന്ന ഗീതം (\"അനുഗ്രഹീത പൗലോസ് ശ്ലീഹാ...\") ഏതു വേദഭാഗത്തിന്റെ പദ്യരൂപമാണ്?"}, "o": {"en": ["St. Paul's Epistle to the Galatians 1:8", "St. Paul's Epistle to the Romans 8", "The Acts of the Apostles chapter 2", "The Book of Revelation chapter 4"], "ml": ["വി. പൗലോസിന്റെ ഗലാത്യർക്കുള്ള ലേഖനം 1:8", "വി. പൗലോസിന്റെ റോമർക്കുള്ള ലേഖനം 8", "അപ്പോസ്തലപ്രവൃത്തികൾ അധ്യായം 2", "വെളിപാട് പുസ്തകം അധ്യായം 4"]}, "a": 0},
+{"unit": 3, "ch": 14, "q": {"en": "According to this hymn based on Galatians 1:8, what happens to one who preaches a gospel contrary to what was received?", "ml": "ഗലാത്യർ 1:8-നെ അടിസ്ഥാനമാക്കിയ ഈ ഗീതം പ്രകാരം, ലഭിച്ചതിനു വിരുദ്ധമായ സുവിശേഷം പ്രസംഗിക്കുന്നവന് എന്തു സംഭവിക്കും?"}, "o": {"en": ["The curse of the Church will fall upon him, even if he is an angel from heaven", "Nothing, since all interpretations are equally valid", "He is simply asked to leave quietly", "He is given a second chance without consequence"], "ml": ["അവൻ സ്വർഗ്ഗത്തിൽനിന്നുള്ള ദൂതനായിരുന്നാൽ പോലും സഭയുടെ ശാപം അവന്റെമേൽ വരും", "എല്ലാ വ്യാഖ്യാനങ്ങളും ഒരുപോലെ സാധുവായതിനാൽ ഒന്നും സംഭവിക്കില്ല", "നിശബ്ദം പോകാൻ ആവശ്യപ്പെടും മാത്രം", "പ്രത്യാഘാതമില്ലാതെ രണ്ടാമതൊരു അവസരം ലഭിക്കും"]}, "a": 0},
+{"unit": 3, "ch": 15, "q": {"en": "What does the Greek word \"Evangelion\", used for the Gospel reading in the Holy Qurbana, mean?", "ml": "വിശുദ്ധ കുർബാനയിലെ സുവിശേഷ വായനയ്ക്ക് ഉപയോഗിക്കുന്ന ഗ്രീക്ക് പദമായ \"ഏവന്‍ഗേലിയോന്‍\" എന്നാൽ എന്ത്?"}, "o": {"en": ["Gospel", "Amen", "Blessing", "Sacrifice"], "ml": ["സുവിശേഷം", "ആമ്മേൻ", "അനുഗ്രഹം", "യാഗം"]}, "a": 0},
+{"unit": 3, "ch": 15, "q": {"en": "The first hymn after the Gospel reading, \"Remember we, those prophets and Apostles...\", seeks the intercession of whom?", "ml": "സുവിശേഷ വായനയ്ക്കു ശേഷമുള്ള ആദ്യ ഗീതമായ \"ഓർക്കുന്നു ഞങ്ങൾ, ആ പ്രവാചകന്മാരെയും അപ്പോസ്തലന്മാരെയും...\" ആരുടെ മാധ്യസ്ഥ്യമാണ് തേടുന്നത്?"}, "o": {"en": ["Prophets, Apostles, martyrs, confessors, the Mother of God, and all the faithful departed", "Only the twelve Apostles", "Only the living members of the congregation", "The angels alone"], "ml": ["പ്രവാചകന്മാർ, അപ്പോസ്തലന്മാർ, രക്തസാക്ഷികൾ, വിശുദ്ധർ, ദൈവമാതാവ്, വിശ്വസിച്ചു കാലം ചെയ്ത എല്ലാവരും", "പന്ത്രണ്ടു അപ്പോസ്തലന്മാർ മാത്രം", "സഭാജനത്തിലെ ജീവിച്ചിരിക്കുന്നവർ മാത്രം", "മാലാഖമാർ മാത്രം"]}, "a": 0},
+{"unit": 3, "ch": 15, "q": {"en": "The second hymn after the Gospel, \"The bread of life I am, declared Lord Jesus...\", is based on which Gospel verse?", "ml": "സുവിശേഷത്തിനു ശേഷമുള്ള രണ്ടാമത്തെ ഗീതമായ \"ജീവന്റെ അപ്പം ഞാൻ ആകുന്നു എന്നു കർത്താവായ യേശു അരുളിച്ചെയ്തു...\" ഏതു സുവിശേഷ വാക്യത്തെ അടിസ്ഥാനമാക്കിയാണ്?"}, "o": {"en": ["St. John 6:51", "St. Matthew 5:3", "St. Luke 15:11", "St. Mark 1:35"], "ml": ["വി. യോഹന്നാൻ 6:51", "വി. മത്തായി 5:3", "വി. ലൂക്കോസ് 15:11", "വി. മർക്കോസ് 1:35"]}, "a": 0},
+{"unit": 3, "ch": 15, "q": {"en": "In this hymn, who is compared to \"the good soil\" that bore the Word of God, sown like a farmer by Archangel Gabriel?", "ml": "ഈ ഗീതത്തിൽ, ഗബ്രിയേൽ മാലാഖ വിതച്ച ദൈവവചനത്തെ ഉൾക്കൊണ്ട \"നല്ല മണ്ണ്\" ആയി ഉപമിക്കപ്പെടുന്നത് ആര്?"}, "o": {"en": ["St. Mary", "St. Peter", "St. John the Baptist", "The Church at Antioch"], "ml": ["വി. മറിയം", "വി. പത്രോസ്", "വി. യോഹന്നാൻ സ്നാപകൻ", "അന്ത്യോക്യയിലെ സഭ"]}, "a": 0},
+{"unit": 4, "ch": 16, "q": {"en": "Where were the disciples praying together when the Holy Spirit descended on them as tongues of fire?", "ml": "മാർത്തോമ്മാ ശ്ലീഹായുടെ ശിഷ്യന്മാർ ഒരുമിച്ചു പ്രാർത്ഥിച്ചുകൊണ്ടിരുന്നപ്പോൾ പരിശുദ്ധാത്മാവ് അഗ്നിനാവുകളായി ഇറങ്ങിവന്നത് എവിടെ വച്ചാണ്?"}, "o": {"en": ["The Upper Room (Mansion of St. Mark)", "The Temple courtyard alone", "Mount Sinai", "The synagogue at Antioch"], "ml": ["മാർക്കോസിന്റെ മാളിക (Upper Room)", "ദേവാലയ അങ്കണം മാത്രം", "സീനായി പർവ്വതം", "അന്ത്യോക്യയിലെ സിനഗോഗ്"]}, "a": 0},
+{"unit": 4, "ch": 16, "q": {"en": "About how many people joined the Church on the day of Pentecost, after St. Peter's speech?", "ml": "പെന്തക്കുസ്താ ദിവസം വി. പത്രോസിന്റെ പ്രസംഗത്തിനുശേഷം ഏകദേശം എത്ര പേർ സഭയിൽ ചേർന്നു?"}, "o": {"en": ["About three thousand", "About three hundred", "About thirty", "About thirty thousand"], "ml": ["ഏകദേശം മൂവായിരം", "ഏകദേശം മുന്നൂറ്", "ഏകദേശം മുപ്പത്", "ഏകദേശം മുപ്പതിനായിരം"]}, "a": 0},
+{"unit": 4, "ch": 16, "q": {"en": "Which of the following is NOT listed as one of the four features of the Apostolic Church?", "ml": "അപ്പോസ്തോലിക സഭയുടെ നാല് സവിശേഷതകളിൽ ഉൾപ്പെടാത്തത് ഏത്?"}, "o": {"en": ["Political leadership over the Roman Empire", "Acceptance of the teaching of the Apostles", "Observance of fellowship (koinonia)", "Breaking of the bread, and prayer"], "ml": ["റോമൻ സാമ്രാജ്യത്തിന്മേലുള്ള രാഷ്ട്രീയ നേതൃത്വം", "അപ്പോസ്തലന്മാരുടെ പഠിപ്പിക്കൽ സ്വീകരിക്കൽ", "കൂട്ടായ്മ (koinonia) ആചരിക്കൽ", "അപ്പം നുറുക്കലും പ്രാർത്ഥനയും"]}, "a": 0},
+{"unit": 4, "ch": 16, "q": {"en": "Why were seven deacons first selected in the early Church?", "ml": "ആദിമസഭയിൽ ഏഴ് ശെമ്മാശന്മാരെ ആദ്യം തിരഞ്ഞെടുത്തത് എന്തിനുവേണ്ടി?"}, "o": {"en": ["For the service (ministry) of orphans and widows", "To collect taxes for Rome", "To translate the scriptures into Greek", "To guard the Temple gates"], "ml": ["അനാഥരുടെയും വിധവകളുടെയും ശുശ്രൂഷയ്ക്കുവേണ്ടി", "റോമിനുവേണ്ടി നികുതി പിരിക്കാൻ", "വേദപുസ്തകം ഗ്രീക്കിലേക്ക് വിവർത്തനം ചെയ്യാൻ", "ദേവാലയ കവാടങ്ങൾ കാവൽ നിൽക്കാൻ"]}, "a": 0},
+{"unit": 4, "ch": 16, "q": {"en": "Who was the chief among the seven deacons chosen for the service of orphans and widows?", "ml": "അനാഥരുടെയും വിധവകളുടെയും ശുശ്രൂഷയ്ക്കായി തിരഞ്ഞെടുക്കപ്പെട്ട ഏഴു ശെമ്മാശന്മാരിൽ പ്രധാനി ആരായിരുന്നു?"}, "o": {"en": ["St. Stephen", "St. Philip", "St. Timothy", "St. Barnabas"], "ml": ["വി. സ്തെഫാനോസ്", "വി. ഫിലിപ്പോസ്", "വി. തിമോത്തിയോസ്", "വി. ബർന്നബാസ്"]}, "a": 0},
+{"unit": 4, "ch": 16, "q": {"en": "Saul of Tarsus, a Pharisee who persecuted the Church, later became known as which great missionary?", "ml": "സഭയെ പീഡിപ്പിച്ച പരീശനായ തർസോസിലെ ശൗൽ പിന്നീട് ഏതു മഹാ മിഷനറിയായി അറിയപ്പെട്ടു?"}, "o": {"en": ["St. Paul", "St. Peter", "St. Andrew", "St. Mark"], "ml": ["വി. പൗലോസ്", "വി. പത്രോസ്", "വി. അന്ത്രയോസ്", "വി. മർക്കോസ്"]}, "a": 0},
+{"unit": 4, "ch": 16, "q": {"en": "At which place did the followers of Jesus Christ get the name \"Christians\" for the first time (Acts 11:26)?", "ml": "യേശുക്രിസ്തുവിന്റെ അനുയായികൾ ആദ്യമായി \"ക്രിസ്ത്യാനികൾ\" എന്ന പേര് സ്വീകരിച്ചത് എവിടെ വച്ചാണ് (അപ്പ. പ്രവൃ. 11:26)?"}, "o": {"en": ["Antioch", "Jerusalem", "Rome", "Ephesus"], "ml": ["അന്ത്യോക്യ", "യെരൂശലേം", "റോം", "എഫേസോസ്"]}, "a": 0},
+{"unit": 4, "ch": 16, "q": {"en": "Which Apostle came to India to preach the Good News and spread Christianity?", "ml": "ഇന്ത്യയിൽ സുവിശേഷം പ്രസംഗിക്കാൻ വന്ന അപ്പോസ്തലൻ ആര്?"}, "o": {"en": ["St. Thomas", "St. Andrew", "St. Bartholomew", "St. Matthias"], "ml": ["വി. തോമസ്", "വി. അന്ത്രയോസ്", "വി. ബർത്തലോമായി", "വി. മത്ഥിയാസ്"]}, "a": 0},
+{"unit": 4, "ch": 17, "q": {"en": "According to the South Indian tradition, in which year did St. Thomas land in Kerala?", "ml": "ദക്ഷിണേന്ത്യൻ പാരമ്പര്യമനുസരിച്ച് വി. തോമസ് കേരളത്തിൽ വന്നിറങ്ങിയ വർഷം ഏത്?"}, "o": {"en": ["AD 52", "AD 72", "AD 160", "AD 33"], "ml": ["എ.ഡി. 52", "എ.ഡി. 72", "എ.ഡി. 160", "എ.ഡി. 33"]}, "a": 0},
+{"unit": 4, "ch": 17, "q": {"en": "At which port did St. Thomas land according to the South Indian tradition?", "ml": "ദക്ഷിണേന്ത്യൻ പാരമ്പര്യപ്രകാരം വി. തോമസ് ഏതു തുറമുഖത്താണ് വന്നിറങ്ങിയത്?"}, "o": {"en": ["Kodungalloor (Muziris)", "Kochi", "Kollam", "Kozhikode"], "ml": ["കൊടുങ്ങല്ലൂർ (മുസിരിസ്)", "കൊച്ചി", "കൊല്ലം", "കോഴിക്കോട്"]}, "a": 0},
+{"unit": 4, "ch": 17, "q": {"en": "According to the North Indian tradition, St. Thomas first came to which ruler?", "ml": "ഉത്തരേന്ത്യൻ പാരമ്പര്യപ്രകാരം വി. തോമസ് ആദ്യം എത്തിയത് ഏതു രാജാവിന്റെ അടുക്കൽ?"}, "o": {"en": ["Gondophoros, the ruler of Taxila", "Emperor Ashoka", "King Solomon", "Herod the Great"], "ml": ["തക്ഷിലയിലെ രാജാവായ ഗോണ്ടഫോറസ്", "അശോക ചക്രവർത്തി", "ശലോമോൻ രാജാവ്", "മഹാനായ ഹെരോദാവ്"]}, "a": 0},
+{"unit": 4, "ch": 17, "q": {"en": "How many churches (ezhara pallikal) did St. Thomas establish in Kerala, according to tradition?", "ml": "പാരമ്പര്യപ്രകാരം വി. തോമസ് കേരളത്തിൽ എത്ര പള്ളികൾ (ഏഴര പള്ളികൾ) സ്ഥാപിച്ചു?"}, "o": {"en": ["Eight (seven and a half)", "Twelve", "Three", "Twenty"], "ml": ["എട്ട് (ഏഴര)", "പന്ത്രണ്ട്", "മൂന്ന്", "ഇരുപത്"]}, "a": 0},
+{"unit": 4, "ch": 17, "q": {"en": "Which of the following is NOT one of the priestly families from whom St. Thomas is believed to have ordained priests?", "ml": "വി. തോമസ് പുരോഹിതരെ വാഴിച്ചു എന്നു വിശ്വസിക്കപ്പെടുന്ന കുടുംബങ്ങളിൽ ഉൾപ്പെടാത്തത് ഏത്?"}, "o": {"en": ["Menachery", "Pakalomattom", "Sankarapuri", "Kalli"], "ml": ["മേനാച്ചേരി", "പാകലോമറ്റം", "ശങ്കരപുരി", "കല്ലി"]}, "a": 0},
+{"unit": 4, "ch": 17, "q": {"en": "Where was St. Thomas buried after his martyrdom in AD 72?", "ml": "എ.ഡി. 72-ൽ രക്തസാക്ഷിത്വം വരിച്ചശേഷം വി. തോമസിനെ എവിടെയാണ് സംസ്കരിച്ചത്?"}, "o": {"en": ["Mylapore, near Chennai", "Edessa", "Jerusalem", "Kodungalloor"], "ml": ["ചെന്നൈക്കടുത്തുള്ള മൈലാപ്പൂർ", "ഊറാഹ (എദേസ്സ)", "യെരൂശലേം", "കൊടുങ്ങല്ലൂർ"]}, "a": 0},
+{"unit": 4, "ch": 17, "q": {"en": "After AD 160, the relics of St. Thomas were taken to which city?", "ml": "എ.ഡി. 160-നുശേഷം വി. തോമസിന്റെ തിരുശേഷിപ്പുകൾ ഏതു നഗരത്തിലേക്ക് കൊണ്ടുപോയി?"}, "o": {"en": ["Uraha (Edessa)", "Rome", "Alexandria", "Antioch"], "ml": ["ഊറാഹ (എദേസ്സ)", "റോം", "അലക്സാണ്ട്രിയ", "അന്ത്യോക്യ"]}, "a": 0},
+{"unit": 4, "ch": 17, "q": {"en": "Which traditional Kerala Christian song forms/art forms throw light on the foundation of the Malankara Church by St. Thomas?", "ml": "മാർത്തോമ്മാ ശ്ലീഹായാൽ മലങ്കരസഭ സ്ഥാപിതമായതിന് വെളിച്ചം വീശുന്ന പരമ്പരാഗത കേരള ക്രൈസ്തവ ഗാന/കലാരൂപങ്ങൾ ഏവ?"}, "o": {"en": ["Ramban Pattu (Thoma Parvam), Margamkali songs, and Villadichaan songs", "Only modern film songs", "Kathakali performances alone", "Classical Carnatic kritis only"], "ml": ["രമ്പാൻ പാട്ട് (തോമാപർവ്വം), മാർഗ്ഗംകളി പാട്ടുകൾ, വില്ലടിച്ചാൻ പാട്ടുകൾ", "ആധുനിക സിനിമാ ഗാനങ്ങൾ മാത്രം", "കഥകളി അവതരണം മാത്രം", "ശാസ്ത്രീയ കർണ്ണാടക കൃതികൾ മാത്രം"]}, "a": 0},
+{"unit": 5, "ch": 18, "q": {"en": "What is the New Testament Greek word used for \"fellowship\" in the Church?", "ml": "സഭയിലെ \"കൂട്ടായ്മ\"യ്ക്ക് പുതിയനിയമത്തിൽ ഉപയോഗിക്കുന്ന ഗ്രീക്ക് പദം ഏത്?"}, "o": {"en": ["Koinonia", "Ecclesia", "Diptycha", "Agape"], "ml": ["കോയ്നോണിയ", "എക്ലേസിയ", "ദിപ്റ്റിക്ക", "അഗാപ്പെ"]}, "a": 0},
+{"unit": 5, "ch": 18, "q": {"en": "Which chapters of the Book of Revelation present the meaning and objective of worship in the early Church?", "ml": "ആദിമസഭയിലെ ആരാധനയുടെ അർത്ഥവും ലക്ഷ്യവും അവതരിപ്പിക്കുന്നത് വെളിപാട് പുസ്തകത്തിലെ ഏതു അധ്യായങ്ങളാണ്?"}, "o": {"en": ["Revelation chapters 4 to 6", "Revelation chapters 20 to 22", "Revelation chapters 1 to 3", "Revelation chapters 10 to 12"], "ml": ["വെളിപാട് അധ്യായം 4 മുതൽ 6 വരെ", "വെളിപാട് അധ്യായം 20 മുതൽ 22 വരെ", "വെളിപാട് അധ്യായം 1 മുതൽ 3 വരെ", "വെളിപാട് അധ്യായം 10 മുതൽ 12 വരെ"]}, "a": 0},
+{"unit": 5, "ch": 18, "q": {"en": "In the worship scene of Revelation, about how many people gather to worship the Lamb, representing each of the twelve tribes of Israel?", "ml": "വെളിപാടിലെ ആരാധനാരംഗത്തിൽ, യിസ്രായേലിന്റെ പന്ത്രണ്ടു ഗോത്രങ്ങളെ പ്രതിനിധീകരിച്ച് ഏകദേശം എത്ര പേർ കുഞ്ഞാടിനെ ആരാധിക്കാൻ ഒരുമിച്ചുകൂടുന്നു?"}, "o": {"en": ["One lakh forty-four thousand (144,000), twelve thousand from each tribe", "Only twelve, one from each tribe", "Seventy, representing the seventy elders", "Twenty-four, the elders alone"], "ml": ["ഒരു ലക്ഷത്തി നാല്പത്തിനാലായിരം (144,000), ഓരോ ഗോത്രത്തിൽനിന്നും പന്തീരായിരം വീതം", "പന്ത്രണ്ടു മാത്രം, ഓരോ ഗോത്രത്തിൽനിന്നും ഒന്നു വീതം", "എഴുപത്, എഴുപത് മൂപ്പന്മാരെ പ്രതിനിധീകരിച്ച്", "ഇരുപത്തിനാല്, മൂപ്പന്മാർ മാത്രം"]}, "a": 0},
+{"unit": 5, "ch": 18, "q": {"en": "The Holy Eucharist is described as a fellowship of which two groups coming together?", "ml": "വിശുദ്ധ കുർബാന ഏതു രണ്ടു വിഭാഗങ്ങളുടെ കൂട്ടായ്മയായി വിശേഷിപ്പിക്കപ്പെടുന്നു?"}, "o": {"en": ["The visible Church (the living) and the invisible Church (angels, saints and the departed)", "Only priests and deacons", "Only the choir and the congregation", "Only children and their parents"], "ml": ["ദൃശ്യസഭയും (ജീവിച്ചിരിക്കുന്നവർ) അദൃശ്യസഭയും (മാലാഖമാർ, വിശുദ്ധർ, മരിച്ചവർ)", "പുരോഹിതരും ശെമ്മാശന്മാരും മാത്രം", "ഗായകസംഘവും സഭാജനവും മാത്രം", "കുട്ടികളും അവരുടെ മാതാപിതാക്കളും മാത്രം"]}, "a": 0},
+{"unit": 5, "ch": 18, "q": {"en": "What is the name given to the commemorative prayers in the Eucharist through which the Church remembers the martyrs and the departed?", "ml": "രക്തസാക്ഷികളെയും മരിച്ചവരെയും സഭ ഓർക്കുന്ന കുർബാനയിലെ അനുസ്മരണ പ്രാർത്ഥനകൾക്ക് നൽകിയിരിക്കുന്ന പേരെന്ത്?"}, "o": {"en": ["Thubden (Diptychs)", "Promeyon", "Sedra", "Karozutha"], "ml": ["ത്തൂബ്‌ദെൻ (Diptychs)", "പ്രൊമിയോൻ", "സെദറാ", "കാറോസൂസ"]}, "a": 0},
+{"unit": 5, "ch": 18, "q": {"en": "Why do deacons leave the aisle of the church building empty during worship?", "ml": "ആരാധനാ വേളയിൽ ശെമ്മാശന്മാർ ദേവാലയത്തിന്റെ ഇടനാഴി ഒഴിഞ്ഞു കിടക്കുന്നത് എന്തുകൊണ്ട്?"}, "o": {"en": ["To symbolically leave space for the presence of the invisible Church", "For decoration purposes only", "To allow more people to enter", "It has no particular significance"], "ml": ["അദൃശ്യസഭയുടെ സാന്നിധ്യത്തിനായി പ്രതീകാത്മകമായി സ്ഥലം ഒഴിച്ചിടാൻ", "അലങ്കാരത്തിനു വേണ്ടി മാത്രം", "കൂടുതൽ ആളുകൾക്ക് പ്രവേശിക്കാൻ", "പ്രത്യേക അർത്ഥമൊന്നുമില്ല"]}, "a": 0},
+{"unit": 5, "ch": 19, "q": {"en": "Through how many of our senses does the Holy Eucharist give us an opportunity to experience worship?", "ml": "എത്ര ഇന്ദ്രിയങ്ങളിലൂടെയാണ് വിശുദ്ധ കുർബാന ആരാധന അനുഭവിക്കാൻ അവസരം നൽകുന്നത്?"}, "o": {"en": ["All five senses - to see, hear, smell, taste and touch", "Only two senses - sight and hearing", "Only one sense - hearing", "Only taste"], "ml": ["അഞ്ച് ഇന്ദ്രിയങ്ങളിലൂടെയും - കാഴ്ച, കേൾവി, മണം, രുചി, സ്പർശം", "രണ്ട് ഇന്ദ്രിയങ്ങൾ മാത്രം - കാഴ്ചയും കേൾവിയും", "ഒരു ഇന്ദ്രിയം മാത്രം - കേൾവി", "രുചി മാത്രം"]}, "a": 0},
+{"unit": 5, "ch": 19, "q": {"en": "Which Church, unlike the Orthodox Church, permits its priest to celebrate the Holy Eucharist in private?", "ml": "ഓർത്തഡോക്സ് സഭയിൽനിന്നു വ്യത്യസ്തമായി, പുരോഹിതന് സ്വകാര്യമായി വിശുദ്ധ കുർബാന അർപ്പിക്കാൻ അനുവദിക്കുന്ന സഭ ഏത്?"}, "o": {"en": ["The Roman Catholic Church", "The Coptic Orthodox Church", "The Syrian Orthodox Church", "No church permits this"], "ml": ["റോമൻ കത്തോലിക്കാ സഭ", "കോപ്റ്റിക് ഓർത്തഡോക്സ് സഭ", "സുറിയാനി ഓർത്തഡോക്സ് സഭ", "ഒരു സഭയും ഇത് അനുവദിക്കുന്നില്ല"]}, "a": 0},
+{"unit": 5, "ch": 19, "q": {"en": "Which group of churches (e.g. Reformed, Evangelical, Pentecostal, Charismatic) give the greatest importance to preaching in their scheme of worship?", "ml": "ഏതു സഭാ വിഭാഗങ്ങളാണ് (ഉദാ: റിഫോംഡ്, ഇവാഞ്ചലിക്കൽ, പെന്തക്കോസ്ത്, കരിസ്മാറ്റിക്) തങ്ങളുടെ ആരാധനാക്രമത്തിൽ പ്രസംഗത്തിന് ഏറ്റവും കൂടുതൽ പ്രാധാന്യം നൽകുന്നത്?"}, "o": {"en": ["Reformed, Evangelical, Pentecostal and Charismatic churches", "The Orthodox Church alone", "The Roman Catholic Church alone", "None of these churches emphasize preaching"], "ml": ["റിഫോംഡ്, ഇവാഞ്ചലിക്കൽ, പെന്തക്കോസ്ത്, കരിസ്മാറ്റിക് സഭകൾ", "ഓർത്തഡോക്സ് സഭ മാത്രം", "റോമൻ കത്തോലിക്കാ സഭ മാത്രം", "ഈ സഭകളൊന്നും പ്രസംഗത്തിന് പ്രാധാന്യം നൽകുന്നില്ല"]}, "a": 0},
+{"unit": 5, "ch": 19, "q": {"en": "What is the biblical reason given (St. Matthew 5:23-24) for exchanging the Kiss of Peace before offering gifts on the altar?", "ml": "ബലിപീഠത്തിൽ കാഴ്ചയർപ്പിക്കുന്നതിനു മുൻപ് സമാധാനചുംബനം കൈമാറുന്നതിന് നൽകുന്ന വേദപുസ്തക കാരണം (വി. മത്തായി 5:23-24) എന്ത്?"}, "o": {"en": ["We should be reconciled with our brothers and sisters before offering our gifts", "It is simply a cultural greeting with no biblical basis", "It replaces the need for confession", "It is only meant for close relatives present"], "ml": ["കാഴ്ച അർപ്പിക്കുന്നതിനു മുൻപ് സഹോദരീസഹോദരന്മാരുമായി അനുരഞ്ജനപ്പെടണം", "വേദപുസ്തക അടിസ്ഥാനമില്ലാത്ത ഒരു സാംസ്കാരിക അഭിവാദനം മാത്രം", "കുമ്പസാരത്തിന്റെ ആവശ്യകത ഇല്ലാതാക്കുന്നു", "സന്നിഹിതരായ അടുത്ത ബന്ധുക്കൾക്കു മാത്രമുള്ളതാണ്"]}, "a": 0},
+{"unit": 5, "ch": 19, "q": {"en": "Full and meaningful participation of the faithful in the Holy Eucharist becomes complete through what?", "ml": "വിശുദ്ധ കുർബാനയിൽ വിശ്വാസികളുടെ പൂർണ്ണവും അർത്ഥപൂർണ്ണവുമായ പങ്കാളിത്തം പൂർത്തിയാകുന്നത് എന്തിലൂടെയാണ്?"}, "o": {"en": ["Receiving the Holy Communion", "Singing in the choir only", "Donating money only", "Attending only the sermon"], "ml": ["വിശുദ്ധ കുർബാന സ്വീകരിക്കുന്നതിലൂടെ", "ഗായകസംഘത്തിൽ പാടുന്നതിലൂടെ മാത്രം", "പണം സംഭാവന ചെയ്യുന്നതിലൂടെ മാത്രം", "പ്രസംഗം മാത്രം കേൾക്കുന്നതിലൂടെ"]}, "a": 0},
+{"unit": 6, "ch": 20, "q": {"en": "What does the Syriac word \"Moran\" mean, from which \"Moranaya\" feasts get their name?", "ml": "\"മാറാനായ\" പെരുന്നാളുകൾക്ക് പേരു നൽകിയ സുറിയാനി വാക്കായ \"മാറാൻ\" എന്നാൽ എന്ത്?"}, "o": {"en": ["Our Lord Jesus Christ", "The Holy Spirit", "The Church", "The Bible"], "ml": ["നമ്മുടെ കർത്താവായ യേശുക്രിസ്തു", "പരിശുദ്ധാത്മാവ്", "സഭ", "വിശുദ്ധ വേദപുസ്തകം"]}, "a": 0},
+{"unit": 6, "ch": 20, "q": {"en": "How is a Moranaya feast to be observed?", "ml": "ഒരു മാറാനായ പെരുന്നാൾ എങ്ങനെയാണ് ആചരിക്കേണ്ടത്?"}, "o": {"en": ["Like a Sunday, with the Holy Eucharist celebrated and full participation of the faithful", "As a day of strict fasting and silence only", "As an ordinary working day with no special observance", "Only by priests, not by the laity"], "ml": ["ഞായറാഴ്ച പോലെ, വിശുദ്ധ കുർബാന അർപ്പിച്ചും വിശ്വാസികളുടെ പൂർണ്ണ പങ്കാളിത്തത്തോടും", "കർശനമായ ഉപവാസവും മൗനവും മാത്രമുള്ള ദിവസമായി", "പ്രത്യേക ആചരണമില്ലാത്ത സാധാരണ പ്രവൃത്തിദിനമായി", "അല്മായർക്കല്ല, പുരോഹിതർക്കു മാത്രം"]}, "a": 0},
+{"unit": 6, "ch": 20, "q": {"en": "The Feast of Christmas, or \"Yeldo\", is observed on which date?", "ml": "ക്രിസ്തുമസ് അഥവാ \"യൽദോ\" പെരുന്നാൾ ഏതു തിയ്യതിയാണ് ആചരിക്കുന്നത്?"}, "o": {"en": ["December 25", "January 6", "February 2", "March 25"], "ml": ["ഡിസംബർ 25", "ജനുവരി 6", "ഫെബ്രുവരി 2", "മാർച്ച് 25"]}, "a": 0},
+{"unit": 6, "ch": 20, "q": {"en": "The Feast of Epiphany, \"Danaha\", commemorating the baptism of Jesus Christ, is observed on which date?", "ml": "യേശുക്രിസ്തുവിന്റെ ജ്ഞാനസ്നാനത്തെ അനുസ്മരിപ്പിക്കുന്ന \"ദനഹാ\" (എപ്പിഫനി) പെരുന്നാൾ ഏതു തിയ്യതിയാണ്?"}, "o": {"en": ["January 6", "December 25", "February 2", "August 6"], "ml": ["ജനുവരി 6", "ഡിസംബർ 25", "ഫെബ്രുവരി 2", "ഓഗസ്റ്റ് 6"]}, "a": 0},
+{"unit": 6, "ch": 20, "q": {"en": "The Presentation of Jesus Christ at the Temple, \"Maayaltho\", is remembered on which date?", "ml": "യേശുക്രിസ്തുവിനെ ദേവാലയത്തിൽ സമർപ്പിച്ച \"മ്ആൽത്തോ\" പെരുന്നാൾ ഏതു തിയ്യതിയാണ് ഓർമ്മിക്കുന്നത്?"}, "o": {"en": ["February 2", "January 6", "March 25", "September 14"], "ml": ["ഫെബ്രുവരി 2", "ജനുവരി 6", "മാർച്ച് 25", "സെപ്റ്റംബർ 14"]}, "a": 0},
+{"unit": 6, "ch": 20, "q": {"en": "The Feast of Annunciation, \"Suboro\", commemorating St. Mary's submission to God's will, is observed on which date?", "ml": "വി. മറിയത്തിന്റെ ദൈവഹിതത്തിനു സമർപ്പണത്തെ അനുസ്മരിപ്പിക്കുന്ന \"സുബോറോ\" (മംഗളവാർത്ത) പെരുന്നാൾ ഏതു തിയ്യതി?"}, "o": {"en": ["March 25", "August 15", "June 29", "July 3"], "ml": ["മാർച്ച് 25", "ഓഗസ്റ്റ് 15", "ജൂൺ 29", "ജൂലൈ 3"]}, "a": 0},
+{"unit": 6, "ch": 20, "q": {"en": "The Feast of the Ascension of Jesus Christ, \"Suloko\", falls how many days after the Feast of Resurrection?", "ml": "യേശുക്രിസ്തുവിന്റെ സ്വർഗ്ഗാരോഹണ പെരുന്നാളായ \"സുലോക്കോ\" ഉയിർപ്പു പെരുന്നാൾ കഴിഞ്ഞ് എത്ര ദിവസത്തിനുശേഷമാണ് (വ്യാഴാഴ്ച)?"}, "o": {"en": ["Forty days (on a Thursday)", "Ten days", "Fifty days", "Seven days"], "ml": ["നാല്പതു ദിവസത്തിനുശേഷം (ഒരു വ്യാഴാഴ്ച)", "പത്തു ദിവസത്തിനുശേഷം", "അമ്പതു ദിവസത്തിനുശേഷം", "ഏഴു ദിവസത്തിനുശേഷം"]}, "a": 0},
+{"unit": 6, "ch": 20, "q": {"en": "The Feast of the Holy Cross (September 14) commemorates which event?", "ml": "ശ്ലീബാപ്പെരുന്നാൾ (സെപ്റ്റംബർ 14) ഏതു സംഭവത്തെയാണ് അനുസ്മരിപ്പിക്കുന്നത്?"}, "o": {"en": ["The discovery of the Holy Cross by Queen Helen at Jerusalem", "The crucifixion of Jesus Christ itself", "The building of the first church", "The martyrdom of St. George"], "ml": ["ഹേലേന രാജ്ഞി യെരൂശലേമിൽ വിശുദ്ധ കുരിശ് കണ്ടെത്തിയത്", "യേശുക്രിസ്തുവിന്റെ ക്രൂശീകരണം തന്നെ", "ആദ്യ ദേവാലയത്തിന്റെ നിർമ്മാണം", "വി. ഗീവർഗീസിന്റെ രക്തസാക്ഷിത്വം"]}, "a": 0},
+{"unit": 6, "ch": 20, "q": {"en": "Which of these feasts is observed \"like a Moranaya feast\" though it commemorates St. Thomas rather than an event in the life of Jesus Christ?", "ml": "യേശുക്രിസ്തുവിന്റെ ജീവിതത്തിലെ സംഭവമല്ലാതെ, വി. തോമസിനെ അനുസ്മരിക്കുന്നതെങ്കിലും \"മാറാനായ പെരുന്നാൾ പോലെ\" ആചരിക്കുന്ന പെരുന്നാൾ ഏത്?"}, "o": {"en": ["Dukrono (Memory of St. Thomas), July 3", "St. George's feast, April 23", "St. Joseph's feast", "The feast of St. Stephen"], "ml": ["ദുക്റാനാ (വി. തോമസിന്റെ ഓർമ്മ), ജൂലൈ 3", "വി. ഗീവർഗീസിന്റെ പെരുന്നാൾ, ഏപ്രിൽ 23", "വി. യൗസേപ്പിന്റെ പെരുന്നാൾ", "വി. സ്തെഫാനോസിന്റെ പെരുന്നാൾ"]}, "a": 0},
+{"unit": 6, "ch": 21, "q": {"en": "What term do the Orthodox Churches prefer to use for \"sacraments\"?", "ml": "\"കൂദാശകൾ\" എന്നതിനു പകരം ഓർത്തഡോക്സ് സഭകൾ ഉപയോഗിക്കാൻ ഇഷ്ടപ്പെടുന്ന പദം ഏത്?"}, "o": {"en": ["Holy Mysteries", "Divine Rituals", "Church Ceremonies", "Sacred Ordinances"], "ml": ["വിശുദ്ധ മർമ്മങ്ങൾ (Holy Mysteries)", "ദിവ്യ ആചാരങ്ങൾ", "സഭാ ചടങ്ങുകൾ", "പുണ്യ ക്രമങ്ങൾ"]}, "a": 0},
+{"unit": 6, "ch": 21, "q": {"en": "Augustine of Hippo described a sacrament as what?", "ml": "അഗസ്റ്റിൻ ഓഫ് ഹിപ്പോ ഒരു കൂദാശയെ എങ്ങനെ വിശേഷിപ്പിച്ചു?"}, "o": {"en": ["\"An outward and visible sign of an inward and invisible grace\"", "\"A ritual performed only by bishops\"", "\"A human tradition with no divine origin\"", "\"An optional ceremony for special occasions\""], "ml": ["\"ആന്തരികവും അദൃശ്യവുമായ കൃപയുടെ ബാഹ്യവും ദൃശ്യവുമായ അടയാളം\"", "\"മെത്രാപ്പോലീത്തന്മാർ മാത്രം നിർവ്വഹിക്കുന്ന ഒരു ചടങ്ങ്\"", "\"ദിവ്യോത്ഭവമില്ലാത്ത ഒരു മാനുഷിക പാരമ്പര്യം\"", "\"പ്രത്യേക അവസരങ്ങൾക്കുള്ള ഐച്ഛിക ചടങ്ങ്\""]}, "a": 0},
+{"unit": 6, "ch": 21, "q": {"en": "According to the lesson, what is one key feature that distinguishes the sacraments from ordinary prayer groups?", "ml": "പാഠപ്രകാരം, കൂദാശകളെ സാധാരണ പ്രാർത്ഥനാ കൂട്ടായ്മകളിൽനിന്നു വേർതിരിക്കുന്ന ഒരു പ്രധാന സവിശേഷത എന്ത്?"}, "o": {"en": ["The sacraments originate in Jesus Christ Himself", "Sacraments require no priest at all", "Sacraments can be performed by anyone, anywhere", "Sacraments have no biblical basis"], "ml": ["കൂദാശകൾ യേശുക്രിസ്തുവിൽത്തന്നെ ഉത്ഭവിക്കുന്നു", "കൂദാശകൾക്ക് പുരോഹിതൻ ആവശ്യമില്ല", "കൂദാശകൾ ആർക്കും എവിടെയും നിർവ്വഹിക്കാം", "കൂദാശകൾക്ക് വേദപുസ്തക അടിസ്ഥാനമില്ല"]}, "a": 0},
+{"unit": 6, "ch": 21, "q": {"en": "Who has God entrusted with the administration of all the sacraments?", "ml": "എല്ലാ കൂദാശകളുടെയും നടത്തിപ്പ് ദൈവം ആരെയാണ് ഭരമേല്പിച്ചിരിക്കുന്നത്?"}, "o": {"en": ["The Church", "Individual believers, acting alone", "Civil government officials", "Only the Pope"], "ml": ["സഭയെ", "ഒറ്റയ്ക്കുള്ള വിശ്വാസികളെ", "സിവിൽ ഗവൺമെന്റ് ഉദ്യോഗസ്ഥരെ", "മാർപ്പാപ്പയെ മാത്രം"]}, "a": 0},
+{"unit": 6, "ch": 21, "q": {"en": "Unlike the Roman Catholic Church, which fixes the number of sacraments at seven, what does the Orthodox Church do?", "ml": "കൂദാശകളുടെ എണ്ണം ഏഴ് എന്നു നിശ്ചയിക്കുന്ന റോമൻ കത്തോലിക്കാ സഭയിൽനിന്നു വ്യത്യസ്തമായി ഓർത്തഡോക്സ് സഭ എന്തു ചെയ്യുന്നു?"}, "o": {"en": ["The Orthodox Church does not insist on a fixed number of sacraments", "The Orthodox Church insists on exactly three sacraments", "The Orthodox Church rejects all sacraments", "The Orthodox Church insists on exactly twelve sacraments"], "ml": ["ഓർത്തഡോക്സ് സഭ കൂദാശകളുടെ എണ്ണം നിശ്ചിതമായി പറയുന്നില്ല", "ഓർത്തഡോക്സ് സഭ കൃത്യം മൂന്നു കൂദാശകൾ എന്നു നിഷ്കർഷിക്കുന്നു", "ഓർത്തഡോക്സ് സഭ എല്ലാ കൂദാശകളും നിരസിക്കുന്നു", "ഓർത്തഡോക്സ് സഭ കൃത്യം പന്ത്രണ്ടു കൂദാശകൾ എന്നു നിഷ്കർഷിക്കുന്നു"]}, "a": 0},
+{"unit": 6, "ch": 21, "q": {"en": "What is the ultimate aim of all the sacraments?", "ml": "എല്ലാ കൂദാശകളുടെയും പരമമായ ലക്ഷ്യം എന്ത്?"}, "o": {"en": ["To lead us to sanctity (holiness)", "To provide entertainment for the congregation", "To generate income for the Church", "To replace the need for personal prayer"], "ml": ["നമ്മെ വിശുദ്ധിയിലേക്ക് (പരിശുദ്ധിയിലേക്ക്) നയിക്കുക", "സഭാജനത്തിന് വിനോദം നൽകുക", "സഭയ്ക്ക് വരുമാനം ഉണ്ടാക്കുക", "വ്യക്തിപരമായ പ്രാർത്ഥനയുടെ ആവശ്യകത ഇല്ലാതാക്കുക"]}, "a": 0},
+{"unit": 7, "ch": 22, "q": {"en": "St. George was born into an aristocratic Christian family in which region, around AD 283?", "ml": "എ.ഡി. 283-ൽ വി. ഗീവർഗീസ് ഏതു പ്രദേശത്തെ ഉന്നത ക്രിസ്ത്യൻ കുടുംബത്തിൽ ജനിച്ചു?"}, "o": {"en": ["Cappadocia", "Palestine", "Rome", "Alexandria"], "ml": ["കപ്പദോക്യ", "പലസ്തീൻ", "റോം", "അലക്സാണ്ട്രിയ"]}, "a": 0},
+{"unit": 7, "ch": 22, "q": {"en": "Under which Roman Emperor did St. George serve as a commander of the army before his martyrdom?", "ml": "വി. ഗീവർഗീസ് സൈന്യാധിപനായി സേവനമനുഷ്ഠിച്ചത് ഏതു റോമൻ ചക്രവർത്തിയുടെ കീഴിലാണ്?"}, "o": {"en": ["Emperor Diocletian", "Emperor Nero", "Emperor Constantine", "Emperor Augustus"], "ml": ["ഡയോക്ലീഷ്യൻ ചക്രവർത്തി", "നീറോ ചക്രവർത്തി", "കോൺസ്റ്റന്റൈൻ ചക്രവർത്തി", "അഗസ്റ്റസ് ചക്രവർത്തി"]}, "a": 0},
+{"unit": 7, "ch": 22, "q": {"en": "What did St. George do to declare his Christian faith before the Emperor, sparking his persecution?", "ml": "ചക്രവർത്തിയുടെ മുൻപിൽ തന്റെ ക്രൈസ്തവ വിശ്വാസം പ്രഖ്യാപിക്കാൻ വി. ഗീവർഗീസ് എന്തു ചെയ്തു, ഇത് പീഡനത്തിന് കാരണമായി?"}, "o": {"en": ["He tore away the copy of the anti-Christian royal decree", "He built a church secretly", "He fled the country", "He wrote a letter of protest to Rome"], "ml": ["ക്രിസ്ത്യാനിവിരുദ്ധ രാജകൽപനയുടെ പകർപ്പ് കീറിക്കളഞ്ഞു", "രഹസ്യമായി ഒരു പള്ളി പണിതു", "രാജ്യം വിട്ടോടിപ്പോയി", "റോമിലേക്ക് പ്രതിഷേധക്കത്ത് എഴുതി"]}, "a": 0},
+{"unit": 7, "ch": 22, "q": {"en": "On which date was St. George finally martyred (executed) at Nicomedia?", "ml": "നിക്കോമീദിയയിൽവച്ച് വി. ഗീവർഗീസ് അന്തിമമായി രക്തസാക്ഷിത്വം വരിച്ച തിയ്യതി ഏത്?"}, "o": {"en": ["April 23, AD 303", "December 25, AD 303", "July 3, AD 303", "September 14, AD 303"], "ml": ["ഏപ്രിൽ 23, എ.ഡി. 303", "ഡിസംബർ 25, എ.ഡി. 303", "ജൂലൈ 3, എ.ഡി. 303", "സെപ്റ്റംബർ 14, എ.ഡി. 303"]}, "a": 0},
+{"unit": 7, "ch": 22, "q": {"en": "In the famous legend associated with St. George, what creature did he kill to rescue a princess?", "ml": "വി. ഗീവർഗീസുമായി ബന്ധപ്പെട്ട പ്രസിദ്ധ ഐതിഹ്യത്തിൽ, രാജകുമാരിയെ രക്ഷിക്കാൻ അദ്ദേഹം ഏതു ജീവിയെയാണ് വധിച്ചത്?"}, "o": {"en": ["A poisonous serpent/dragon troubling the village of Salena", "A ferocious lion", "A giant eagle", "A wild wolf"], "ml": ["സലേന ഗ്രാമത്തെ ശല്യപ്പെടുത്തിയ വിഷസർപ്പം", "ഭീകരനായ സിംഹം", "ഭീമൻ കഴുകൻ", "കാട്ടു ചെന്നായ"]}, "a": 0},
+{"unit": 7, "ch": 22, "q": {"en": "Which famous church in Kerala is dedicated to St. George?", "ml": "കേരളത്തിൽ വി. ഗീവർഗീസിന്റെ നാമത്തിൽ പ്രശസ്തമായ ദേവാലയം ഏത്?"}, "o": {"en": ["St. George Orthodox Church, Puthuppally", "St. Thomas Cathedral, Kottayam", "St. Mary's Church, Manarcad", "St. Peter's Church, Kolencherry"], "ml": ["വി. ഗീവർഗീസ് ഓർത്തഡോക്സ് പള്ളി, പുത്തുപ്പള്ളി", "വി. തോമസ് കത്തീഡ്രൽ, കോട്ടയം", "വി. മറിയം പള്ളി, മണർകാട്", "വി. പത്രോസ് പള്ളി, കോലഞ്ചേരി"]}, "a": 0},
+{"unit": 7, "ch": 23, "q": {"en": "Into which tribe and clan was St. Joseph, the step-father of Jesus Christ, born?", "ml": "യേശുക്രിസ്തുവിന്റെ വളർത്തച്ഛനായ വി. യൗസേപ്പ് ഏതു ഗോത്രത്തിലും വംശത്തിലുമാണ് ജനിച്ചത്?"}, "o": {"en": ["The tribe of Judah and the clan of David", "The tribe of Levi", "The tribe of Benjamin", "The tribe of Reuben"], "ml": ["യെഹൂദാ ഗോത്രത്തിലും ദാവീദിന്റെ വംശത്തിലും", "ലേവി ഗോത്രത്തിൽ", "ബെന്യാമീൻ ഗോത്രത്തിൽ", "രൂബേൻ ഗോത്രത്തിൽ"]}, "a": 0},
+{"unit": 7, "ch": 23, "q": {"en": "What did the angel of the Lord tell Joseph in a dream when he considered dismissing Mary quietly?", "ml": "മറിയത്തെ രഹസ്യമായി ഉപേക്ഷിക്കാൻ ആലോചിച്ചപ്പോൾ കർത്താവിന്റെ ദൂതൻ സ്വപ്നത്തിൽ യൗസേപ്പിനോട് എന്തു പറഞ്ഞു?"}, "o": {"en": ["Not to be afraid to take Mary as his wife, for the child was conceived by the Holy Spirit", "To leave Mary and marry someone else", "To report Mary to the authorities", "To wait until the child was born before deciding"], "ml": ["മറിയത്തെ ഭാര്യയായി സ്വീകരിക്കാൻ ഭയപ്പെടേണ്ട, കുഞ്ഞ് പരിശുദ്ധാത്മാവിനാൽ ഗർഭം ധരിച്ചതാണ്", "മറിയത്തെ ഉപേക്ഷിച്ച് മറ്റൊരാളെ വിവാഹം കഴിക്കാൻ", "മറിയത്തെക്കുറിച്ച് അധികാരികളെ അറിയിക്കാൻ", "കുഞ്ഞ് ജനിക്കുന്നതുവരെ തീരുമാനം കാത്തിരിക്കാൻ"]}, "a": 0},
+{"unit": 7, "ch": 23, "q": {"en": "How many times did Joseph receive the Lord's command/revelation in his dreams, according to the lesson?", "ml": "പാഠപ്രകാരം, യൗസേപ്പ് സ്വപ്നങ്ങളിൽ കർത്താവിന്റെ കല്പന/വെളിപ്പാട് എത്ര തവണ സ്വീകരിച്ചു?"}, "o": {"en": ["Four times", "Once only", "Seven times", "Two times"], "ml": ["നാലു തവണ", "ഒരു തവണ മാത്രം", "ഏഴു തവണ", "രണ്ടു തവണ"]}, "a": 0},
+{"unit": 7, "ch": 23, "q": {"en": "Which was Joseph's \"own city\", to which he took Mary to register in the census, and where Jesus was born?", "ml": "ജനസംഖ്യാ കണക്കെടുപ്പിൽ പേര് രേഖപ്പെടുത്താൻ യൗസേപ്പ് മറിയത്തെയും കൊണ്ടുപോയ, യേശു ജനിച്ച \"സ്വന്തം നഗരം\" ഏത്?"}, "o": {"en": ["Bethlehem", "Nazareth", "Jerusalem", "Capernaum"], "ml": ["ബേത്ലഹേം", "നസ്രത്ത്", "യെരൂശലേം", "കഫർന്നഹൂം"]}, "a": 0},
+{"unit": 7, "ch": 23, "q": {"en": "On which day after His birth was the child Jesus circumcised, according to Jewish Scripture?", "ml": "യെഹൂദ വേദപ്രകാരം, ശിശുവായ യേശുവിനെ എത്രാം ദിവസമാണ് പരിച്ഛേദന ചെയ്തത്?"}, "o": {"en": ["The eighth day", "The first day", "The fortieth day", "The thirtieth day"], "ml": ["എട്ടാം ദിവസം", "ഒന്നാം ദിവസം", "നാല്പതാം ദിവസം", "മുപ്പതാം ദിവസം"]}, "a": 0},
+{"unit": 7, "ch": 23, "q": {"en": "Why did Joseph flee to Egypt with Mary and the child Jesus?", "ml": "യൗസേപ്പ് മറിയത്തോടും ശിശുവായ യേശുവിനോടും കൂടെ ഈജിപ്തിലേക്ക് ഓടിപ്പോയത് എന്തുകൊണ്ട്?"}, "o": {"en": ["Because the angel warned him about King Herod's order to kill children below the age of two", "Because of a famine in Bethlehem", "Because Pharaoh invited them", "Because the Temple was under renovation"], "ml": ["രണ്ടു വയസ്സിനു താഴെയുള്ള കുട്ടികളെ കൊല്ലാനുള്ള ഹെരോദാ രാജാവിന്റെ കല്പനയെക്കുറിച്ച് ദൂതൻ മുന്നറിയിപ്പ് നൽകിയതിനാൽ", "ബേത്ലഹേമിലെ ക്ഷാമം കാരണം", "ഫറവോൻ അവരെ ക്ഷണിച്ചതിനാൽ", "ദേവാലയം പുതുക്കിപ്പണിയുന്നതിനാൽ"]}, "a": 0},
+{"unit": 7, "ch": 23, "q": {"en": "When did Joseph and Mary find the twelve-year-old Jesus after searching for Him for days in Jerusalem?", "ml": "പന്ത്രണ്ടു വയസ്സുള്ള യേശുവിനെ യെരൂശലേമിൽ പല ദിവസം തിരഞ്ഞശേഷം യൗസേപ്പും മറിയവും അവിടുത്തെ എവിടെ കണ്ടെത്തി?"}, "o": {"en": ["In the Temple, after three days of searching", "At a relative's house", "On the road back to Nazareth", "They never found Him and returned without Him"], "ml": ["മൂന്നു ദിവസത്തെ അന്വേഷണത്തിനുശേഷം ദേവാലയത്തിൽ", "ഒരു ബന്ധുവിന്റെ വീട്ടിൽ", "നസ്രത്തിലേക്കുള്ള വഴിയിൽ", "ഒരിക്കലും കണ്ടെത്താതെ അവിടുത്തെ ഇല്ലാതെ മടങ്ങി"]}, "a": 0},
+{"unit": 7, "ch": 23, "q": {"en": "What is generally believed about the timing of St. Joseph's death?", "ml": "വി. യൗസേപ്പിന്റെ മരണസമയത്തെക്കുറിച്ച് പൊതുവേ വിശ്വസിക്കപ്പെടുന്നത് എന്ത്?"}, "o": {"en": ["He died before Jesus's public ministry began, while Jesus was entering youthhood", "He died soon after the crucifixion", "He outlived Jesus and witnessed the Resurrection", "The Bible clearly records the date of his death"], "ml": ["യേശുവിന്റെ പരസ്യശുശ്രൂഷ ആരംഭിക്കുന്നതിനു മുൻപ്, യൗവ്വനത്തിലേക്ക് പ്രവേശിക്കുന്ന കാലത്ത് അദ്ദേഹം മരിച്ചു", "ക്രൂശീകരണത്തിനു തൊട്ടുശേഷം മരിച്ചു", "യേശുവിനെക്കാൾ കൂടുതൽ ജീവിച്ച് ഉയിർപ്പിനു സാക്ഷിയായി", "മരണത്തിന്റെ തിയ്യതി വേദപുസ്തകത്തിൽ വ്യക്തമായി രേഖപ്പെടുത്തിയിട്ടുണ്ട്"]}, "a": 0},
+{"unit": 8, "ch": 24, "q": {"en": "In Genesis 18, whom did Abraham welcome hospitably at the oak grove of Mamre?", "ml": "ഉല്പത്തി 18-ൽ മമ്രേയിലെ കരുവേലകത്തോപ്പിൽ വച്ച് അബ്രാഹാം ആതിഥ്യമരുളിയത് ആരെയാണ്?"}, "o": {"en": ["Three strangers (who revealed God's plan for him)", "Two angels sent to destroy Sodom only", "Lot and his family", "King Melchizedek alone"], "ml": ["മൂന്ന് അപരിചിതർ (അബ്രാഹാമിനുള്ള ദൈവപദ്ധതി വെളിപ്പെടുത്തിയവർ)", "സൊദോം നശിപ്പിക്കാൻ അയക്കപ്പെട്ട രണ്ട് മാലാഖമാർ മാത്രം", "ലോത്തും കുടുംബവും", "മൽക്കീസേദെക്ക് രാജാവ് മാത്രം"]}, "a": 0},
+{"unit": 8, "ch": 24, "q": {"en": "What blessing did the three visitors give Abraham after being received with hospitality?", "ml": "ആതിഥ്യം സ്വീകരിച്ചശേഷം മൂന്ന് അതിഥികൾ അബ്രാഹാമിന് നൽകിയ അനുഗ്രഹം എന്തായിരുന്നു?"}, "o": {"en": ["That a son would be born to him within a year", "That his flocks would double immediately", "That he would become king of Canaan", "That his tent would never wear out"], "ml": ["ഒരു വർഷത്തിനകം ഒരു പുത്രൻ ജനിക്കുമെന്ന്", "ആട്ടിൻപറ്റം ഉടനെ ഇരട്ടിയാകുമെന്ന്", "കാനാൻ ദേശത്തിന്റെ രാജാവാകുമെന്ന്", "കൂടാരം ഒരിക്കലും പഴകില്ലെന്ന്"]}, "a": 0},
+{"unit": 8, "ch": 24, "q": {"en": "Whose home in Bethany did Jesus love to visit, where He was given a loving welcome (St. Luke 10:38-42)?", "ml": "ബേഥാന്യയിൽ യേശു സ്നേഹപൂർവ്വം സ്വീകരിക്കപ്പെട്ട, അദ്ദേഹം ഇഷ്ടപ്പെട്ട വീട് ആരുടേതായിരുന്നു (വി. ലൂക്കോസ് 10:38-42)?"}, "o": {"en": ["The home of Lazarus, Martha and Mary", "The home of Zacchaeus", "The home of Simon the Pharisee", "The home of Nicodemus"], "ml": ["ലാസറിന്റെയും മാർത്തായുടെയും മറിയത്തിന്റെയും വീട്", "സക്കായിയുടെ വീട്", "പരീശനായ ശിമോന്റെ വീട്", "നിക്കോദേമോസിന്റെ വീട്"]}, "a": 0},
+{"unit": 8, "ch": 24, "q": {"en": "According to St. Paul's instruction to Timothy (1 Timothy 3:2-3), what quality, among others, must a bishop have?", "ml": "തിമോത്തിയോസിനുള്ള വി. പൗലോസിന്റെ നിർദ്ദേശപ്രകാരം (1 തിമോ. 3:2-3), ഒരു അധ്യക്ഷന് (ബിഷപ്പിന്) വേണ്ട ഗുണങ്ങളിലൊന്ന് ഏത്?"}, "o": {"en": ["Hospitable", "Wealthy", "Eloquent in public speech only", "Related to the high priest"], "ml": ["അതിഥിപ്രിയൻ", "സമ്പന്നൻ", "പൊതുസംസാരത്തിൽ വാഗ്മി മാത്രം", "മഹാപുരോഹിതനുമായി ബന്ധമുള്ളവൻ"]}, "a": 0},
+{"unit": 8, "ch": 24, "q": {"en": "Where, according to the lesson, should children first receive their training in good manners and hospitality?", "ml": "പാഠപ്രകാരം, നല്ല പെരുമാറ്റത്തിലും ആതിഥ്യത്തിലും കുട്ടികൾ ആദ്യം പരിശീലനം നേടേണ്ടത് എവിടെനിന്നാണ്?"}, "o": {"en": ["From the family, at a tender age", "Only at school", "Only at Sunday School", "From social media"], "ml": ["കുടുംബത്തിൽനിന്ന്, ചെറുപ്പം മുതൽ", "സ്കൂളിൽനിന്നു മാത്രം", "സൺഡേസ്കൂളിൽനിന്നു മാത്രം", "സോഷ്യൽ മീഡിയയിൽനിന്ന്"]}, "a": 0},
+{"unit": 8, "ch": 25, "q": {"en": "Which historical figure is cited in the lesson as a true model of punctuality, whose \"body and mind worked like a clock\"?", "ml": "\"ശരീരവും മനസ്സും ഘടികാരംപോലെ പ്രവർത്തിച്ച\" കൃത്യനിഷ്ഠയുടെ യഥാർത്ഥ മാതൃകയായി പാഠത്തിൽ ചൂണ്ടിക്കാണിക്കുന്നത് ആരെ?"}, "o": {"en": ["Mahatma Gandhi", "Julius Caesar", "Alexander the Great", "Napoleon Bonaparte"], "ml": ["മഹാത്മാഗാന്ധി", "ജൂലിയസ് സീസർ", "മഹാനായ അലക്സാണ്ടർ", "നെപ്പോളിയൻ ബോണപ്പാർട്ട്"]}, "a": 0},
+{"unit": 8, "ch": 25, "q": {"en": "According to the lesson, what did Mahatma Gandhi say is the cause of all evil?", "ml": "പാഠപ്രകാരം, എല്ലാ തിന്മകൾക്കും കാരണം എന്താണെന്നാണ് മഹാത്മാഗാന്ധി പറഞ്ഞത്?"}, "o": {"en": ["Laziness", "Poverty", "Anger", "Ignorance"], "ml": ["മടി (അലസത)", "ദാരിദ്ര്യം", "കോപം", "അജ്ഞത"]}, "a": 0},
+{"unit": 8, "ch": 25, "q": {"en": "In the Parable of the Talents (St. Luke 19:11-27), how many minas did the noble man give to each of his ten servants?", "ml": "താലന്തുകളുടെ ഉപമയിൽ (വി. ലൂക്കോസ് 19:11-27), കുലീനൻ തന്റെ പത്തു ദാസന്മാരിൽ ഓരോരുത്തർക്കും എത്ര മീന വീതം നൽകി?"}, "o": {"en": ["One mina each", "Ten minas each", "Five minas each", "A hundred minas each"], "ml": ["ഓരോരുത്തർക്കും ഒരു മീന വീതം", "ഓരോരുത്തർക്കും പത്തു മീന വീതം", "ഓരോരുത്തർക്കും അഞ്ചു മീന വീതം", "ഓരോരുത്തർക്കും നൂറു മീന വീതം"]}, "a": 0},
+{"unit": 8, "ch": 25, "q": {"en": "In the Parable of the Ten Virgins (St. Matthew 25:1-13), why were five virgins unable to meet the bridegroom?", "ml": "പത്തു കന്യകമാരുടെ ഉപമയിൽ (വി. മത്തായി 25:1-13), അഞ്ചു കന്യകമാർക്ക് മണവാളനെ കണ്ടുമുട്ടാൻ കഴിയാതെ പോയത് എന്തുകൊണ്ട്?"}, "o": {"en": ["They forgot to take extra oil for their lamps", "They fell asleep at the wrong house", "They refused to attend the wedding", "They lost their lamps entirely"], "ml": ["വിളക്കുകൾക്ക് അധിക എണ്ണ കരുതാൻ മറന്നു", "തെറ്റായ വീട്ടിൽ ഉറങ്ങിപ്പോയി", "വിവാഹത്തിൽ പങ്കെടുക്കാൻ വിസമ്മതിച്ചു", "വിളക്കുകൾ പൂർണ്ണമായി നഷ്ടപ്പെട്ടു"]}, "a": 0},
+{"unit": 8, "ch": 25, "q": {"en": "What does Apostle James say about the shortness of life (James 4:14)?", "ml": "ജീവിതത്തിന്റെ ക്ഷണികതയെക്കുറിച്ച് അപ്പോസ്തലനായ യാക്കോബ് എന്തു പറയുന്നു (യാക്കോബ് 4:14)?"}, "o": {"en": ["\"You are a mist that appears for a little while and then vanishes\"", "\"Life is a battlefield to be conquered\"", "\"Life is eternal from the moment of birth\"", "\"Life should be spent accumulating wealth\""], "ml": ["\"നിങ്ങൾ അല്പനേരത്തേക്കു കാണുകയും പിന്നെ മറഞ്ഞുപോകുകയും ചെയ്യുന്ന നീരാവി മാത്രമാണ്\"", "\"ജീവിതം കീഴടക്കേണ്ട ഒരു യുദ്ധക്കളമാണ്\"", "\"ജനനം മുതൽ ജീവിതം ശാശ്വതമാണ്\"", "\"സമ്പത്ത് സ്വരൂപിക്കാൻ വേണ്ടിയാണ് ജീവിതം ചെലവഴിക്കേണ്ടത്\""]}, "a": 0},
+{"unit": 8, "ch": 25, "q": {"en": "Which historical figure (1706-1790), a scientist and statesman, is mentioned as planning each day's tasks before rising and reviewing them before sleep?", "ml": "എഴുന്നേൽക്കുന്നതിനു മുൻപ് ഓരോ ദിവസത്തെയും ജോലികൾ ആസൂത്രണം ചെയ്യുകയും ഉറങ്ങുന്നതിനു മുൻപ് അവലോകനം ചെയ്യുകയും ചെയ്ത ശാസ്ത്രജ്ഞനും രാഷ്ട്രതന്ത്രജ്ഞനുമായ (1706-1790) ചരിത്രപുരുഷൻ ആര്?"}, "o": {"en": ["Benjamin Franklin", "Isaac Newton", "Thomas Edison", "Abraham Lincoln"], "ml": ["ബെഞ്ചമിൻ ഫ്രാങ്ക്ലിൻ", "ഐസക് ന്യൂട്ടൺ", "തോമസ് എഡിസൺ", "എബ്രഹാം ലിങ്കൺ"]}, "a": 0},
+{"unit": 9, "ch": 26, "q": {"en": "Which of the following is NOT valid evidence for the apostolic foundation of the Malankara Church by St. Thomas?", "ml": "മലങ്കരസഭ വി. തോമസ് സ്ഥാപിച്ചു എന്നതിന് സാധുവായ തെളിവല്ലാത്തത് താഴെപ്പറയുന്നവയിൽ ഏത്?"}, "o": {"en": ["Vasco da Gama's arrival on the Kerala coast", "The tomb of St. Thomas and statements of Church Fathers", "The traditional songs like Thoma Parvam", "The eight churches (ezhara pallikal) established by St. Thomas"], "ml": ["വാസ്കോ ഡ ഗാമ കേരളതീരത്ത് വന്നിറങ്ങിയത്", "വി. തോമസിന്റെ കബറിടവും സഭാപിതാക്കന്മാരുടെ പ്രസ്താവനകളും", "തോമാപർവ്വം പോലുള്ള പരമ്പരാഗത ഗാനങ്ങൾ", "വി. തോമസ് സ്ഥാപിച്ച എട്ടു (ഏഴര) പള്ളികൾ"]}, "a": 0},
+{"unit": 9, "ch": 26, "q": {"en": "In the Old Testament, at which port of Kerala did foreign ships trade even in ancient times, which St. Thomas is believed to have used to enter Kerala?", "ml": "പുരാതനകാലം മുതൽ വിദേശക്കപ്പലുകൾ വ്യാപാരം നടത്തിയിരുന്ന, വി. തോമസ് കേരളത്തിൽ പ്രവേശിച്ചു എന്നു കരുതപ്പെടുന്ന തുറമുഖം ഏത്?"}, "o": {"en": ["Muziris (Kodungalloor)", "Kollam", "Alappuzha", "Thiruvananthapuram"], "ml": ["മുസിരിസ് (കൊടുങ്ങല്ലൂർ)", "കൊല്ലം", "ആലപ്പുഴ", "തിരുവനന്തപുരം"]}, "a": 0},
+{"unit": 9, "ch": 26, "q": {"en": "\"Habeebai\" and \"Ahai\", used by the deacon to address the congregation before the readings, together mean what?", "ml": "വായനയ്ക്കു മുൻപ് സഭാജനത്തെ അഭിസംബോധന ചെയ്യാൻ ശെമ്മാശൻ ഉപയോഗിക്കുന്ന \"ഹബീബായ്\", \"അഹായ്\" എന്നിവ ചേർന്ന് അർത്ഥമാക്കുന്നത് എന്ത്?"}, "o": {"en": ["My beloved ones and my brethren", "My teachers and my students", "My enemies and my friends", "My children and my elders"], "ml": ["എന്റെ പ്രിയരും എന്റെ സഹോദരരും", "എന്റെ ഗുരുക്കന്മാരും ശിഷ്യരും", "എന്റെ ശത്രുക്കളും മിത്രങ്ങളും", "എന്റെ മക്കളും മുതിർന്നവരും"]}, "a": 0},
+{"unit": 9, "ch": 26, "q": {"en": "How many Epistles did St. Paul write, which are read at the southern end of the Holy of Holies?", "ml": "വിശുദ്ധസ്ഥലത്തിന്റെ തെക്കേ അറ്റത്തുവച്ച് വായിക്കുന്ന വി. പൗലോസിന്റെ ലേഖനങ്ങൾ എത്ര?"}, "o": {"en": ["Fourteen", "Seven", "Twelve", "Twenty-one"], "ml": ["പതിനാല്", "ഏഴ്", "പന്ത്രണ്ട്", "ഇരുപത്തിയൊന്ന്"]}, "a": 0},
+{"unit": 9, "ch": 26, "q": {"en": "The Church's penitential prayer at the start of most liturgical services (a \"prayer of repentance\") is usually taken from which Psalm?", "ml": "മിക്ക ശുശ്രൂഷകളുടെയും ആരംഭത്തിൽ ചൊല്ലുന്ന അനുതാപ പ്രാർത്ഥന (\"പശ്ചാത്താപ പ്രാർത്ഥന\") സാധാരണ ഏതു സങ്കീർത്തനത്തിൽനിന്നാണ്?"}, "o": {"en": ["Psalm 51", "Psalm 23", "Psalm 100", "Psalm 150"], "ml": ["സങ്കീർത്തനം 51", "സങ്കീർത്തനം 23", "സങ്കീർത്തനം 100", "സങ്കീർത്തനം 150"]}, "a": 0},
+{"unit": 9, "ch": 26, "q": {"en": "According to the Competitive Exam paper (translated for this bank), what is the correct understanding of Hebrews 11:24-25 regarding Moses?", "ml": "മത്സര പരീക്ഷാ പേപ്പർ പ്രകാരം (ഈ ചോദ്യബാങ്കിനായി വിവർത്തനം ചെയ്തത്), എബ്രായർ 11:24-25 മോശയെക്കുറിച്ച് എന്താണ് പഠിപ്പിക്കുന്നത്?"}, "o": {"en": ["Moses chose to suffer with God's people rather than enjoy the fleeting pleasures of Pharaoh's court", "Moses chose to remain silent and avoid all conflict with Pharaoh", "Moses chose to stay in the palace to protect his adopted family", "Moses chose to become a priest instead of a leader"], "ml": ["ഫറവോന്റെ കൊട്ടാരത്തിലെ ക്ഷണിക സുഖങ്ങളേക്കാൾ ദൈവജനത്തോടൊപ്പം കഷ്ടത സഹിക്കാൻ മോശ തിരഞ്ഞെടുത്തു", "ഫറവോനുമായുള്ള സംഘർഷം ഒഴിവാക്കാൻ മൗനം പാലിക്കാൻ മോശ തിരഞ്ഞെടുത്തു", "ദത്തെടുത്ത കുടുംബത്തെ സംരക്ഷിക്കാൻ കൊട്ടാരത്തിൽ തുടരാൻ മോശ തിരഞ്ഞെടുത്തു", "നേതാവാകുന്നതിനുപകരം പുരോഹിതനാകാൻ മോശ തിരഞ്ഞെടുത്തു"]}, "a": 0},
+{"unit": 9, "ch": 26, "q": {"en": "In the account of crossing the Red Sea, what did Moses actually do, according to Exodus 14:16 (a point some papers test as a common error)?", "ml": "ചെങ്കടൽ കടന്ന സംഭവത്തിൽ, പുറപ്പാട് 14:16 പ്രകാരം മോശ യഥാർത്ഥത്തിൽ എന്താണ് ചെയ്തത് (ചില പേപ്പറുകളിൽ പൊതുവായ തെറ്റിദ്ധാരണയായി പരീക്ഷിക്കപ്പെടുന്ന കാര്യം)?"}, "o": {"en": ["He stretched his hand and staff over the sea, and it split apart", "He struck the sea directly with his rod", "He threw his staff into the sea and it disappeared", "He prayed silently while Aaron acted"], "ml": ["കടലിനുമേൽ കൈയും വടിയും നീട്ടി, കടൽ പിളർന്നു", "വടികൊണ്ട് നേരിട്ട് കടലിനെ അടിച്ചു", "വടി കടലിലേക്ക് എറിഞ്ഞു, അത് അപ്രത്യക്ഷമായി", "അഹറോൻ പ്രവർത്തിക്കുമ്പോൾ മൗനമായി പ്രാർത്ഥിച്ചു"]}, "a": 0},
+{"unit": 9, "ch": 26, "q": {"en": "Which apostle preached the sermon at Pentecost that led about three thousand people to join the Church?", "ml": "പെന്തക്കുസ്താ നാളിൽ ഏകദേശം മൂവായിരം പേരെ സഭയിൽ ചേർക്കാൻ ഇടയാക്കിയ പ്രസംഗം നടത്തിയ അപ്പോസ്തലൻ ആര്?"}, "o": {"en": ["St. Peter", "St. Paul", "St. John", "St. James"], "ml": ["വി. പത്രോസ്", "വി. പൗലോസ്", "വി. യോഹന്നാൻ", "വി. യാക്കോബ്"]}, "a": 0}
+];
+
+function shuffle(arr){
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--){
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+function t(key){ return (UI[lang] && UI[lang][key]) || UI.en[key] || key; }
+
+function applyStaticText(){
+  document.documentElement.lang = lang;
+  var nodes = document.querySelectorAll('[data-t]');
+  nodes.forEach(function(el){ el.textContent = t(el.getAttribute('data-t')); });
+  document.getElementById('langToggle').textContent = lang === 'en' ? 'മലയാളം' : 'English';
+}
+
+document.getElementById('langToggle').addEventListener('click', function(){
+  lang = (lang === 'en') ? 'ml' : 'en';
+  applyStaticText();
+  if (!document.getElementById('screenQuiz').hidden) renderQuestion();
+  if (!document.getElementById('screenResult').hidden) renderResult();
+});
+
+var state = { count: 25, pool: [], idx: 0, score: 0, answers: [] };
+
+document.getElementById('startBtn').addEventListener('click', function(){
+  var name = document.getElementById('studentName').value.trim();
+  if (!name){
+    alert(t('enterName'));
+    document.getElementById('studentName').focus();
+    return;
+  }
+  state.name = name;
+  state.pool = shuffle(BANK).slice(0, Math.min(state.count, BANK.length));
+  state.idx = 0;
+  state.score = 0;
+  state.answers = [];
+  document.getElementById('screenSetup').hidden = true;
+  document.getElementById('screenResult').hidden = true;
+  document.getElementById('screenQuiz').hidden = false;
+  renderQuestion();
+});
+
+var qOptionsEl = document.getElementById('qOptions');
+var nextBtn = document.getElementById('nextBtn');
+
+function renderQuestion(){
+  var total = state.pool.length;
+  var item = state.pool[state.idx];
+
+  document.getElementById('progressLabel').textContent = t('question') + ' ' + (state.idx + 1) + ' / ' + total;
+  document.getElementById('scoreLive').textContent = t('score') + ': ' + state.score;
+  document.getElementById('progressFill').style.width = (((state.idx) / total) * 100) + '%';
+  document.getElementById('qText').textContent = item.q[lang];
+
+  if (!item._shuffled){
+    var opts = item.o[lang].map(function(text, i){ return {i:i}; });
+    item._shuffledOrder = shuffle(opts.map(function(o){return o.i;}));
+    item._shuffled = true;
+  }
+
+  qOptionsEl.innerHTML = '';
+  var letters = ['A','B','C','D','E','F'];
+  item._shuffledOrder.forEach(function(origIdx, pos){
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'option';
+    btn.innerHTML = '<span class="letter">' + letters[pos] + '</span><span class="opt-text"></span>';
+    btn.querySelector('.opt-text').textContent = item.o[lang][origIdx];
+    btn.dataset.origIdx = origIdx;
+    btn.addEventListener('click', function(){ selectOption(item, origIdx, btn); });
+    qOptionsEl.appendChild(btn);
+  });
+
+  nextBtn.disabled = true;
+  nextBtn.textContent = (state.idx === total - 1) ? t('btnFinish') : t('btnNext');
+}
+
+function selectOption(item, pickedIdx, btnEl){
+  if (item._answered) return;
+  item._answered = true;
+  item._picked = pickedIdx;
+
+  var buttons = qOptionsEl.querySelectorAll('.option');
+  buttons.forEach(function(b){
+    b.disabled = true;
+    var oi = parseInt(b.dataset.origIdx, 10);
+    if (oi === item.a) b.dataset.state = 'correct';
+    else if (oi === pickedIdx) b.dataset.state = 'wrong';
+  });
+
+  var correct = (pickedIdx === item.a);
+  if (correct) state.score++;
+  document.getElementById('scoreLive').textContent = t('score') + ': ' + state.score;
+
+  state.answers.push({
+    q: item.q, options: item.o, correctIdx: item.a, pickedIdx: pickedIdx,
+    unit: item.unit, ch: item.ch
+  });
+
+  nextBtn.disabled = false;
+}
+
+nextBtn.addEventListener('click', function(){
+  if (state.idx < state.pool.length - 1){
+    state.idx++;
+    renderQuestion();
+  } else {
+    finishQuiz();
+  }
+});
+
+function finishQuiz(){
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('screenQuiz').hidden = true;
+  document.getElementById('screenResult').hidden = false;
+  renderResult();
+}
+
+function renderResult(){
+  var total = state.pool.length;
+  var pct = Math.round((state.score / total) * 100);
+  document.getElementById('resultName').textContent = t('wellDone').replace('{name}', state.name || '');
+  document.getElementById('scoreNum').textContent = state.score + ' / ' + total;
+  document.getElementById('scorePct').textContent = pct + '%';
+  var verdictEl = document.getElementById('verdict');
+  if (pct >= 50){
+    verdictEl.textContent = t('pass');
+    verdictEl.className = 'verdict pass';
+  } else {
+    verdictEl.textContent = t('fail');
+    verdictEl.className = 'verdict fail';
+  }
+  buildReview();
+}
+
+function buildReview(){
+  var block = document.getElementById('reviewBlock');
+  block.innerHTML = '<h3>' + (lang==='en' ? 'Answer Review' : 'ഉത്തര പരിശോധന') + '</h3>';
+  state.answers.forEach(function(a, i){
+    var div = document.createElement('div');
+    div.className = 'review-item';
+    var qDiv = document.createElement('div');
+    qDiv.className = 'review-q';
+    qDiv.textContent = (i+1) + '. ' + a.q[lang];
+    div.appendChild(qDiv);
+
+    var aDiv = document.createElement('div');
+    aDiv.className = 'review-a';
+    var correctText = a.options[lang][a.correctIdx];
+    var pickedText = a.options[lang][a.pickedIdx];
+    if (a.pickedIdx === a.correctIdx){
+      aDiv.innerHTML = t('yourAnswer') + ': <b>' + pickedText + '</b>';
+    } else {
+      aDiv.innerHTML = t('yourAnswer') + ': <span class="wrong-pick">' + pickedText + '</span> &nbsp;&middot;&nbsp; ' + t('correctAnswer') + ': <b>' + correctText + '</b>';
+    }
+    div.appendChild(aDiv);
+    block.appendChild(div);
+  });
+}
+
+document.getElementById('reviewToggle').addEventListener('click', function(){
+  var block = document.getElementById('reviewBlock');
+  var btn = document.getElementById('reviewToggle');
+  block.hidden = !block.hidden;
+  btn.textContent = block.hidden ? t('btnReview') : t('btnReviewHide');
+});
+
+document.getElementById('retryBtn').addEventListener('click', function(){
+  BANK.forEach(function(item){
+    delete item._answered;
+    delete item._picked;
+    delete item._shuffled;
+    delete item._shuffledOrder;
+  });
+  document.getElementById('reviewBlock').hidden = true;
+  document.getElementById('reviewToggle').textContent = t('btnReview');
+  document.getElementById('screenResult').hidden = true;
+  document.getElementById('screenSetup').hidden = false;
+});
+
+applyStaticText();
+})();
+</script>
+</body>
+</html>

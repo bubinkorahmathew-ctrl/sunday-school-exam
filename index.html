@@ -17,6 +17,7 @@
       --border: #e4d8bf;
       --accent7: #7b1e2b;
       --accent6: #1f5c4d;
+      --accent5: #235482;
       --gold: #a97a26;
       --gold-light: #f5eedb;
       --shadow: 0 16px 36px -16px rgba(42, 30, 20, 0.25);
@@ -35,6 +36,7 @@
       --border: #3d352b;
       --accent7: #e0929c;
       --accent6: #7fc9a9;
+      --accent5: #6ea8dc;
       --gold: #dcb567;
       --gold-light: #2c2518;
       --shadow: 0 16px 36px -16px rgba(0, 0, 0, 0.65);
@@ -221,6 +223,10 @@
       height: 5px;
     }
 
+    .card.c5::before {
+      background: linear-gradient(90deg, var(--accent5), var(--gold));
+    }
+
     .card.c6::before {
       background: linear-gradient(90deg, var(--accent6), var(--gold));
     }
@@ -266,6 +272,11 @@
       letter-spacing: 0.05em;
       padding: 4px 10px;
       border-radius: 999px;
+    }
+
+    .badge-c5 {
+      background: color-mix(in srgb, var(--accent5) 14%, transparent);
+      color: var(--accent5);
     }
 
     .badge-c6 {
@@ -471,6 +482,19 @@
     </div>
 
     <div class="grid-active">
+      <a class="card c5" href="class5.html">
+        <div>
+          <div class="card-top">
+            <h2 data-en="Class V" data-ml="ക്ലാസ്സ് V">Class V</h2>
+            <span class="card-badge badge-c5" data-en="181 Questions" data-ml="181 ചോദ്യങ്ങൾ">181 Questions</span>
+          </div>
+          <p data-en="25 Chapters · English &amp; Malayalam · 25 questions randomly selected per exam" data-ml="25 അധ്യായങ്ങൾ · ഇംഗ്ലീഷ് &amp; മലയാളം · പരീക്ഷയിൽ 25 ചോദ്യങ്ങൾ">25 Chapters · English &amp; Malayalam · 25 questions randomly selected per exam</p>
+        </div>
+        <div class="card-action">
+          <span data-en="Start Practice Exam" data-ml="പരീക്ഷ തുടങ്ങുക">Start Practice Exam</span> &rarr;
+        </div>
+      </a>
+
       <a class="card c6" href="class6.html">
         <div>
           <div class="card-top">
@@ -505,12 +529,6 @@
     </div>
 
     <div class="grid-wip">
-      <button class="card wip" onclick="showWIP('Class V')">
-        <h2 data-en="Class V" data-ml="ക്ലാസ്സ് V">Class V</h2>
-        <p data-en="Questions coming soon" data-ml="ചോദ്യങ്ങൾ ഉടൻ വരും">Questions coming soon</p>
-        <span class="wip-badge" data-en="🚧 Coming Soon" data-ml="🚧 ഉടൻ വരും">🚧 Coming Soon</span>
-      </button>
-
       <button class="card wip" onclick="showWIP('Class VIII')">
         <h2 data-en="Class VIII" data-ml="ക്ലാസ്സ് VIII">Class VIII</h2>
         <p data-en="Questions coming soon" data-ml="ചോദ്യങ്ങൾ ഉടൻ വരും">Questions coming soon</p>
