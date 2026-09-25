@@ -22,6 +22,8 @@
     --good-bg:#e7f2ea;
     --bad:#b23a32;
     --bad-bg:#f8e9e7;
+    --warn:#b45309;
+    --warn-bg:#fef3c7;
     --shadow: 0 18px 40px -20px rgba(42,30,20,.35);
   }
   @media (prefers-color-scheme: dark){
@@ -39,6 +41,8 @@
       --good-bg:#1f3327;
       --bad:#e2948c;
       --bad-bg:#3a2320;
+      --warn:#fcd34d;
+      --warn-bg:#3d2c14;
       --shadow: 0 18px 40px -20px rgba(0,0,0,.6);
     }
   }
@@ -117,6 +121,24 @@
     animation:sheen 6s linear infinite;
   }
   @keyframes sheen{ to{ background-position:200% 0; } }
+
+    .lang-chips{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;
+  }
+  .lang-chip{
+    border:1.5px solid var(--border); background:var(--surface-2); color:var(--ink);
+    padding:11px 14px; border-radius:12px; cursor:pointer; font-size:.92rem;
+    font-weight:700; text-align:center; display:flex; align-items:center;
+    justify-content:center; gap:8px; transition:all .18s ease; user-select:none; font-family:inherit;
+  }
+  .lang-chip:hover{
+    border-color:var(--gold); transform:translateY(-1px);
+    box-shadow:0 4px 12px -6px rgba(0,0,0,.2);
+  }
+  .lang-chip.selected{
+    background:var(--accent); color:var(--accent-ink); border-color:var(--accent);
+    box-shadow:0 6px 18px -6px color-mix(in srgb, var(--accent) 70%, transparent);
+  }
 
   .field{ margin-bottom:18px; }
   .field label{
@@ -236,7 +258,7 @@
 
 <div class="app">
   <p class="org-header">M.G.O.S.C &middot; OSSAE, Thrissur Diocese</p>
-  <a class="home-link" href="index.html" data-t="homeLink">&larr; Choose another class</a>
+  <a class="home-link" id="homeLink" href="index.html" data-t="homeLink">&larr; Choose another class</a>
   <header class="top">
     <div class="brand">
       <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -251,7 +273,19 @@
     <button id="langToggle" type="button">മലയാളം</button>
   </header>
 
-  <section class="card" id="screenSetup">
+    <section class="card" id="screenSetup">
+    <div class="field">
+      <label data-t="lblLang">Choose Exam Language</label>
+      <div class="lang-chips" id="langChips">
+        <button type="button" class="lang-chip selected" data-lang="en">
+          <span>🇬🇧</span> English
+        </button>
+        <button type="button" class="lang-chip" data-lang="ml">
+          <span>🇮🇳</span> മലയാളം
+        </button>
+      </div>
+    </div>
+
     <div class="field">
       <label data-t="lblName">Student name</label>
       <input type="text" id="studentName" placeholder="Enter your name" autocomplete="name">
@@ -274,6 +308,7 @@
   <section class="card" id="screenQuiz" hidden>
     <div class="progress-wrap">
       <span id="progressLabel">Question 1 / 20</span>
+      <span class="timer-badge" id="timerBadge">⏱️ <span id="timerText">25:00</span></span>
       <span id="scoreLive">Score: 0</span>
     </div>
     <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:5%"></div></div>
@@ -283,6 +318,7 @@
     <div class="options" id="qOptions"></div>
 
     <div class="nextRow">
+      <button id="abortBtn" type="button" class="btn-abort" data-t="btnAbort">&#x2715; Abort Exam</button>
       <button id="nextBtn" type="button" disabled data-t="btnNext">Next</button>
     </div>
   </section>
@@ -292,6 +328,7 @@
       <div style="font-size:.85rem;color:var(--muted);font-weight:600;" id="resultName">Well done, Student!</div>
       <div class="score-num" id="scoreNum">0 / 20</div>
       <div class="score-pct" id="scorePct">0%</div>
+      <div style="font-size:.85rem;color:var(--muted);font-weight:600;margin-top:4px;" id="resTime"></div>
       <span class="verdict" id="verdict">Pass</span>
     </div>
     <button class="btn-primary" id="retryBtn" data-t="btnRetry">Take Exam Again</button>
@@ -303,6 +340,19 @@
   <p class="dev-credit">developed by bubinkmin</p>
 </div>
 
+<!-- Abort Confirmation Modal -->
+<div class="modal-overlay" id="abortModal" role="dialog" aria-modal="true" aria-labelledby="abortTitle">
+  <div class="modal-box">
+    <span class="modal-icon">&#x26A0;&#xFE0F;</span>
+    <h3 id="abortTitle" data-t="abortTitle">Abort Exam?</h3>
+    <p id="abortMsg" data-t="abortMsg">Are you sure you want to abort the exam? All your current answers and score will be lost.</p>
+    <div class="modal-actions">
+      <button type="button" class="btn-modal-cancel" id="abortCancelBtn" data-t="abortCancel">Continue Exam</button>
+      <button type="button" class="btn-modal-confirm" id="abortConfirmBtn" data-t="abortConfirm">Yes, Abort</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
 "use strict";
@@ -312,6 +362,7 @@ var UI = {
     brandTitle:"Class VI Bible Quiz",
     brandSub:"O.S.S.A.E. · Galilee Division",
     homeLink:"← Choose another class",
+    lblLang:"Choose Exam Language",
     lblName:"Student name",
     lblCount:"Number of questions",
     hintPool:"Questions are drawn at random from all 25 chapters — every attempt is different.",
@@ -331,12 +382,20 @@ var UI = {
     wellDone:"Well done, {name}!",
     yourAnswer:"Your answer",
     correctAnswer:"Correct answer",
+    timeTaken:"Time Taken: ",
+    btnAbort:"✕ Abort Exam",
+    abortTitle:"Abort Exam?",
+    abortMsg:"Are you sure you want to abort the exam? All your current answers and score will be lost.",
+    abortCancel:"Continue Exam",
+    abortConfirm:"Yes, Abort",
+    timeUpAlert:"⏰ Time is up! Submitting exam.",
     enterName:"Please enter your name to begin."
   },
   ml:{
     brandTitle:"ക്ലാസ്സ് 6 ബൈബിൾ പരീക്ഷ",
     brandSub:"ഒ.എസ്.എസ്.എ.ഇ · ഗലീലാ ഡിവിഷൻ",
     homeLink:"← മറ്റൊരു ക്ലാസ്സ് തിരഞ്ഞെടുക്കുക",
+    lblLang:"പരീക്ഷ ഭാഷ തിരഞ്ഞെടുക്കുക",
     lblName:"വിദ്യാർത്ഥിയുടെ പേര്",
     lblCount:"ചോദ്യങ്ങളുടെ എണ്ണം",
     hintPool:"25 പാഠങ്ങളിൽ നിന്നും ക്രമരഹിതമായി ചോദ്യങ്ങൾ തിരഞ്ഞെടുക്കുന്നു — ഓരോ തവണയും വ്യത്യസ്തം.",
@@ -490,6 +549,26 @@ function shuffle(arr){
 
 function t(key){ return (UI[lang] && UI[lang][key]) || UI.en[key] || key; }
 
+
+function updateLangChips(){
+  document.querySelectorAll('.lang-chip').forEach(function(chip){
+    if (chip.getAttribute('data-lang') === lang){
+      chip.classList.add('selected');
+    } else {
+      chip.classList.remove('selected');
+    }
+  });
+}
+
+function setLanguage(newLang){
+  lang = newLang;
+  localStorage.setItem('ss_lang', lang);
+  updateLangChips();
+  applyStaticText();
+  if (!document.getElementById('screenQuiz').hidden) renderQuestion();
+  if (!document.getElementById('screenResult').hidden) renderResult();
+}
+
 function applyStaticText(){
   document.documentElement.lang = lang;
   var nodes = document.querySelectorAll('[data-t]');
@@ -503,6 +582,71 @@ document.getElementById('langToggle').addEventListener('click', function(){
   if (!document.getElementById('screenQuiz').hidden) renderQuestion();
   if (!document.getElementById('screenResult').hidden) renderResult();
 });
+
+
+var TOTAL_TIME_SECONDS = 25 * 60; // 25 minutes
+var timerInterval = null;
+var secondsLeft = TOTAL_TIME_SECONDS;
+var timeTakenSeconds = 0;
+
+function formatTime(sec){
+  var m = Math.floor(sec / 60);
+  var s = sec % 60;
+  return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+}
+
+function startTimer(){
+  clearInterval(timerInterval);
+  secondsLeft = TOTAL_TIME_SECONDS;
+  timeTakenSeconds = 0;
+  updateTimerUI();
+
+  timerInterval = setInterval(function(){
+    secondsLeft--;
+    timeTakenSeconds++;
+    updateTimerUI();
+
+    if (secondsLeft <= 0){
+      clearInterval(timerInterval);
+      alert(t('timeUpAlert'));
+      finishQuiz();
+    }
+  }, 1000);
+}
+
+function updateTimerUI(){
+  var badge = document.getElementById('timerBadge');
+  var txt = document.getElementById('timerText');
+  txt.textContent = formatTime(secondsLeft);
+
+  if (secondsLeft <= 120){
+    badge.className = 'timer-badge danger';
+  } else if (secondsLeft <= 300){
+    badge.className = 'timer-badge warning';
+  } else {
+    badge.className = 'timer-badge';
+  }
+}
+
+function stopTimer(){
+  clearInterval(timerInterval);
+}
+
+function formatDuration(sec){
+  var m = Math.floor(sec / 60);
+  var s = sec % 60;
+  if (m === 0) return s + (lang === 'ml' ? ' സെക്കൻഡ്' : ' sec');
+  return m + (lang === 'ml' ? ' മിനിറ്റ് ' : 'm ') + s + (lang === 'ml' ? ' സെക്കൻഡ്' : 's');
+}
+
+function handleBeforeUnload(e){
+  if (!document.getElementById('screenQuiz').hidden){
+    e.preventDefault();
+    e.returnValue = '';
+    return '';
+  }
+}
+window.addEventListener('beforeunload', handleBeforeUnload);
 
 var state = { count: 25, pool: [], idx: 0, score: 0, answers: [] };
 
@@ -527,9 +671,12 @@ document.getElementById('startBtn').addEventListener('click', function(){
   state.idx = 0;
   state.score = 0;
   state.answers = [];
+  var hl = document.getElementById('homeLink');
+  if (hl) hl.style.display = 'none';
   document.getElementById('screenSetup').hidden = true;
   document.getElementById('screenResult').hidden = true;
   document.getElementById('screenQuiz').hidden = false;
+  startTimer();
   renderQuestion();
 });
 
@@ -604,9 +751,12 @@ nextBtn.addEventListener('click', function(){
 });
 
 function finishQuiz(){
+  stopTimer();
   document.getElementById('progressFill').style.width = '100%';
   document.getElementById('screenQuiz').hidden = true;
   document.getElementById('screenResult').hidden = false;
+  var hl = document.getElementById('homeLink');
+  if (hl) hl.style.display = 'inline-block';
   renderResult();
 }
 
@@ -616,6 +766,7 @@ function renderResult(){
   document.getElementById('resultName').textContent = t('wellDone').replace('{name}', state.name || '');
   document.getElementById('scoreNum').textContent = state.score + ' / ' + total;
   document.getElementById('scorePct').textContent = pct + '%';
+  var rt = document.getElementById('resTime'); if (rt) rt.textContent = t('timeTaken') + formatDuration(timeTakenSeconds);
   var verdictEl = document.getElementById('verdict');
   if (pct >= 50){
     verdictEl.textContent = t('pass');
@@ -658,6 +809,60 @@ document.getElementById('reviewToggle').addEventListener('click', function(){
   block.hidden = !block.hidden;
   btn.textContent = block.hidden ? t('btnReview') : t('btnReviewHide');
 });
+
+
+var abortModal = document.getElementById('abortModal');
+var abortBtn = document.getElementById('abortBtn');
+var abortCancelBtn = document.getElementById('abortCancelBtn');
+var abortConfirmBtn = document.getElementById('abortConfirmBtn');
+
+if (abortBtn) {
+  abortBtn.addEventListener('click', function(){
+    abortModal.classList.add('active');
+  });
+}
+
+if (abortCancelBtn) {
+  abortCancelBtn.addEventListener('click', function(){
+    abortModal.classList.remove('active');
+  });
+}
+
+if (abortModal) {
+  abortModal.addEventListener('click', function(e){
+    if (e.target === abortModal){
+      abortModal.classList.remove('active');
+    }
+  });
+}
+
+function resetExamState(){
+  stopTimer();
+  BANK.forEach(function(item){
+    delete item._answered;
+    delete item._picked;
+    delete item._shuffled;
+    delete item._shuffledOrder;
+  });
+  state.idx = 0;
+  state.score = 0;
+  state.answers = [];
+  state.pool = [];
+  secondsLeft = TOTAL_TIME_SECONDS;
+  timeTakenSeconds = 0;
+}
+
+if (abortConfirmBtn) {
+  abortConfirmBtn.addEventListener('click', function(){
+    abortModal.classList.remove('active');
+    resetExamState();
+    document.getElementById('screenQuiz').hidden = true;
+    document.getElementById('screenResult').hidden = true;
+    document.getElementById('screenSetup').hidden = false;
+    var hl = document.getElementById('homeLink');
+    if (hl) hl.style.display = 'inline-block';
+  });
+}
 
 document.getElementById('retryBtn').addEventListener('click', function(){
   BANK.forEach(function(item){

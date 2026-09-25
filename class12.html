@@ -22,6 +22,8 @@
     --good-bg:#e7f2ea;
     --bad:#b23a32;
     --bad-bg:#f8e9e7;
+    --warn:#b45309;
+    --warn-bg:#fef3c7;
     --shadow: 0 18px 40px -20px rgba(42,30,20,.35);
   }
   @media (prefers-color-scheme: dark){
@@ -39,6 +41,8 @@
       --good-bg:#1f3327;
       --bad:#e2948c;
       --bad-bg:#3a2320;
+      --warn:#fcd34d;
+      --warn-bg:#3d2c14;
       --shadow: 0 18px 40px -20px rgba(0,0,0,.65);
     }
   }
@@ -132,11 +136,47 @@
   }
   input[type="text"]:focus-visible, select:focus-visible{ outline:2px solid var(--accent); outline-offset:1px; }
 
+    .lang-chips{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;
+  }
+  .lang-chip{
+    border:1.5px solid var(--border); background:var(--surface-2); color:var(--ink);
+    padding:11px 14px; border-radius:12px; cursor:pointer; font-size:.92rem;
+    font-weight:700; text-align:center; display:flex; align-items:center;
+    justify-content:center; gap:8px; transition:all .18s ease; user-select:none; font-family:inherit;
+  }
+  .lang-chip:hover{
+    border-color:var(--gold); transform:translateY(-1px);
+    box-shadow:0 4px 12px -6px rgba(0,0,0,.2);
+  }
+  .lang-chip.selected{
+    background:var(--accent); color:var(--accent-ink); border-color:var(--accent);
+    box-shadow:0 6px 18px -6px color-mix(in srgb, var(--accent) 70%, transparent);
+  }
+
   .school-chips{
     display:grid; grid-template-columns:repeat(2, 1fr); gap:8px;
   }
   @media (min-width: 480px){
-    .school-chips{ grid-template-columns:repeat(4, 1fr); }
+      .lang-chips{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;
+  }
+  .lang-chip{
+    border:1.5px solid var(--border); background:var(--surface-2); color:var(--ink);
+    padding:11px 14px; border-radius:12px; cursor:pointer; font-size:.92rem;
+    font-weight:700; text-align:center; display:flex; align-items:center;
+    justify-content:center; gap:8px; transition:all .18s ease; user-select:none; font-family:inherit;
+  }
+  .lang-chip:hover{
+    border-color:var(--gold); transform:translateY(-1px);
+    box-shadow:0 4px 12px -6px rgba(0,0,0,.2);
+  }
+  .lang-chip.selected{
+    background:var(--accent); color:var(--accent-ink); border-color:var(--accent);
+    box-shadow:0 6px 18px -6px color-mix(in srgb, var(--accent) 70%, transparent);
+  }
+
+  .school-chips{ grid-template-columns:repeat(4, 1fr); }
   }
   .school-chip{
     border:1px solid var(--border); background:var(--surface-2); color:var(--ink);
@@ -226,13 +266,82 @@
   .option[data-state="wrong"] .letter{ background:var(--bad); color:#fff; border-color:var(--bad); }
   .option:disabled{ cursor:default; }
 
-  .nextRow{ display:flex; justify-content:flex-end; }
+  /* Timer Badge */
+  .timer-badge{
+    display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:999px;
+    background:var(--surface-2); border:1px solid var(--border); font-size:.82rem;
+    font-weight:700; color:var(--ink); font-variant-numeric:tabular-nums;
+    transition:all .2s ease;
+  }
+  .timer-badge.warning{
+    background:var(--warn-bg); border-color:var(--warn); color:var(--warn);
+  }
+  .timer-badge.danger{
+    background:var(--bad-bg); border-color:var(--bad); color:var(--bad);
+    animation:pulse 1s infinite;
+  }
+  @keyframes pulse{
+    0%, 100%{ transform:scale(1); }
+    50%{ transform:scale(1.04); }
+  }
+
+  .nextRow{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+  }
   #nextBtn{
     padding:11px 24px; border-radius:10px; border:none; background:var(--accent); color:var(--accent-ink);
     font-weight:700; font-size:.95rem; cursor:pointer; font-family:inherit;
+    min-width:140px;
+    transition:all .15s ease;
   }
   #nextBtn:disabled{ opacity:.4; cursor:not-allowed; }
   #nextBtn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  .btn-abort{
+    padding:10px 16px; border-radius:10px; border:1px solid var(--bad);
+    background:transparent; color:var(--bad); font-weight:700; font-size:.88rem;
+    cursor:pointer; font-family:inherit; display:inline-flex; align-items:center; gap:6px;
+    transition:all .15s ease;
+  }
+  .btn-abort:hover{ background:var(--bad-bg); transform:translateY(-1px); }
+  .btn-abort:focus-visible{ outline:2px solid var(--bad); outline-offset:2px; }
+
+  @media (max-width:440px){
+    .nextRow{ flex-direction:column-reverse; gap:10px; }
+    .btn-abort, #nextBtn{ width:100%; justify-content:center; }
+  }
+
+  /* Abort Confirmation Modal */
+  .modal-overlay{
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,.6);
+    backdrop-filter:blur(5px); z-index:1000; align-items:center; justify-content:center; padding:16px;
+  }
+  .modal-overlay.active{ display:flex; animation:fadeIn .2s ease; }
+  .modal-box{
+    background:var(--surface); border:1px solid var(--border); border-radius:20px;
+    box-shadow:0 24px 48px -16px rgba(0,0,0,.5); padding:28px 24px 22px; max-width:400px;
+    width:100%; text-align:center; animation:slideUp .22s ease;
+  }
+  .modal-icon{ font-size:2.8rem; margin-bottom:8px; display:block; }
+  .modal-box h3{ font-family:'Cormorant Garamond', serif; font-size:1.55rem; margin:0 0 8px; color:var(--bad); }
+  .modal-box p{ color:var(--muted); font-size:.9rem; margin:0 0 20px; line-height:1.5; }
+  .modal-actions{ display:flex; gap:10px; justify-content:center; }
+  .btn-modal-cancel{
+    flex:1; padding:10px 16px; border-radius:10px; border:1px solid var(--border);
+    background:var(--surface-2); color:var(--ink); font-weight:600; font-size:.88rem;
+    cursor:pointer; font-family:inherit; transition:background .15s ease;
+  }
+  .btn-modal-cancel:hover{ background:var(--border); }
+  .btn-modal-confirm{
+    flex:1; padding:10px 16px; border-radius:10px; border:none; background:var(--bad);
+    color:#fff; font-weight:700; font-size:.88rem; cursor:pointer; font-family:inherit;
+    transition:filter .15s ease;
+  }
+  .btn-modal-confirm:hover{ filter:brightness(1.1); }
+
 
   /* Result screen */
   .score-hero{ text-align:center; padding-block:6px 12px; }
@@ -278,7 +387,7 @@
 
 <div class="app">
   <p class="org-header">M.G.O.S.C &middot; OSSAE, Thrissur Diocese</p>
-  <a class="home-link" href="index.html" data-t="homeLink">&larr; Choose another class</a>
+  <a class="home-link" id="homeLink" href="index.html" data-t="homeLink">&larr; Choose another class</a>
   
   <header class="top">
     <div class="brand">
@@ -294,8 +403,20 @@
     <button id="langToggle" type="button">മലയാളം</button>
   </header>
 
-  <!-- Setup Screen -->
+    <!-- Setup Screen -->
   <section class="card" id="screenSetup">
+    <div class="field">
+      <label data-t="lblLang">Choose Exam Language</label>
+      <div class="lang-chips" id="langChips">
+        <button type="button" class="lang-chip selected" data-lang="en">
+          <span>🇬🇧</span> English
+        </button>
+        <button type="button" class="lang-chip" data-lang="ml">
+          <span>🇮🇳</span> മലയാളം
+        </button>
+      </div>
+    </div>
+
     <div class="field">
       <label data-t="lblName">Student Name</label>
       <input type="text" id="studentName" placeholder="Enter your full name" autocomplete="name">
@@ -330,6 +451,7 @@
 
     <div class="progress-wrap">
       <span id="progressLabel">Question 1 / 30</span>
+      <span class="timer-badge" id="timerBadge">⏱️ <span id="timerText">30:00</span></span>
       <span id="scoreLive">Score: 0</span>
     </div>
     <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:3.3%"></div></div>
@@ -339,6 +461,7 @@
     <div class="options" id="qOptions"></div>
 
     <div class="nextRow">
+      <button id="abortBtn" type="button" class="btn-abort" data-t="btnAbort">&#x2715; Abort Exam</button>
       <button id="nextBtn" type="button" disabled data-t="btnNext">Next</button>
     </div>
   </section>
@@ -350,6 +473,7 @@
         <div><span class="label" data-t="resNameLbl">Student:</span> <span class="val" id="resName">-</span></div>
         <div><span class="label" data-t="resRollLbl">Roll Number:</span> <span class="val" id="resRoll">-</span></div>
         <div><span class="label" data-t="resSchoolLbl">Sunday School:</span> <span class="val" id="resSchool">-</span></div>
+        <div><span class="label" data-t="resTimeLbl">Time Taken:</span> <span class="val" id="resTime">-</span></div>
       </div>
 
       <div class="score-num" id="scoreNum">0 / 30</div>
@@ -369,6 +493,19 @@
   <p class="dev-credit">developed by <a href="https://www.sparkwings.co.in" target="_blank" rel="noopener noreferrer">bubinkm (Sparkwings Innovations)</a></p>
 </div>
 
+<!-- Abort Confirmation Modal -->
+<div class="modal-overlay" id="abortModal" role="dialog" aria-modal="true" aria-labelledby="abortTitle">
+  <div class="modal-box">
+    <span class="modal-icon">&#x26A0;&#xFE0F;</span>
+    <h3 id="abortTitle" data-t="abortTitle">Abort Exam?</h3>
+    <p id="abortMsg" data-t="abortMsg">Are you sure you want to abort the exam? All your current answers and score will be lost.</p>
+    <div class="modal-actions">
+      <button type="button" class="btn-modal-cancel" id="abortCancelBtn" data-t="abortCancel">Continue Exam</button>
+      <button type="button" class="btn-modal-confirm" id="abortConfirmBtn" data-t="abortConfirm">Yes, Abort</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
 "use strict";
@@ -378,6 +515,7 @@ var UI = {
     brandTitle:"Class XII — Vedapraveen Diploma",
     brandSub:"O.S.S.A.E. · All Divisions",
     homeLink:"← Choose another class",
+    lblLang:"Choose Exam Language",
     lblName:"Student Name",
     lblRoll:"Roll Number",
     lblSchool:"Sunday School",
@@ -402,12 +540,20 @@ var UI = {
     resSchoolLbl:"Sunday School:",
     yourAnswer:"Your answer",
     correctAnswer:"Correct answer",
-    copiedMsg:"✅ Result copied to clipboard!"
+    copiedMsg:"✅ Result copied to clipboard!",
+    resTimeLbl:"Time Taken:",
+    btnAbort:"✕ Abort Exam",
+    abortTitle:"Abort Exam?",
+    abortMsg:"Are you sure you want to abort the exam? All your current answers and score will be lost.",
+    abortCancel:"Continue Exam",
+    abortConfirm:"Yes, Abort",
+    timeUpAlert:"⏰ Time is up! Submitting exam."
   },
   ml:{
     brandTitle:"ക്ലാസ്സ് XII — വേദപ്രവീൺ ഡിപ്ലോമ",
     brandSub:"ഒ.എസ്.എസ്.എ.ഇ · എല്ലാ ഡിവിഷനുകളും",
     homeLink:"← മറ്റൊരു ക്ലാസ്സ് തിരഞ്ഞെടുക്കുക",
+    lblLang:"പരീക്ഷ ഭാഷ തിരഞ്ഞെടുക്കുക",
     lblName:"വിദ്യാർത്ഥിയുടെ പേര്",
     lblRoll:"റോൾ നമ്പർ",
     lblSchool:"സൺഡേ സ്കൂൾ",
@@ -432,7 +578,14 @@ var UI = {
     resSchoolLbl:"സൺഡേ സ്കൂൾ:",
     yourAnswer:"നിങ്ങൾ നൽകിയ ഉത്തരം",
     correctAnswer:"ശരിയായ ഉത്തരം",
-    copiedMsg:"✅ ഫലം ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തി!"
+    copiedMsg:"✅ ഫലം ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തി!",
+    resTimeLbl:"എടുത്ത സമയം:",
+    btnAbort:"✕ പരീക്ഷ ഉപേക്ഷിക്കുക",
+    abortTitle:"പരീക്ഷ ഉപേക്ഷിക്കണമോ?",
+    abortMsg:"പരീക്ഷ ഉപേക്ഷിക്കാൻ തീർച്ചയാണോ? നിങ്ങളുടെ ഇതുവരെയുള്ള ഉത്തരങ്ങളും സ്കോറും നഷ്ടപ്പെടും.",
+    abortCancel:"പരീക്ഷ തുടരുക",
+    abortConfirm:"അതെ, ഉപേക്ഷിക്കുക",
+    timeUpAlert:"⏰ സമയം കഴിഞ്ഞു! പരീക്ഷ സമർപ്പിക്കുന്നു."
   }
 };
 
@@ -450,16 +603,41 @@ function shuffle(arr){
 
 function t(key){ return (UI[lang] && UI[lang][key]) || UI.en[key] || key; }
 
+
+function updateLangChips(){
+  document.querySelectorAll('.lang-chip').forEach(function(chip){
+    if (chip.getAttribute('data-lang') === lang){
+      chip.classList.add('selected');
+    } else {
+      chip.classList.remove('selected');
+    }
+  });
+}
+
+function setLanguage(newLang){
+  lang = newLang;
+  localStorage.setItem('ss_lang', lang);
+  updateLangChips();
+  applyStaticText();
+  if (!document.getElementById('screenQuiz').hidden) renderQuestion();
+  if (!document.getElementById('screenResult').hidden) renderResult();
+}
+
 function applyStaticText(){
   document.documentElement.lang = lang;
   var nodes = document.querySelectorAll('[data-t]');
   nodes.forEach(function(el){ el.textContent = t(el.getAttribute('data-t')); });
+  var sName = document.getElementById('studentName');
+  if (sName) sName.placeholder = (lang === 'en') ? 'Enter your full name' : 'മുഴുവൻ പേര് നൽകുക';
+  var rNum = document.getElementById('rollNumber');
+  if (rNum) rNum.placeholder = (lang === 'en') ? 'Enter your roll number' : 'റോൾ നമ്പർ നൽകുക';
   document.getElementById('langToggle').textContent = lang === 'en' ? 'മലയാളം' : 'English';
   if (lang === 'ml') {
     document.body.classList.add('malayalam');
   } else {
     document.body.classList.remove('malayalam');
   }
+  updateLangChips();
 }
 
 document.getElementById('langToggle').addEventListener('click', function(){
@@ -498,6 +676,71 @@ function validateSetup(){
 nameInput.addEventListener('input', validateSetup);
 rollInput.addEventListener('input', validateSetup);
 
+
+var TOTAL_TIME_SECONDS = 30 * 60; // 30 minutes
+var timerInterval = null;
+var secondsLeft = TOTAL_TIME_SECONDS;
+var timeTakenSeconds = 0;
+
+function formatTime(sec){
+  var m = Math.floor(sec / 60);
+  var s = sec % 60;
+  return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+}
+
+function startTimer(){
+  clearInterval(timerInterval);
+  secondsLeft = TOTAL_TIME_SECONDS;
+  timeTakenSeconds = 0;
+  updateTimerUI();
+
+  timerInterval = setInterval(function(){
+    secondsLeft--;
+    timeTakenSeconds++;
+    updateTimerUI();
+
+    if (secondsLeft <= 0){
+      clearInterval(timerInterval);
+      alert(t('timeUpAlert'));
+      finishQuiz();
+    }
+  }, 1000);
+}
+
+function updateTimerUI(){
+  var badge = document.getElementById('timerBadge');
+  var txt = document.getElementById('timerText');
+  txt.textContent = formatTime(secondsLeft);
+
+  if (secondsLeft <= 120){
+    badge.className = 'timer-badge danger';
+  } else if (secondsLeft <= 300){
+    badge.className = 'timer-badge warning';
+  } else {
+    badge.className = 'timer-badge';
+  }
+}
+
+function stopTimer(){
+  clearInterval(timerInterval);
+}
+
+function formatDuration(sec){
+  var m = Math.floor(sec / 60);
+  var s = sec % 60;
+  if (m === 0) return s + (lang === 'ml' ? ' സെക്കൻഡ്' : ' sec');
+  return m + (lang === 'ml' ? ' മിനിറ്റ് ' : 'm ') + s + (lang === 'ml' ? ' സെക്കൻഡ്' : 's');
+}
+
+function handleBeforeUnload(e){
+  if (!document.getElementById('screenQuiz').hidden){
+    e.preventDefault();
+    e.returnValue = '';
+    return '';
+  }
+}
+window.addEventListener('beforeunload', handleBeforeUnload);
+
 var state = { count: 30, pool: [], idx: 0, score: 0, answers: [], name: '', roll: '', school: '' };
 
 startBtn.addEventListener('click', function(){
@@ -517,9 +760,11 @@ startBtn.addEventListener('click', function(){
   document.getElementById('barRoll').textContent = roll;
   document.getElementById('barSchool').textContent = selectedSchool;
 
+  document.getElementById('homeLink').style.display = 'none';
   document.getElementById('screenSetup').hidden = true;
   document.getElementById('screenResult').hidden = true;
   document.getElementById('screenQuiz').hidden = false;
+  startTimer();
   renderQuestion();
 });
 
@@ -594,9 +839,11 @@ nextBtn.addEventListener('click', function(){
 });
 
 function finishQuiz(){
+  stopTimer();
   document.getElementById('progressFill').style.width = '100%';
   document.getElementById('screenQuiz').hidden = true;
   document.getElementById('screenResult').hidden = false;
+  document.getElementById('homeLink').style.display = 'inline-block';
   renderResult();
 }
 
@@ -607,6 +854,7 @@ function renderResult(){
   document.getElementById('resName').textContent = state.name;
   document.getElementById('resRoll').textContent = state.roll;
   document.getElementById('resSchool').textContent = state.school;
+  document.getElementById('resTime').textContent = formatDuration(timeTakenSeconds);
 
   document.getElementById('scoreNum').textContent = state.score + ' / ' + total;
   document.getElementById('scorePct').textContent = pct + '%';
@@ -629,6 +877,7 @@ window.shareResult = function(){
     'Candidate: ' + state.name + '\n' +
     'Roll No: ' + state.roll + '\n' +
     'Sunday School: ' + state.school + '\n' +
+    'Time Taken: ' + formatDuration(timeTakenSeconds) + '\n' +
     'Score: ' + state.score + ' / ' + total + ' (' + pct + '%)\n' +
     'Result: ' + verdict + '\n' +
     'https://sunday-school-exam.vercel.app';
@@ -684,17 +933,59 @@ document.getElementById('reviewToggle').addEventListener('click', function(){
   btn.textContent = block.hidden ? t('btnReview') : t('btnReviewHide');
 });
 
-document.getElementById('retryBtn').addEventListener('click', function(){
+
+var abortModal = document.getElementById('abortModal');
+var abortBtn = document.getElementById('abortBtn');
+var abortCancelBtn = document.getElementById('abortCancelBtn');
+var abortConfirmBtn = document.getElementById('abortConfirmBtn');
+
+abortBtn.addEventListener('click', function(){
+  abortModal.classList.add('active');
+});
+
+abortCancelBtn.addEventListener('click', function(){
+  abortModal.classList.remove('active');
+});
+
+abortModal.addEventListener('click', function(e){
+  if (e.target === abortModal){
+    abortModal.classList.remove('active');
+  }
+});
+
+function resetExamState(){
+  stopTimer();
   BANK.forEach(function(item){
     delete item._answered;
     delete item._picked;
     delete item._shuffled;
     delete item._shuffledOrder;
   });
+  state.idx = 0;
+  state.score = 0;
+  state.answers = [];
+  state.pool = [];
+  secondsLeft = TOTAL_TIME_SECONDS;
+  timeTakenSeconds = 0;
+}
+
+abortConfirmBtn.addEventListener('click', function(){
+  abortModal.classList.remove('active');
+  resetExamState();
+  document.getElementById('screenQuiz').hidden = true;
+  document.getElementById('screenResult').hidden = true;
+  document.getElementById('screenSetup').hidden = false;
+  document.getElementById('homeLink').style.display = 'inline-block';
+  validateSetup();
+});
+
+document.getElementById('retryBtn').addEventListener('click', function(){
+  resetExamState();
   document.getElementById('reviewBlock').hidden = true;
   document.getElementById('reviewToggle').textContent = t('btnReview');
   document.getElementById('screenResult').hidden = true;
   document.getElementById('screenSetup').hidden = false;
+  document.getElementById('homeLink').style.display = 'inline-block';
   validateSetup();
 });
 

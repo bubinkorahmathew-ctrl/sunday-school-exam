@@ -18,6 +18,7 @@
       --accent7: #7b1e2b;
       --accent6: #1f5c4d;
       --accent5: #235482;
+      --accent10: #b45309;
       --accent12: #5b21b6;
       --gold: #a97a26;
       --gold-light: #f5eedb;
@@ -38,6 +39,7 @@
       --accent7: #e0929c;
       --accent6: #7fc9a9;
       --accent5: #6ea8dc;
+      --accent10: #f59e0b;
       --accent12: #c084fc;
       --gold: #dcb567;
       --gold-light: #2c2518;
@@ -229,6 +231,10 @@
       background: linear-gradient(90deg, var(--accent5), var(--gold));
     }
 
+    .card.c10::before {
+      background: linear-gradient(90deg, var(--accent10), var(--gold));
+    }
+
     .card.c12::before {
       background: linear-gradient(90deg, var(--accent12), var(--gold));
     }
@@ -283,6 +289,11 @@
     .badge-c5 {
       background: color-mix(in srgb, var(--accent5) 14%, transparent);
       color: var(--accent5);
+    }
+
+    .badge-c10 {
+      background: color-mix(in srgb, var(--accent10) 14%, transparent);
+      color: var(--accent10);
     }
 
     .badge-c12 {
@@ -543,6 +554,19 @@
         </div>
       </a>
 
+      <a class="card c10" href="class10.html">
+        <div>
+          <div class="card-top">
+            <h2 data-en="Class X — Secondary" data-ml="ക്ലാസ്സ് X — സെക്കൻഡറി">Class X — Secondary</h2>
+            <span class="card-badge badge-c10" data-en="323 Questions" data-ml="323 ചോദ്യങ്ങൾ">323 Questions</span>
+          </div>
+          <p data-en="Secondary Certificate · English &amp; Malayalam · 30 questions randomly selected per exam" data-ml="സെക്കൻഡറി സർട്ടിഫിക്കറ്റ് · ഇംഗ്ലീഷ് &amp; മലയാളം · പരീക്ഷയിൽ 30 ചോദ്യങ്ങൾ">Secondary Certificate · English &amp; Malayalam · 30 questions randomly selected per exam</p>
+        </div>
+        <div class="card-action">
+          <span data-en="Start Practice Exam" data-ml="പരീക്ഷ തുടങ്ങുക">Start Practice Exam</span> &rarr;
+        </div>
+      </a>
+
       <a class="card c12" href="class12.html">
         <div>
           <div class="card-top">
@@ -572,12 +596,6 @@
 
       <button class="card wip" onclick="showWIP('Class IX')">
         <h2 data-en="Class IX" data-ml="ക്ലാസ്സ് IX">Class IX</h2>
-        <p data-en="Questions coming soon" data-ml="ചോദ്യങ്ങൾ ഉടൻ വരും">Questions coming soon</p>
-        <span class="wip-badge" data-en="🚧 Coming Soon" data-ml="🚧 ഉടൻ വരും">🚧 Coming Soon</span>
-      </button>
-
-      <button class="card wip" onclick="showWIP('Class X')">
-        <h2 data-en="Class X" data-ml="ക്ലാസ്സ് X">Class X</h2>
         <p data-en="Questions coming soon" data-ml="ചോദ്യങ്ങൾ ഉടൻ വരും">Questions coming soon</p>
         <span class="wip-badge" data-en="🚧 Coming Soon" data-ml="🚧 ഉടൻ വരും">🚧 Coming Soon</span>
       </button>
