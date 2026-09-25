@@ -668,7 +668,11 @@
     <main>
         <!-- Welcome Screen -->
         <div id="welcomeScreen" class="screen active">
-            <h2 class="serif" style="font-size: 2rem; margin-bottom: 1rem; text-align: center;" data-en="Welcome to the Practice Exam" data-ml="പ്രാക്ടീസ് പരീക്ഷയിലേക്ക് സ്വാഗതം">Welcome to the Practice Exam</h2>
+            <div class="welcome-hero">
+                <span class="trophy">&#x1F3C6;</span>
+                <h2 class="serif" data-en="Welcome to the Practice Exam" data-ml="&#3378;&#3352;&#3375;&#3349;&#3376;&#3381;&#3384; &#3378;&#3352;&#3375;&#3349;&#3376;&#3381;&#3384;&#3349;&#3376;&#3381;&#3384; &#3384;&#3376;&#3381;&#3384;&#3384;">Welcome to the Practice Exam</h2>
+                <p data-en="O.S.S.A.E &middot; Galilee Division" data-ml="O.S.S.A.E &middot; &#3350;&#3376;&#3384;&#3349;&#3352;&#3375; &#3350;&#3376;&#3384;&#3349;&#3352;&#3375;">O.S.S.A.E &middot; Galilee Division</p>
+            </div>
 
             <!-- Language Picker -->
             <div class="lang-picker" id="langPicker">
@@ -760,27 +764,44 @@
 
         <!-- Result Screen -->
         <div id="resultScreen" class="screen">
+            <!-- Congrats Banner -->
+            <div class="congrats-banner" id="congratsBanner">
+                <span class="congrats-emoji">&#x1F31F;</span>
+                <h3 class="serif" id="congratsTitle">Outstanding!</h3>
+                <p id="congratsMsg">You scored near perfect. Brilliant work!</p>
+            </div>
+
             <div class="result-header">
                 <h2 class="serif" id="resultName">Student Name</h2>
-                <p data-en="Exam Completed Successfully" data-ml="പരീക്ഷ വിജയകരമായി പൂർത്തിയാക്കി">Exam Completed Successfully</p>
+                <p data-en="Exam Completed Successfully" data-ml="&#3378;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;">Exam Completed Successfully</p>
                 <div id="verdictBadge" class="verdict pass">PASS</div>
             </div>
 
-            <div class="score-circle">
-                <div class="fraction" id="finalFraction">15/20</div>
-                <div class="percentage" id="finalPercentage">75%</div>
+            <div class="score-circle" id="scoreCircle">
+                <div class="fraction" id="finalFraction">0/25</div>
+                <div class="percentage" id="finalPercentage">0%</div>
             </div>
 
-            <button id="reviewToggle" class="review-toggle" data-en="Show Answer Review" data-ml="ഉത്തരങ്ങൾ പരിശോധിക്കുക">Show Answer Review</button>
+            <div class="result-actions">
+                <button class="btn-share" onclick="shareResult()">
+                    &#x1F4F8; <span data-en="Share Result" data-ml="&#3378;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;">Share Result</span>
+                </button>
+            </div>
+
+            <button id="reviewToggle" class="review-toggle" data-en="Show Answer Review" data-ml="&#3378;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;">Show Answer Review</button>
             <div id="reviewContainer" class="review-container">
                 <!-- Reviews injected via JS -->
             </div>
 
-            <div class="result-actions">
-                <button id="homeBtn" class="btn-secondary" data-en="Back to Home" data-ml="ഹോമിലേക്ക് മടങ്ങുക">Back to Home</button>
-                <button id="retryBtn" class="btn-primary" style="margin-top:0;" data-en="Take Exam Again" data-ml="വീണ്ടും പരീക്ഷയെഴുതുക">Take Exam Again</button>
+            <div class="result-actions" style="margin-top:0.5rem;">
+                <button id="homeBtn" class="btn-secondary" data-en="Back to Home" data-ml="&#3378;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;">Back to Home</button>
+                <button id="retryBtn" class="btn-primary" style="margin-top:0;" data-en="Take Exam Again" data-ml="&#3378;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;&#3762;">Take Exam Again</button>
             </div>
         </div>
+    </main>
+
+    <!-- Sparkle Canvas -->
+    <canvas id="sparkleCanvas"></canvas>
     </main>
 
     <footer>
@@ -1393,22 +1414,119 @@
         function showResult() {
             const total = examQuestions.length;
             const percentage = Math.round((score / total) * 100);
-            
+
             document.getElementById('resultName').innerText = studentName;
-            document.getElementById('finalFraction').innerText = `${score}/${total}`;
-            document.getElementById('finalPercentage').innerText = `${percentage}%`;
-            
+            document.getElementById('finalFraction').innerText = score+'/'+total;
+            document.getElementById('finalPercentage').innerText = percentage+'%';
+
+            // Animate score circle arc
+            const circle = document.getElementById('scoreCircle');
+            circle.style.setProperty('--score-pct', percentage+'%');
+
             const verdictBadge = document.getElementById('verdictBadge');
             if (percentage >= 50) {
                 verdictBadge.className = 'verdict pass';
-                verdictBadge.innerText = currentLang === 'en' ? 'PASS' : 'വിജയിച്ചു';
+                verdictBadge.innerText = currentLang === 'en' ? 'PASS' : 'PASS';
             } else {
                 verdictBadge.className = 'verdict fail';
-                verdictBadge.innerText = currentLang === 'en' ? 'FAIL' : 'പരാജയപ്പെട്ടു';
+                verdictBadge.innerText = currentLang === 'en' ? 'FAIL' : 'FAIL';
+            }
+
+            // Congrats banner + sparkles
+            const banner = document.getElementById('congratsBanner');
+            const title = document.getElementById('congratsTitle');
+            const msg = document.getElementById('congratsMsg');
+            banner.classList.remove('show');
+
+            if (score >= 24) {
+                banner.classList.add('show');
+                title.innerText = '&#x1F31F; Outstanding! Perfect Score!';
+                msg.innerText = 'Incredible! ' + studentName + ' scored ' + score + '/' + total + '. You are a star!';
+                launchSparkles();
+            } else if (score >= 20) {
+                banner.classList.add('show');
+                title.innerText = '&#x1F389; Excellent Work!';
+                msg.innerText = 'Great job, ' + studentName + '! Score: ' + score + '/' + total;
             }
 
             buildReview();
             switchScreen('resultScreen');
+        }
+
+        // Sparkle animation
+        function launchSparkles() {
+            var canvas = document.getElementById('sparkleCanvas');
+            canvas.style.display = 'block';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            var ctx = canvas.getContext('2d');
+            var colors = ['#f5d78e','#c9922a','#ffffff','#ffd700','#ff6b6b','#6366f1','#34d399','#a78bfa'];
+            var particles = [];
+            for (var i = 0; i < 200; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: Math.random() * 7 + 2,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    speed: Math.random() * 4 + 2,
+                    spin: (Math.random() - 0.5) * 0.2,
+                    angle: Math.random() * Math.PI * 2,
+                    shape: Math.random() > 0.5 ? 'circle' : 'star'
+                });
+            }
+            var frame = 0;
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(function(p) {
+                    p.y += p.speed;
+                    p.x += Math.sin(p.angle) * 1.8;
+                    p.angle += p.spin;
+                    var opacity = Math.max(0, 1 - frame / 150);
+                    ctx.save();
+                    ctx.globalAlpha = opacity;
+                    ctx.fillStyle = p.color;
+                    if (p.shape === 'star') {
+                        ctx.beginPath();
+                        for (var s = 0; s < 5; s++) {
+                            var a = (s * 4 * Math.PI / 5) + p.angle;
+                            ctx.lineTo(p.x + Math.cos(a) * p.r, p.y + Math.sin(a) * p.r);
+                        }
+                        ctx.closePath();
+                    } else {
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    }
+                    ctx.fill();
+                    ctx.restore();
+                });
+                frame++;
+                if (frame < 170) {
+                    requestAnimationFrame(draw);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    canvas.style.display = 'none';
+                }
+            }
+            draw();
+        }
+
+        // Share result
+        function shareResult() {
+            var total = examQuestions.length;
+            var pct = Math.round((score / total) * 100);
+            var emoji = score >= 24 ? 'Outstanding! ' : pct >= 50 ? 'PASS! ' : 'Keep trying!';
+            var text = 'MGSOSC OSSAE Practice Exam\n' + studentName + '\nScore: ' + score + '/' + total + ' (' + pct + '%)\n' + emoji + '\nhttps://sunday-school-exam.vercel.app';
+            if (navigator.share) {
+                navigator.share({ title: 'My Exam Result', text: text }).catch(function() { copyToClip(text); });
+            } else { copyToClip(text); }
+        }
+        function copyToClip(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                var btn = document.querySelector('.btn-share');
+                var orig = btn.innerHTML;
+                btn.innerHTML = '&#x2705; Copied to clipboard!';
+                setTimeout(function() { btn.innerHTML = orig; }, 2200);
+            });
         }
 
         function buildReview() {
@@ -1485,4 +1603,6 @@
     </script>
 </body>
 </html>
+
+
 
