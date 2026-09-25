@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -225,6 +225,61 @@
             background-color: rgba(123, 30, 43, 0.1);
         }
         .class-card.selected.class-7 h3 { color: var(--class7-color); }
+
+        .class-card.wip {
+            opacity: 0.75;
+            cursor: pointer;
+            border-style: dashed;
+        }
+        .class-card.wip:hover {
+            border-color: var(--gold-accent);
+            opacity: 1;
+        }
+        .class-card.wip h3 { color: var(--text-muted); }
+        .wip-badge {
+            display: inline-block; font-size: .65rem; font-weight: 700;
+            letter-spacing: .05em; text-transform: uppercase;
+            background: rgba(120,120,120,.12); color: var(--text-muted);
+            border-radius: 20px; padding: 2px 8px; margin-top: 6px;
+        }
+        .section-label {
+            font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+            text-transform: uppercase; color: var(--text-muted);
+            margin: 1.5rem 0 0.6rem; text-align: left;
+        }
+        .class-selectors-wip {
+            display: grid; gap: 0.75rem;
+            grid-template-columns: repeat(3, 1fr);
+        }
+        @media (max-width: 500px) {
+            .class-selectors-wip { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* Under Construction Modal */
+        .uc-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,.55); backdrop-filter: blur(6px);
+            z-index: 200; align-items: center; justify-content: center;
+        }
+        .uc-overlay.active { display: flex; animation: fadeInUC .2s ease; }
+        @keyframes fadeInUC { from{opacity:0} to{opacity:1} }
+        .uc-box {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 20px; box-shadow: 0 24px 48px rgba(0,0,0,.3);
+            padding: 36px 32px 28px; max-width: 340px; width: 90%; text-align: center;
+            animation: slideUpUC .25s ease;
+        }
+        @keyframes slideUpUC { from{transform:translateY(16px);opacity:0} to{transform:none;opacity:1} }
+        .uc-icon { font-size: 2.8rem; margin-bottom: 10px; display: block; }
+        .uc-box h3 { font-family: var(--font-heading); font-size: 1.5rem; margin: 0 0 8px; color: var(--gold-accent); }
+        .uc-box p { color: var(--text-muted); font-size: .88rem; margin: 0 0 22px; line-height: 1.6; }
+        .uc-close {
+            background: var(--primary-bg); border: 1px solid var(--border-color);
+            border-radius: 10px; padding: 9px 26px; font-size: .88rem;
+            font-family: inherit; color: var(--text-main); cursor: pointer;
+            transition: var(--transition);
+        }
+        .uc-close:hover { border-color: var(--gold-accent); }
 
         .chip-group {
             display: flex;
@@ -589,6 +644,8 @@
 
             <div class="form-group">
                 <label data-en="Select Class" data-ml="ക്ലാസ്സ് തിരഞ്ഞെടുക്കുക">Select Class</label>
+
+                <p class="section-label" data-en="Available Now" data-ml="ലഭ്യമാണ്">Available Now</p>
                 <div class="class-selectors">
                     <div class="class-card class-6" data-class="6">
                         <h3 class="serif">Class VI</h3>
@@ -597,6 +654,34 @@
                     <div class="class-card class-7" data-class="7">
                         <h3 class="serif">Class VII</h3>
                         <p data-en="7th Grade" data-ml="ഏഴാം ക്ലാസ്സ്">7th Grade</p>
+                    </div>
+                </div>
+
+                <p class="section-label" data-en="Coming Soon" data-ml="ഉടൻ വരുന്നു">Coming Soon</p>
+                <div class="class-selectors-wip">
+                    <div class="class-card wip" onclick="showWIP('Class V')">
+                        <h3 class="serif">Class V</h3>
+                        <span class="wip-badge">🚧 Coming Soon</span>
+                    </div>
+                    <div class="class-card wip" onclick="showWIP('Class VIII')">
+                        <h3 class="serif">Class VIII</h3>
+                        <span class="wip-badge">🚧 Coming Soon</span>
+                    </div>
+                    <div class="class-card wip" onclick="showWIP('Class IX')">
+                        <h3 class="serif">Class IX</h3>
+                        <span class="wip-badge">🚧 Coming Soon</span>
+                    </div>
+                    <div class="class-card wip" onclick="showWIP('Class X')">
+                        <h3 class="serif">Class X</h3>
+                        <span class="wip-badge">🚧 Coming Soon</span>
+                    </div>
+                    <div class="class-card wip" onclick="showWIP('Class XI')">
+                        <h3 class="serif">Class XI</h3>
+                        <span class="wip-badge">🚧 Coming Soon</span>
+                    </div>
+                    <div class="class-card wip" onclick="showWIP('Class XII')">
+                        <h3 class="serif">Class XII</h3>
+                        <span class="wip-badge">🚧 Coming Soon</span>
                     </div>
                 </div>
             </div>
@@ -1320,6 +1405,28 @@
 
         // Run
         init();
+    </script>
+
+    <!-- Under Construction Modal -->
+    <div class="uc-overlay" id="ucOverlay" role="dialog" aria-modal="true" aria-labelledby="ucTitle">
+        <div class="uc-box">
+            <span class="uc-icon">&#x1F6A7;</span>
+            <h3 id="ucTitle">Under Construction</h3>
+            <p id="ucMsg">Questions for this class are being prepared. Please check back soon!</p>
+            <button class="uc-close" onclick="closeWIP()">Got it</button>
+        </div>
+    </div>
+
+    <script>
+        var ucOverlay = document.getElementById('ucOverlay');
+        function showWIP(cls) {
+            document.getElementById('ucTitle').textContent = cls + ' - Coming Soon';
+            document.getElementById('ucMsg').textContent = 'Questions for ' + cls + ' are being prepared. Please check back soon!';
+            ucOverlay.classList.add('active');
+        }
+        function closeWIP() { ucOverlay.classList.remove('active'); }
+        ucOverlay.addEventListener('click', function(e){ if(e.target===ucOverlay) closeWIP(); });
+        document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeWIP(); });
     </script>
 </body>
 </html>
