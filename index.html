@@ -18,6 +18,7 @@
       --accent7: #7b1e2b;
       --accent6: #1f5c4d;
       --accent5: #235482;
+      --accent12: #5b21b6;
       --gold: #a97a26;
       --gold-light: #f5eedb;
       --shadow: 0 16px 36px -16px rgba(42, 30, 20, 0.25);
@@ -37,6 +38,7 @@
       --accent7: #e0929c;
       --accent6: #7fc9a9;
       --accent5: #6ea8dc;
+      --accent12: #c084fc;
       --gold: #dcb567;
       --gold-light: #2c2518;
       --shadow: 0 16px 36px -16px rgba(0, 0, 0, 0.65);
@@ -227,6 +229,10 @@
       background: linear-gradient(90deg, var(--accent5), var(--gold));
     }
 
+    .card.c12::before {
+      background: linear-gradient(90deg, var(--accent12), var(--gold));
+    }
+
     .card.c6::before {
       background: linear-gradient(90deg, var(--accent6), var(--gold));
     }
@@ -277,6 +283,11 @@
     .badge-c5 {
       background: color-mix(in srgb, var(--accent5) 14%, transparent);
       color: var(--accent5);
+    }
+
+    .badge-c12 {
+      background: color-mix(in srgb, var(--accent12) 14%, transparent);
+      color: var(--accent12);
     }
 
     .badge-c6 {
@@ -531,6 +542,19 @@
           <span data-en="Start Practice Exam" data-ml="പരീക്ഷ തുടങ്ങുക">Start Practice Exam</span> &rarr;
         </div>
       </a>
+
+      <a class="card c12" href="class12.html">
+        <div>
+          <div class="card-top">
+            <h2 data-en="Class XII — Vedapraveen" data-ml="ക്ലാസ്സ് XII — വേദപ്രവീൺ">Class XII — Vedapraveen</h2>
+            <span class="card-badge badge-c12" data-en="569 Questions" data-ml="569 ചോദ്യങ്ങൾ">569 Questions</span>
+          </div>
+          <p data-en="Vedapraveen Diploma · English &amp; Malayalam · 30 questions randomly selected per exam" data-ml="വേദപ്രവീൺ ഡിപ്ലോമ · ഇംഗ്ലീഷ് &amp; മലയാളം · പരീക്ഷയിൽ 30 ചോദ്യങ്ങൾ">Vedapraveen Diploma · English &amp; Malayalam · 30 questions randomly selected per exam</p>
+        </div>
+        <div class="card-action">
+          <span data-en="Start Practice Exam" data-ml="പരീക്ഷ തുടങ്ങുക">Start Practice Exam</span> &rarr;
+        </div>
+      </a>
     </div>
 
     <!-- Coming Soon Section -->
@@ -560,12 +584,6 @@
 
       <button class="card wip" onclick="showWIP('Class XI')">
         <h2 data-en="Class XI" data-ml="ക്ലാസ്സ് XI">Class XI</h2>
-        <p data-en="Questions coming soon" data-ml="ചോദ്യങ്ങൾ ഉടൻ വരും">Questions coming soon</p>
-        <span class="wip-badge" data-en="🚧 Coming Soon" data-ml="🚧 ഉടൻ വരും">🚧 Coming Soon</span>
-      </button>
-
-      <button class="card wip" onclick="showWIP('Class XII')">
-        <h2 data-en="Class XII" data-ml="ക്ലാസ്സ് XII">Class XII</h2>
         <p data-en="Questions coming soon" data-ml="ചോദ്യങ്ങൾ ഉടൻ വരും">Questions coming soon</p>
         <span class="wip-badge" data-en="🚧 Coming Soon" data-ml="🚧 ഉടൻ വരും">🚧 Coming Soon</span>
       </button>
