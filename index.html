@@ -614,7 +614,40 @@
             .header-titles h2 { font-size: 0.9rem; }
             .result-actions { flex-direction: column; }
         }
-    </style>
+
+        /* Language Picker */
+        .lang-picker {
+            display: flex;
+            gap: 0;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            width: fit-content;
+            margin: 0 auto 1.8rem;
+        }
+        .lang-btn {
+            flex: 1;
+            padding: 0.6rem 1.6rem;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        .lang-btn.active {
+            background: var(--gold-accent);
+            color: #fff;
+        }
+        .lang-btn:not(.active):hover {
+            background: var(--border-color);
+            color: var(--text-main);
+        }
+        .lang-btn:first-child { border-right: 2px solid var(--border-color); }
+
 </head>
 <body>
 
@@ -635,8 +668,14 @@
     <main>
         <!-- Welcome Screen -->
         <div id="welcomeScreen" class="screen active">
-            <h2 class="serif" style="font-size: 2rem; margin-bottom: 1.5rem; text-align: center;" data-en="Welcome to the Practice Exam" data-ml="പ്രാക്ടീസ് പരീക്ഷയിലേക്ക് സ്വാഗതം">Welcome to the Practice Exam</h2>
-            
+            <h2 class="serif" style="font-size: 2rem; margin-bottom: 1rem; text-align: center;" data-en="Welcome to the Practice Exam" data-ml="പ്രാക്ടീസ് പരീക്ഷയിലേക്ക് സ്വാഗതം">Welcome to the Practice Exam</h2>
+
+            <!-- Language Picker -->
+            <div class="lang-picker" id="langPicker">
+                <button class="lang-btn active" id="langBtnEn" onclick="setLang('en')">English</button>
+                <button class="lang-btn" id="langBtnMl" onclick="setLang('ml')">മലയാളം</button>
+            </div>
+
             <div class="form-group">
                 <label for="studentName" data-en="Student Name" data-ml="വിദ്യാർത്ഥിയുടെ പേര്">Student Name</label>
                 <input type="text" id="studentName" placeholder="Enter your full name" required>
@@ -1145,6 +1184,7 @@
             langToggle.addEventListener('click', () => {
                 currentLang = currentLang === 'en' ? 'ml' : 'en';
                 updateLanguage();
+                syncLangPicker();
             });
 
             studentNameInput.addEventListener('input', validateForm);
@@ -1188,6 +1228,21 @@
             
             if (examQuestions.length > 0 && currentQuestionIndex < examQuestions.length) {
                 renderQuestion();
+            }
+        }
+
+        function setLang(lang) {
+            currentLang = lang;
+            updateLanguage();
+            syncLangPicker();
+        }
+
+        function syncLangPicker() {
+            const enBtn = document.getElementById('langBtnEn');
+            const mlBtn = document.getElementById('langBtnMl');
+            if (enBtn && mlBtn) {
+                enBtn.classList.toggle('active', currentLang === 'en');
+                mlBtn.classList.toggle('active', currentLang === 'ml');
             }
         }
 
@@ -1430,3 +1485,4 @@
     </script>
 </body>
 </html>
+
