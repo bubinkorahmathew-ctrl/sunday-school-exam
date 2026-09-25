@@ -244,7 +244,48 @@
     height:100%; background:linear-gradient(90deg,var(--accent),var(--gold));
     border-radius:999px; transition:width .35s cubic-bezier(.4,0,.2,1);
   }
+  
+  .q-meta-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:8px;
+  }
   .q-topic{
+    font-size:.76rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--gold);
+    font-weight:700;
+    margin-bottom:0;
+  }
+  .btn-translate{
+    border:1px solid var(--border);
+    background:var(--surface-2);
+    color:var(--ink);
+    border-radius:999px;
+    padding:4px 12px;
+    font-size:.82rem;
+    font-weight:700;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    transition:all .15s ease;
+    user-select:none;
+    font-family:inherit;
+    flex-shrink:0;
+  }
+  .btn-translate:hover{
+    border-color:var(--gold);
+    color:var(--gold);
+    background:color-mix(in srgb, var(--gold) 10%, var(--surface-2));
+    transform:translateY(-1px);
+  }
+
+  /* Old topic */
+  .q-topic-old{
     font-size:.76rem; text-transform:uppercase; letter-spacing:.05em; color:var(--gold);
     font-weight:700; margin-bottom:6px;
   }
@@ -444,7 +485,12 @@
     </div>
     <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:3.3%"></div></div>
 
-    <div class="q-topic" id="qTopic">Topic</div>
+    <div class="q-meta-row">
+      <div class="q-topic" id="qTopic">Topic</div>
+      <button type="button" class="btn-translate" id="btnTranslate" title="Translate Question">
+        <span>🌐</span> <span id="translateText">മലയാളം</span>
+      </button>
+    </div>
     <p class="q-text" id="qText">Question text</p>
     <div class="options" id="qOptions"></div>
 
@@ -995,6 +1041,13 @@ document.getElementById('retryBtn').addEventListener('click', function(){
   homeLink.style.display = 'inline-block';
   validateSetup();
 });
+
+var btnTranslate = document.getElementById('btnTranslate');
+if (btnTranslate) {
+  btnTranslate.addEventListener('click', function(){
+    setLanguage(lang === 'en' ? 'ml' : 'en');
+  });
+}
 
 applyStaticText();
 })();
