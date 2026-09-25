@@ -278,7 +278,7 @@
     </div>
     <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:5%"></div></div>
 
-    <div class="q-unit" id="qUnit">Unit 1 &middot; Chapter 1</div>
+    <div class="q-unit" id="qUnit">Unit 1</div>
     <p class="q-text" id="qText">Question text</p>
     <div class="options" id="qOptions"></div>
 
@@ -543,7 +543,7 @@ function renderQuestion(){
   document.getElementById('progressLabel').textContent = t('question') + ' ' + (state.idx + 1) + ' / ' + total;
   document.getElementById('scoreLive').textContent = t('score') + ': ' + state.score;
   document.getElementById('progressFill').style.width = (((state.idx) / total) * 100) + '%';
-  document.getElementById('qUnit').textContent = t('unitWord') + ' ' + item.unit + ' · ' + t('chapterWord') + ' ' + item.ch;
+  document.getElementById('qUnit').textContent = t('unitWord') + ' ' + item.unit;
   document.getElementById('qText').textContent = item.q[lang];
 
   if (!item._shuffled){
