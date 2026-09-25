@@ -388,7 +388,7 @@
         <p data-t="brandSub">O.S.S.A.E. &middot; All Divisions</p>
       </div>
     </div>
-    <button id="langToggle" type="button">മലയാളം</button>
+    
   </header>
 
   <!-- Setup Screen -->
@@ -630,7 +630,7 @@ function applyStaticText(){
   });
   document.getElementById('studentName').placeholder = (lang==='en') ? "Enter your full name" : "മുഴുവൻ പേര് നൽകുക";
   document.getElementById('rollNumber').placeholder = (lang==='en') ? "Enter your roll number" : "റോൾ നമ്പർ നൽകുക";
-  document.getElementById('langToggle').textContent = (lang==='en') ? "മലയാളം" : "English";
+  var lt = document.getElementById('langToggle'); if (lt) lt.textContent = (lang==='en') ? "മലയാളം" : "English";
   if (lang === 'ml'){
     document.body.classList.add('malayalam');
   } else {
@@ -645,7 +645,7 @@ document.querySelectorAll('.lang-chip').forEach(function(chip){
   });
 });
 
-document.getElementById('langToggle').addEventListener('click', function(){
+var lt = document.getElementById('langToggle'); if (lt) lt.addEventListener('click', function(){
   setLanguage(lang === 'en' ? 'ml' : 'en');
 });
 

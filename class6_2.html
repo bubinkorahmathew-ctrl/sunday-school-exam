@@ -124,25 +124,7 @@
   }
   @keyframes sheen{ to{ background-position:200% 0; } }
 
-    .lang-chips{
-    display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;
-  }
-  .lang-chip{
-    border:1.5px solid var(--border); background:var(--surface-2); color:var(--ink);
-    padding:11px 14px; border-radius:12px; cursor:pointer; font-size:.92rem;
-    font-weight:700; text-align:center; display:flex; align-items:center;
-    justify-content:center; gap:8px; transition:all .18s ease; user-select:none; font-family:inherit;
-  }
-  .lang-chip:hover{
-    border-color:var(--gold); transform:translateY(-1px);
-    box-shadow:0 4px 12px -6px rgba(0,0,0,.2);
-  }
-  .lang-chip.selected{
-    background:var(--accent); color:var(--accent-ink); border-color:var(--accent);
-    box-shadow:0 6px 18px -6px color-mix(in srgb, var(--accent) 70%, transparent);
-  }
-
-  .field{ margin-bottom:18px; }
+    .field{ margin-bottom:18px; }
   .field label{
     display:block; font-weight:600; font-size:.85rem; margin-bottom:6px;
     color:var(--muted); text-transform:uppercase; letter-spacing:.04em;
@@ -216,14 +198,6 @@
   .option[data-state="wrong"] .letter{ background:var(--bad); color:#fff; border-color:var(--bad); }
   .option:disabled{ cursor:default; }
 
-  .nextRow{ display:flex; justify-content:flex-end; }
-  #nextBtn{
-    padding:11px 22px; border-radius:10px; border:none; background:var(--accent); color:var(--accent-ink);
-    font-weight:700; font-size:.95rem; cursor:pointer; font-family:inherit;
-  }
-  #nextBtn:disabled{ opacity:.4; cursor:not-allowed; }
-  #nextBtn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
-
   .score-hero{ text-align:center; padding-block:6px 8px; }
   .score-num{
     font-family:'Cormorant Garamond', serif; font-weight:700; font-size:3.4rem; line-height:1;
@@ -254,6 +228,104 @@
     .card{ padding:20px; }
     .score-num{ font-size:2.8rem; }
   }
+
+  /* Language Choice Chips */
+  .lang-chips{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;
+  }
+  .lang-chip{
+    border:1.5px solid var(--border); background:var(--surface-2); color:var(--ink);
+    padding:11px 14px; border-radius:12px; cursor:pointer; font-size:.92rem;
+    font-weight:700; text-align:center; display:flex; align-items:center;
+    justify-content:center; gap:8px; transition:all .18s ease; user-select:none; font-family:inherit;
+  }
+  .lang-chip:hover{
+    border-color:var(--gold); transform:translateY(-1px);
+    box-shadow:0 4px 12px -6px rgba(0,0,0,.2);
+  }
+  .lang-chip.selected{
+    background:var(--accent); color:var(--accent-ink); border-color:var(--accent);
+    box-shadow:0 6px 18px -6px color-mix(in srgb, var(--accent) 70%, transparent);
+  }
+
+  /* Timer Badge */
+  .timer-badge{
+    display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:999px;
+    background:var(--surface-2); border:1px solid var(--border); font-size:.82rem;
+    font-weight:700; color:var(--ink); font-variant-numeric:tabular-nums;
+    transition:all .2s ease;
+  }
+  .timer-badge.warning{
+    background:var(--warn-bg); border-color:var(--warn); color:var(--warn);
+  }
+  .timer-badge.danger{
+    background:var(--bad-bg); border-color:var(--bad); color:var(--bad);
+    animation:pulse 1s infinite;
+  }
+  @keyframes pulse{
+    0%, 100%{ transform:scale(1); }
+    50%{ transform:scale(1.04); }
+  }
+
+  /* Next & Abort Row */
+  .nextRow{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+  }
+  #nextBtn{
+    padding:11px 24px; border-radius:10px; border:none; background:var(--accent); color:var(--accent-ink);
+    font-weight:700; font-size:.95rem; cursor:pointer; font-family:inherit;
+    min-width:140px; transition:all .15s ease;
+  }
+  #nextBtn:disabled{ opacity:.4; cursor:not-allowed; }
+  #nextBtn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  .btn-abort{
+    padding:10px 16px; border-radius:10px; border:1px solid var(--bad);
+    background:transparent; color:var(--bad); font-weight:700; font-size:.88rem;
+    cursor:pointer; font-family:inherit; display:inline-flex; align-items:center; gap:6px;
+    transition:all .15s ease;
+  }
+  .btn-abort:hover{ background:var(--bad-bg); transform:translateY(-1px); }
+  .btn-abort:focus-visible{ outline:2px solid var(--bad); outline-offset:2px; }
+
+  @media (max-width:440px){
+    .nextRow{ flex-direction:column-reverse; gap:10px; }
+    .btn-abort, #nextBtn{ width:100%; justify-content:center; }
+  }
+
+  /* Abort Confirmation Modal (Centered popup overlay, hidden by default) */
+  .modal-overlay{
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,.6);
+    backdrop-filter:blur(5px); z-index:1000; align-items:center; justify-content:center; padding:16px;
+  }
+  .modal-overlay.active{ display:flex; animation:fadeIn .2s ease; }
+  .modal-box{
+    background:var(--surface); border:1px solid var(--border); border-radius:20px;
+    box-shadow:0 24px 48px -16px rgba(0,0,0,.5); padding:28px 24px 22px; max-width:400px;
+    width:100%; text-align:center; animation:slideUp .22s ease;
+  }
+  .modal-icon{ font-size:2.8rem; margin-bottom:8px; display:block; }
+  .modal-box h3{ font-family:'Cormorant Garamond', serif; font-size:1.55rem; margin:0 0 8px; color:var(--bad); }
+  .modal-box p{ color:var(--muted); font-size:.9rem; margin:0 0 20px; line-height:1.5; }
+  .modal-actions{ display:flex; gap:10px; justify-content:center; }
+  .btn-modal-cancel{
+    flex:1; padding:10px 16px; border-radius:10px; border:1px solid var(--border);
+    background:var(--surface-2); color:var(--ink); font-weight:600; font-size:.88rem;
+    cursor:pointer; font-family:inherit; transition:background .15s ease;
+  }
+  .btn-modal-cancel:hover{ background:var(--border); }
+  .btn-modal-confirm{
+    flex:1; padding:10px 16px; border-radius:10px; border:none; background:var(--bad);
+    color:#fff; font-weight:700; font-size:.88rem; cursor:pointer; font-family:inherit;
+    transition:filter .15s ease;
+  }
+  .btn-modal-confirm:hover{ filter:brightness(1.1); }
+  @keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
+  @keyframes slideUp{ from{ transform:translateY(16px); opacity:0; } to{ transform:none; opacity:1; } }
+
 </style>
 </head>
 <body>
@@ -272,8 +344,7 @@
         <p data-t="brandSub">O.S.S.A.E. &middot; All Divisions</p>
       </div>
     </div>
-    <button id="langToggle" type="button">മലയാളം</button>
-  </header>
+    </header>
 
     <section class="card" id="screenSetup">
     <div class="field">
@@ -332,7 +403,9 @@
   <p class="dev-credit">developed by <a href="https://www.sparkwings.co.in" target="_blank" rel="noopener noreferrer">bubinkm (Sparkwings Innovations)</a></p>
 </div>
 
-<!-- Abort Confirmation Modal -->
+</div>
+
+<!-- Abort Confirmation Modal (hidden by default popup) -->
 <div class="modal-overlay" id="abortModal" role="dialog" aria-modal="true" aria-labelledby="abortTitle">
   <div class="modal-box">
     <span class="modal-icon">&#x26A0;&#xFE0F;</span>
@@ -628,19 +701,47 @@ function setLanguage(newLang){
   if (!document.getElementById('screenResult').hidden) renderResult();
 }
 
+function updateLangChips(){
+  document.querySelectorAll('.lang-chip').forEach(function(chip){
+    if (chip.getAttribute('data-lang') === lang){
+      chip.classList.add('selected');
+    } else {
+      chip.classList.remove('selected');
+    }
+  });
+}
+
+function setLanguage(newLang){
+  lang = newLang;
+  localStorage.setItem('ss_lang', lang);
+  updateLangChips();
+  applyStaticText();
+  if (!document.getElementById('screenQuiz').hidden) renderQuestion();
+  if (!document.getElementById('screenResult').hidden) renderResult();
+}
+
 function applyStaticText(){
   document.documentElement.lang = lang;
   var nodes = document.querySelectorAll('[data-t]');
   nodes.forEach(function(el){ el.textContent = t(el.getAttribute('data-t')); });
-  document.getElementById('langToggle').textContent = lang === 'en' ? 'മലയാളം' : 'English';
+  var sName = document.getElementById('studentName');
+  if (sName) sName.placeholder = (lang === 'en') ? 'Enter your name' : 'പേര് നൽകുക';
+  var lt = document.getElementById('langToggle');
+  if (lt) lt.textContent = lang === 'en' ? 'മലയാളം' : 'English';
+  if (lang === 'ml') {
+    document.body.classList.add('malayalam');
+  } else {
+    document.body.classList.remove('malayalam');
+  }
+  updateLangChips();
 }
 
-document.getElementById('langToggle').addEventListener('click', function(){
-  lang = (lang === 'en') ? 'ml' : 'en';
-  applyStaticText();
-  if (!document.getElementById('screenQuiz').hidden) renderQuestion();
-  if (!document.getElementById('screenResult').hidden) renderResult();
-});
+var lt = document.getElementById('langToggle');
+if (lt) {
+  lt.addEventListener('click', function(){
+    setLanguage(lang === 'en' ? 'ml' : 'en');
+  });
+}
 
 
 var TOTAL_TIME_SECONDS = 25 * 60; // 25 minutes
@@ -708,6 +809,17 @@ function handleBeforeUnload(e){
 window.addEventListener('beforeunload', handleBeforeUnload);
 
 var state = { count: 25, pool: [], idx: 0, score: 0, answers: [] };
+
+document.querySelectorAll('.lang-chip').forEach(function(chip){
+  chip.addEventListener('click', function(){
+    setLanguage(chip.getAttribute('data-lang'));
+  });
+});
+
+var savedLang = localStorage.getItem('ss_lang');
+if (savedLang === 'ml' || savedLang === 'en') {
+  lang = savedLang;
+}
 
 document.getElementById('startBtn').addEventListener('click', function(){
   var name = document.getElementById('studentName').value.trim();
@@ -924,6 +1036,8 @@ document.getElementById('retryBtn').addEventListener('click', function(){
   document.getElementById('reviewToggle').textContent = t('btnReview');
   document.getElementById('screenResult').hidden = true;
   document.getElementById('screenSetup').hidden = false;
+  var hl = document.getElementById('homeLink');
+  if (hl) hl.style.display = 'inline-block';
 });
 
 applyStaticText();
