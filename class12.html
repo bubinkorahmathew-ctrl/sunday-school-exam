@@ -780,7 +780,9 @@ if (savedLang === 'ml' || savedLang === 'en') {
 }
 
 // Setup Form State
-var MANDATORY_CODE = "260310";
+var VALID_CODES = ["260101", "260103", "260105", "260106", "260113", "260310"];
+var VALID_DIOCESE = "Thrissur Diocese";
+
 var nameInput = document.getElementById('studentName');
 var rollInput = document.getElementById('rollNumber');
 var phoneInput = document.getElementById('studentPhone');
@@ -800,6 +802,20 @@ if (codeErrorCloseBtn && codeErrorModal){
   });
 }
 
+function showCodeErrorModal(){
+  if (codeErrorModal) codeErrorModal.classList.add('active');
+  var errEl = document.getElementById('schoolCodeError');
+  if (errEl) errEl.style.display = 'block';
+}
+
+function isCodeValid(code){
+  return VALID_CODES.indexOf(code) !== -1;
+}
+
+function isDioceseValid(diocese){
+  return diocese === VALID_DIOCESE;
+}
+
 function validateSetup(){
   var n = nameInput.value.trim();
   var r = rollInput.value.trim();
@@ -808,13 +824,16 @@ function validateSetup(){
   var d = dioceseSelect.value.trim();
   var errEl = document.getElementById('schoolCodeError');
 
-  if (c && c !== MANDATORY_CODE){
+  var codeHasError = (c !== '' && !isCodeValid(c));
+  var dioceseHasError = (d !== '' && !isDioceseValid(d));
+
+  if (codeHasError || dioceseHasError){
     if (errEl) errEl.style.display = 'block';
   } else {
     if (errEl) errEl.style.display = 'none';
   }
 
-  if (n && r && p && c && d){
+  if (n && r && p && c && d && isCodeValid(c) && isDioceseValid(d)){
     startBtn.disabled = false;
   } else {
     startBtn.disabled = true;
@@ -825,7 +844,22 @@ nameInput.addEventListener('input', validateSetup);
 rollInput.addEventListener('input', validateSetup);
 phoneInput.addEventListener('input', validateSetup);
 codeInput.addEventListener('input', validateSetup);
-dioceseSelect.addEventListener('change', validateSetup);
+
+codeInput.addEventListener('change', function(){
+  var c = codeInput.value.trim();
+  if (c && !isCodeValid(c)){
+    showCodeErrorModal();
+  }
+  validateSetup();
+});
+
+dioceseSelect.addEventListener('change', function(){
+  var d = dioceseSelect.value.trim();
+  if (d && !isDioceseValid(d)){
+    showCodeErrorModal();
+  }
+  validateSetup();
+});
 
 
 var TOTAL_TIME_SECONDS = 30 * 60; // 30 minutes
@@ -902,11 +936,13 @@ startBtn.addEventListener('click', function(){
   var diocese = dioceseSelect.value.trim();
   if (!name || !roll || !phone || !code || !diocese) return;
 
-  if (code !== MANDATORY_CODE){
-    if (codeErrorModal) codeErrorModal.classList.add('active');
-    var errEl = document.getElementById('schoolCodeError');
-    if (errEl) errEl.style.display = 'block';
-    codeInput.focus();
+  if (!isDioceseValid(diocese) || !isCodeValid(code)){
+    showCodeErrorModal();
+    if (!isDioceseValid(diocese)){
+      dioceseSelect.focus();
+    } else {
+      codeInput.focus();
+    }
     return;
   }
 
